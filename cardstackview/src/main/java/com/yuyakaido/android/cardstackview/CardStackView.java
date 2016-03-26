@@ -3,6 +3,7 @@ package com.yuyakaido.android.cardstackview;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +24,12 @@ public class CardStackView extends RelativeLayout {
     private CardAnimator cardAnimator;
     private List<View> containers = new ArrayList<>();
     private CardStackEventListener cardStackEventListener;
+    private DataSetObserver dataSetObserver = new DataSetObserver() {
+        @Override
+        public void onChanged() {
+            init(false);
+        }
+    };
 
     public interface CardStackEventListener {
         void onBeginSwipe(Direction direction);
@@ -42,15 +49,30 @@ public class CardStackView extends RelativeLayout {
 
     public CardStackView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    public void init(boolean resetIndex) {
+        if (resetIndex) {
+            topIndex = 0;
+        }
+
+        removeAllViews();
+        containers.clear();
+
         for (int i = 0; i < visibleCount; i++) {
             addContainerViews();
         }
         setupAnimation();
+        loadViews();
     }
 
     public void setAdapter(ArrayAdapter<?> adapter) {
+        if (this.adapter != null) {
+            this.adapter.unregisterDataSetObserver(dataSetObserver);
+        }
         this.adapter = adapter;
-        loadViews();
+        this.adapter.registerDataSetObserver(dataSetObserver);
+        init(true);
     }
 
     public void setLayoutResourceId(int id) {
@@ -149,7 +171,7 @@ public class CardStackView extends RelativeLayout {
     public void loadViews() {
         for (int i = visibleCount - 1; i >= 0; i--) {
             ViewGroup parent = (ViewGroup) containers.get(i);
-            int adapterIndex = visibleCount - 1 - i;
+            int adapterIndex = (topIndex + visibleCount - 1) - i;
             if (adapterIndex > adapter.getCount() - 1) {
                 parent.setVisibility(View.GONE);
             } else {
