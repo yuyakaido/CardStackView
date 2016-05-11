@@ -12,7 +12,7 @@ buildscript {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 14
@@ -23,7 +23,7 @@ android {
 }
 
 ext {
-    supportLibVersion = '23.2.1'
+    supportLibVersion = '23.3.0'
 }
 
 dependencies {
