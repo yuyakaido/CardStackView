@@ -35,7 +35,7 @@ public class CardStackView extends RelativeLayout {
         void onEndSwipe(Direction direction);
         void onSwiping(Direction direction);
         void onDiscarded(int index, Direction direction);
-        void onTapUp();
+        void onTapUp(int index);
     }
 
     public CardStackView(Context context) {
@@ -148,7 +148,7 @@ public class CardStackView extends RelativeLayout {
                     @Override
                     public void onTapUp() {
                         if (cardStackEventListener != null) {
-                            cardStackEventListener.onTapUp();
+                            cardStackEventListener.onTapUp(topIndex);
                         }
                     }
                 });
