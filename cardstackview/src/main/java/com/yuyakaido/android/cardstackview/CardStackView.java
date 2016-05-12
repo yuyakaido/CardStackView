@@ -18,7 +18,6 @@ import java.util.List;
 public class CardStackView extends RelativeLayout {
     private int topIndex = 0;
     private int visibleCount = 4;
-    private int layoutResourceId;
     private ArrayAdapter<?> adapter;
     private OnTouchListener onTouchListener;
     private CardAnimator cardAnimator;
@@ -73,10 +72,6 @@ public class CardStackView extends RelativeLayout {
         this.adapter = adapter;
         this.adapter.registerDataSetObserver(dataSetObserver);
         init(true);
-    }
-
-    public void setLayoutResourceId(int id) {
-        layoutResourceId = id;
     }
 
     public void setCardStackEventListener(CardStackEventListener listener) {
@@ -175,20 +170,11 @@ public class CardStackView extends RelativeLayout {
             if (adapterIndex > adapter.getCount() - 1) {
                 parent.setVisibility(View.GONE);
             } else {
-                View child = adapter.getView(adapterIndex, getContentView(), this);
+                View child = adapter.getView(adapterIndex, parent.getChildAt(0), this);
                 parent.addView(child);
                 parent.setVisibility(View.VISIBLE);
             }
         }
-    }
-
-    public View getContentView() {
-        View contentView = null;
-        if (layoutResourceId != 0) {
-            contentView = View.inflate(getContext(), layoutResourceId, null);
-        }
-        return contentView;
-
     }
 
     public void loadNextView() {
@@ -200,7 +186,7 @@ public class CardStackView extends RelativeLayout {
             return;
         }
 
-        View child = adapter.getView(lastIndex, getContentView(), parent);
+        View child = adapter.getView(lastIndex, parent.getChildAt(0), parent);
         parent.removeAllViews();
         parent.addView(child);
     }

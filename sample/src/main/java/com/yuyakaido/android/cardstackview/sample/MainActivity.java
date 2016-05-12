@@ -13,7 +13,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         CardStackView cardStackView = (CardStackView) findViewById(R.id.activity_main_card_stack);
-        cardStackView.setLayoutResourceId(R.layout.item_card_stack);
 
         CardAdapter adapter = new CardAdapter(getApplicationContext());
         for (int i = 0; i < 20; i++) {

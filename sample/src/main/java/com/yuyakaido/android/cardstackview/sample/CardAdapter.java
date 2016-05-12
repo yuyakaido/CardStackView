@@ -14,8 +14,13 @@ public class CardAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View contentView, ViewGroup parent) {
+        if (contentView == null) {
+            contentView = View.inflate(getContext(), R.layout.item_card_stack, null);
+        }
+
         TextView v = (TextView) (contentView.findViewById(R.id.item_card_stack_text));
         v.setText(getItem(position));
+
         return contentView;
     }
 
