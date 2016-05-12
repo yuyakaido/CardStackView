@@ -21,8 +21,9 @@ public class CardStackView extends RelativeLayout {
     private ArrayAdapter<?> adapter;
     private OnTouchListener onTouchListener;
     private CardAnimator cardAnimator;
-    private List<View> containers = new ArrayList<>();
+    private List<ViewGroup> containers = new ArrayList<>();
     private CardStackEventListener cardStackEventListener;
+    private Direction lastDirection;
     private DataSetObserver dataSetObserver = new DataSetObserver() {
         @Override
         public void onChanged() {
@@ -122,26 +123,9 @@ public class CardStackView extends RelativeLayout {
                         }
 
                         if (distance < 300) {
-                            cardAnimator.reverse();
+                            cardAnimator.moveToOrigin();
                         } else {
-                            cardAnimator.discard(direction, new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationEnd(Animator arg0) {
-                                    cardAnimator.initCards();
-                                    topIndex++;
-
-                                    if (cardStackEventListener != null) {
-                                        cardStackEventListener.onDiscarded(topIndex, direction);
-                                    }
-
-                                    loadNextView();
-
-                                    containers.get(0).setOnTouchListener(null);
-                                    containers.get(containers.size() - 1)
-                                            .setOnTouchListener(onTouchListener);
-                                }
-
-                            });
+                            discard(direction);
                         }
                     }
 
@@ -165,7 +149,7 @@ public class CardStackView extends RelativeLayout {
 
     public void loadViews() {
         for (int i = visibleCount - 1; i >= 0; i--) {
-            ViewGroup parent = (ViewGroup) containers.get(i);
+            ViewGroup parent = containers.get(i);
             int adapterIndex = (topIndex + visibleCount - 1) - i;
             if (adapterIndex > adapter.getCount() - 1) {
                 parent.setVisibility(View.GONE);
@@ -178,7 +162,7 @@ public class CardStackView extends RelativeLayout {
     }
 
     public void loadNextView() {
-        ViewGroup parent = (ViewGroup) containers.get(0);
+        ViewGroup parent = containers.get(0);
 
         int lastIndex = (visibleCount - 1) + topIndex;
         if (lastIndex > adapter.getCount() - 1) {
@@ -189,6 +173,48 @@ public class CardStackView extends RelativeLayout {
         View child = adapter.getView(lastIndex, parent.getChildAt(0), parent);
         parent.removeAllViews();
         parent.addView(child);
+    }
+
+    public void discard(final Direction direction) {
+        cardAnimator.discard(direction, new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator arg0) {
+                lastDirection = direction;
+
+                cardAnimator.initCards();
+                topIndex++;
+
+                if (cardStackEventListener != null) {
+                    cardStackEventListener.onDiscarded(topIndex, direction);
+                }
+
+                loadNextView();
+
+                containers.get(0).setOnTouchListener(null);
+                containers.get(containers.size() - 1)
+                        .setOnTouchListener(onTouchListener);
+            }
+
+        });
+    }
+
+    public void reverse() {
+        if (lastDirection != null) {
+            topIndex--;
+
+            ViewGroup parent = containers.get(0);
+            View prevView = adapter.getView(topIndex, null, parent);
+            cardAnimator.reverse(lastDirection, prevView, new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    lastDirection = null;
+
+                    containers.get(0).setOnTouchListener(null);
+                    containers.get(containers.size() - 1)
+                            .setOnTouchListener(onTouchListener);
+                }
+            });
+        }
     }
 
 }

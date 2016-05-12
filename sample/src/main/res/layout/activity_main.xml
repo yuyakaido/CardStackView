@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.yuyakaido.android.cardstackview.CardStackView
-        android:id="@+id/activity_main_card_stack"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="40dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"/>
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-</RelativeLayout>
+        <com.yuyakaido.android.cardstackview.CardStackView
+            android:id="@+id/activity_main_card_stack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="30dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/activity_main_reverse_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Reverse"/>
+
+</LinearLayout>
