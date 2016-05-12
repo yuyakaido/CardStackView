@@ -9,6 +9,8 @@ import android.widget.RelativeLayout.LayoutParams;
 
 public class CardUtil {
 
+    private CardUtil() {}
+
     public static void scale(View view, int pixel) {
         CardUtil.scale(view, (LayoutParams) view.getLayoutParams(), pixel);
     }
