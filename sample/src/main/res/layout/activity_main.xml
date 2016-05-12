@@ -9,7 +9,7 @@
         android:id="@+id/activity_main_card_stack"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="20dp"
+        android:padding="40dp"
         android:clipChildren="false"
         android:clipToPadding="false"/>
 

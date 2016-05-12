@@ -12,6 +12,7 @@
         android:id="@+id/item_card_stack_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/darker_gray"
         android:textSize="100dp"
         android:layout_gravity="center"/>
 
