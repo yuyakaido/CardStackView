@@ -14,14 +14,27 @@ public class CardAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View contentView, ViewGroup parent) {
+        ViewHolder holder;
+
         if (contentView == null) {
             contentView = View.inflate(getContext(), R.layout.item_card_stack, null);
+            holder = new ViewHolder(contentView);
+            contentView.setTag(holder);
+        } else {
+            holder = (ViewHolder) contentView.getTag();
         }
 
-        TextView v = (TextView) (contentView.findViewById(R.id.item_card_stack_text));
-        v.setText(getItem(position));
+        holder.textView.setText(getItem(position));
 
         return contentView;
+    }
+
+    private static class ViewHolder {
+        public TextView textView;
+
+        public ViewHolder(View view) {
+            this.textView = (TextView) view.findViewById(R.id.item_card_stack_text);
+        }
     }
 
 }
