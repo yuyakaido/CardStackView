@@ -85,11 +85,11 @@ public class CardAnimator {
         return containers.get(0);
     }
 
-    public void moveToBottom(View child) {
-        ViewGroup parent = (ViewGroup) child.getParent();
+    public void moveToBottom(ViewGroup container) {
+        ViewGroup parent = (ViewGroup) container.getParent();
         if (parent != null) {
-            parent.removeView(child);
-            parent.addView(child, 0);
+            parent.removeView(container);
+            parent.addView(container, 0);
         }
     }
 
@@ -97,9 +97,11 @@ public class CardAnimator {
         ViewGroup parent = (ViewGroup) container.getParent();
         if (parent != null) {
             parent.removeView(container);
-
-            container.addView(child);
             parent.addView(container);
+
+            container.removeAllViews();
+            container.addView(child);
+            container.setVisibility(View.VISIBLE);
         }
     }
 
