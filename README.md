@@ -3,6 +3,6 @@
 ## Install
 ```
 dependencies {
-    compile 'com.yuyakaido.android:card-stack-view:0.4.1'
+    compile 'com.yuyakaido.android:card-stack-view:0.5.0'
 }
 ```
