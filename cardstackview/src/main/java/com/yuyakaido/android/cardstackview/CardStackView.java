@@ -182,11 +182,12 @@ public class CardStackView extends RelativeLayout {
                 lastDirection = direction;
 
                 cardAnimator.initCards();
-                topIndex++;
 
                 if (cardStackEventListener != null) {
                     cardStackEventListener.onDiscarded(topIndex, direction);
                 }
+
+                topIndex++;
 
                 loadNextView();
 
