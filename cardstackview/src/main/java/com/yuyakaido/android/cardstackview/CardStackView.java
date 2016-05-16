@@ -217,4 +217,8 @@ public class CardStackView extends RelativeLayout {
         }
     }
 
+    public int getTopIndex() {
+        return topIndex;
+    }
+
 }
