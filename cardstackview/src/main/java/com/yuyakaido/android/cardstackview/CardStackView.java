@@ -1,7 +1,11 @@
 package com.yuyakaido.android.cardstackview;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.util.AttributeSet;
@@ -11,9 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CardStackView extends RelativeLayout {
     private int topIndex = 0;
@@ -199,6 +200,30 @@ public class CardStackView extends RelativeLayout {
         });
     }
 
+    public void discard(ObjectAnimator topAnimator) {
+        cardAnimator.discard(Direction.BottomRight, topAnimator, new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator arg0) {
+                lastDirection = Direction.BottomRight;
+
+                cardAnimator.initCards();
+
+                if (cardStackEventListener != null) {
+                    cardStackEventListener.onDiscarded(topIndex, Direction.BottomRight);
+                }
+
+                topIndex++;
+
+                loadNextView();
+
+                containers.get(0).setOnTouchListener(null);
+                containers.get(containers.size() - 1)
+                        .setOnTouchListener(onTouchListener);
+            }
+
+        });
+    }
+
     public void reverse() {
         if (lastDirection != null) {
             topIndex--;
@@ -220,6 +245,10 @@ public class CardStackView extends RelativeLayout {
 
     public int getTopIndex() {
         return topIndex;
+    }
+
+    public ViewGroup getTopView() {
+        return cardAnimator.getTopView();
     }
 
 }
