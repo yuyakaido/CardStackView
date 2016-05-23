@@ -1,9 +1,15 @@
 package com.yuyakaido.android.cardstackview;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.view.MotionEvent;
@@ -11,11 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class CardAnimator {
     private Context context;
@@ -60,9 +61,33 @@ public class CardAnimator {
             LayoutParams params = CardUtil.cloneParams(baseParams);
             v.setLayoutParams(params);
 
+            clearAlpha(v);
+            clearScale(v);
+            clearTranslation(v);
+
             CardUtil.scale(v, -(size - index - 1) * 5);
             CardUtil.move(v, index * 20, 0);
             v.setRotation(0);
+        }
+    }
+
+    public void clearTranslation(ViewGroup viewGroup) {
+        if (viewGroup != null) {
+            viewGroup.setTranslationX(0);
+            viewGroup.setTranslationY(0);
+        }
+    }
+
+    public void clearScale(ViewGroup viewGroup) {
+        if (viewGroup != null) {
+            viewGroup.setScaleX(1.0f);
+            viewGroup.setScaleY(1.0f);
+        }
+    }
+
+    public void clearAlpha(ViewGroup viewGroup) {
+        if (viewGroup != null) {
+            viewGroup.setAlpha(1.0f);
         }
     }
 
@@ -183,6 +208,46 @@ public class CardAnimator {
         });
 
         topAnimator.setDuration(250);
+        animators.add(topAnimator);
+
+        for (int i = 0, size = containers.size(); i < size - 1; i++) {
+            final View currentView = containers.get(i);
+            View nextView = containers.get(i + 1);
+            LayoutParams beginParams = CardUtil.cloneParams((LayoutParams) currentView.getLayoutParams());
+            LayoutParams endParams = cardParams.get(nextView);
+            ValueAnimator animator = ValueAnimator.ofObject(
+                    new LayoutParamsEvaluator(), beginParams, endParams);
+            animator.setDuration(250);
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator value) {
+                    currentView.setLayoutParams((LayoutParams) value.getAnimatedValue());
+                }
+            });
+            animators.add(animator);
+        }
+
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                reorderForDiscard();
+                if (listener != null) {
+                    listener.onAnimationEnd(animation);
+                }
+                cardParams = new HashMap<>();
+                for (View v : containers) {
+                    cardParams.put(v, CardUtil.cloneParams((LayoutParams) v.getLayoutParams()));
+                }
+            }
+        });
+
+        animatorSet.playTogether(animators);
+        animatorSet.start();
+    }
+
+    public void discard(Direction direction, ObjectAnimator topAnimator, final AnimatorListener listener) {
+        AnimatorSet animatorSet = new AnimatorSet();
+        List<Animator> animators = new ArrayList<>();
         animators.add(topAnimator);
 
         for (int i = 0, size = containers.size(); i < size - 1; i++) {

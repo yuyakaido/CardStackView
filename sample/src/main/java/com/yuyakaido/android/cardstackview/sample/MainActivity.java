@@ -1,10 +1,13 @@
 package com.yuyakaido.android.cardstackview.sample;
 
+import com.yuyakaido.android.cardstackview.CardStackView;
+
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
-import com.yuyakaido.android.cardstackview.CardStackView;
+import android.view.ViewGroup;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,11 +23,27 @@ public class MainActivity extends AppCompatActivity {
         final CardStackView cardStackView = (CardStackView) findViewById(R.id.activity_main_card_stack);
         cardStackView.setAdapter(adapter);
 
-        View button = findViewById(R.id.activity_main_reverse_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        View reverseButton = findViewById(R.id.activity_main_reverse_button);
+        reverseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cardStackView.reverse();
+            }
+        });
+
+        View customAnimationButton = findViewById(R.id.activity_main_custom_animation_button);
+        customAnimationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewGroup target = cardStackView.getTopView();
+                PropertyValuesHolder holderY = PropertyValuesHolder.ofFloat("translationY", 0.f, 600.f);
+                PropertyValuesHolder holderAlpha = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.8f);
+                PropertyValuesHolder holderScaleY = PropertyValuesHolder.ofFloat("scaleY", 1.0f, 0.3f);
+                PropertyValuesHolder holderScaleX = PropertyValuesHolder.ofFloat("scaleX", 1.0f, 0.3f);
+                ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(target, holderY, holderScaleY, holderScaleX, holderAlpha);
+
+                animator.setDuration(500);
+                cardStackView.discard(animator);
             }
         });
     }
