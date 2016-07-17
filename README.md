@@ -73,13 +73,14 @@ customAnimationButton.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         ViewGroup target = cardStackView.getTopView();
+        
         PropertyValuesHolder holderY = PropertyValuesHolder.ofFloat("translationY", 0.f, 600.f);
         PropertyValuesHolder holderAlpha = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.8f);
         PropertyValuesHolder holderScaleY = PropertyValuesHolder.ofFloat("scaleY", 1.0f, 0.3f);
         PropertyValuesHolder holderScaleX = PropertyValuesHolder.ofFloat("scaleX", 1.0f, 0.3f);
         ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(target, holderY, holderScaleY, holderScaleX, holderAlpha);
-
         animator.setDuration(500);
+        
         cardStackView.discard(animator);
     }
 });
