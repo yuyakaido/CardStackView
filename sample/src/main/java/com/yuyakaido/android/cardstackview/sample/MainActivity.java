@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < 20; i++) {
             adapter.add(String.valueOf(i));
         }
-        final CardStackView cardStackView = (CardStackView) findViewById(R.id.activity_main_card_stack);
+        final CardStackView cardStackView = (CardStackView) findViewById(R.id.activity_main_card_stack_view);
         cardStackView.setAdapter(adapter);
 
         View reverseButton = findViewById(R.id.activity_main_reverse_button);
