@@ -1,13 +1,13 @@
 package com.yuyakaido.android.cardstackview.sample;
 
-import com.yuyakaido.android.cardstackview.CardStackView;
-
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.yuyakaido.android.cardstackview.CardStackView;
 
 public class MainActivity extends AppCompatActivity {
 
