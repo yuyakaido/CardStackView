@@ -2,6 +2,20 @@
 
 Tinder like swipeable card for Android
 
+## Demo
+
+### Tinder like swipe
+
+![Tinder like swipe](https://github.com/yuyakaido/CardStackView/blob/master/sample-orverview.gif)
+
+### Reverse
+
+![Reverse](https://github.com/yuyakaido/CardStackView/blob/master/sample-reverse.gif)
+
+### Custom animation
+
+![Custom animation](https://github.com/yuyakaido/CardStackView/blob/master/sample-custom-animation.gif)
+
 ## Requirement
 
 - Android 4.0+
