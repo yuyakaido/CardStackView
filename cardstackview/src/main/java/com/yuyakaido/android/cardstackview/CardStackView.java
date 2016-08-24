@@ -33,9 +33,9 @@ public class CardStackView extends RelativeLayout {
     };
 
     public interface CardStackEventListener {
-        void onBeginSwipe(Direction direction);
+        void onBeginSwipe();
         void onEndSwipe(Direction direction);
-        void onSwiping(Direction direction);
+        void onSwiping(float oldX, float oldY, float newX, float newY);
         void onDiscarded(int index, Direction direction);
         void onTapUp(int index);
     }
@@ -95,6 +95,9 @@ public class CardStackView extends RelativeLayout {
                     @Override
                     public void onBeginDrag(MotionEvent e1, MotionEvent e2) {
                         cardAnimator.drag(e1, e2);
+                        if (cardStackEventListener != null) {
+                            cardStackEventListener.onBeginSwipe();
+                        }
                     }
 
                     @Override
@@ -102,22 +105,22 @@ public class CardStackView extends RelativeLayout {
                         cardAnimator.drag(e1, e2);
 
                         if (cardStackEventListener != null) {
-                            float x1 = e1.getRawX();
-                            float y1 = e1.getRawY();
-                            float x2 = e2.getRawX();
-                            float y2 = e2.getRawY();
-                            cardStackEventListener.onSwiping(CardUtil.getDirection(x1, y1, x2, y2));
+                            float oldX = e1.getRawX();
+                            float oldY = e1.getRawY();
+                            float newX = e2.getRawX();
+                            float newY = e2.getRawY();
+                            cardStackEventListener.onSwiping(oldX, oldY, newX, newY);
                         }
                     }
 
                     @Override
                     public void onEndDrag(MotionEvent e1, MotionEvent e2) {
-                        float x1 = e1.getRawX();
-                        float y1 = e1.getRawY();
-                        float x2 = e2.getRawX();
-                        float y2 = e2.getRawY();
-                        float distance = CardUtil.getDistance(x1, y1, x2, y2);
-                        final Direction direction = CardUtil.getDirection(x1, y1, x2, y2);
+                        float oldX = e1.getRawX();
+                        float oldY = e1.getRawY();
+                        float newX = e2.getRawX();
+                        float newY = e2.getRawY();
+                        float distance = CardUtil.getDistance(oldX, oldY, newX, newY);
+                        final Direction direction = CardUtil.getDirection(oldX, oldY, newX, newY);
 
                         if (cardStackEventListener != null) {
                             cardStackEventListener.onEndSwipe(direction);
