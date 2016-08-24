@@ -33,9 +33,9 @@ public class CardStackView extends RelativeLayout {
     };
 
     public interface CardStackEventListener {
-        void onBeginSwipe(Direction direction);
+        void onBeginSwipe();
         void onEndSwipe(Direction direction);
-        void onSwiping(Direction direction);
+        void onSwiping(float x1, float y1, float x2, float y2);
         void onDiscarded(int index, Direction direction);
         void onTapUp(int index);
     }
@@ -95,6 +95,9 @@ public class CardStackView extends RelativeLayout {
                     @Override
                     public void onBeginDrag(MotionEvent e1, MotionEvent e2) {
                         cardAnimator.drag(e1, e2);
+                        if (cardStackEventListener != null) {
+                            cardStackEventListener.onBeginSwipe();
+                        }
                     }
 
                     @Override
@@ -106,7 +109,7 @@ public class CardStackView extends RelativeLayout {
                             float y1 = e1.getRawY();
                             float x2 = e2.getRawX();
                             float y2 = e2.getRawY();
-                            cardStackEventListener.onSwiping(CardUtil.getDirection(x1, y1, x2, y2));
+                            cardStackEventListener.onSwiping(x1, y1, x2, y2);
                         }
                     }
 
