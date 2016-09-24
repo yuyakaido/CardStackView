@@ -1,8 +1,5 @@
 package com.yuyakaido.android.cardstackview;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
@@ -15,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CardStackView extends RelativeLayout {
     private int topIndex = 0;
@@ -55,6 +55,7 @@ public class CardStackView extends RelativeLayout {
     public void init(boolean resetIndex) {
         if (resetIndex) {
             topIndex = 0;
+            lastDirection = null;
         }
 
         removeAllViews();
@@ -81,7 +82,7 @@ public class CardStackView extends RelativeLayout {
     }
 
     public void addContainerViews() {
-        FrameLayout v =  new FrameLayout(getContext());
+        FrameLayout v = new FrameLayout(getContext());
         containers.add(v);
         addView(v);
     }
