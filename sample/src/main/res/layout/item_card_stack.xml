@@ -9,6 +9,26 @@
     card_view:cardBackgroundColor="@android:color/white">
 
     <TextView
+            android:id="@+id/item_card_stack_right_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="100dp"
+            android:text="Right"
+            android:layout_gravity="left"
+            android:alpha="0"/>
+
+    <TextView
+            android:id="@+id/item_card_stack_left_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="100dp"
+            android:text="Left"
+            android:layout_gravity="right"
+            android:alpha="0"/>
+
+    <TextView
         android:id="@+id/item_card_stack_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

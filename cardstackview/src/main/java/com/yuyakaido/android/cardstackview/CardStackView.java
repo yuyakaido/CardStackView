@@ -19,6 +19,7 @@ import java.util.List;
 public class CardStackView extends RelativeLayout {
     private int topIndex = 0;
     private int visibleCount = 4;
+    private float distanceBorder = 300F;
     private ArrayAdapter<?> adapter;
     private OnTouchListener onTouchListener;
     private CardAnimator cardAnimator;
@@ -35,7 +36,7 @@ public class CardStackView extends RelativeLayout {
     public interface CardStackEventListener {
         void onBeginSwipe(int index, Direction direction);
         void onEndSwipe(Direction direction);
-        void onSwiping(Direction direction);
+        void onSwiping(float positionX);
         void onDiscarded(int index, Direction direction);
         void onTapUp(int index);
     }
@@ -112,11 +113,16 @@ public class CardStackView extends RelativeLayout {
 
                         if (cardStackEventListener != null) {
                             float oldX = e1.getRawX();
-                            float oldY = e1.getRawY();
                             float newX = e2.getRawX();
-                            float newY = e2.getRawY();
-                            final Direction direction = CardUtil.getDirection(oldX, oldY, newX, newY);
-                            cardStackEventListener.onSwiping(direction);
+                            float posX = (newX - oldX);
+                            if (distanceBorder < posX) {
+                                posX = 1F;
+                            } else if (distanceBorder < -posX) {
+                                posX = -1f;
+                            } else {
+                                posX = posX / distanceBorder;
+                            }
+                            cardStackEventListener.onSwiping(posX);
                         }
                     }
 
@@ -133,7 +139,7 @@ public class CardStackView extends RelativeLayout {
                             cardStackEventListener.onEndSwipe(direction);
                         }
 
-                        if (distance < 300) {
+                        if (distance < distanceBorder) {
                             cardAnimator.moveToOrigin();
                         } else {
                             discard(direction);
