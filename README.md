@@ -93,7 +93,7 @@ customAnimationButton.setOnClickListener(new View.OnClickListener() {
 
 ```
 dependencies {
-    compile 'com.yuyakaido.android:card-stack-view:0.7.4'
+    compile 'com.yuyakaido.android:card-stack-view:0.7.5'
 }
 ```
 
