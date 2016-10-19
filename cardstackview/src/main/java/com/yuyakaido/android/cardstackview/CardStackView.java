@@ -242,14 +242,15 @@ public class CardStackView extends RelativeLayout {
 
     public void reverse() {
         if (lastDirection != null) {
-            topIndex--;
 
             ViewGroup parent = containers.get(0);
-            View prevView = adapter.getView(topIndex, null, parent);
+            View prevView = adapter.getView(topIndex - 1, null, parent);
             cardAnimator.reverse(lastDirection, prevView, new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     lastDirection = null;
+
+                    topIndex--;
 
                     containers.get(0).setOnTouchListener(null);
                     containers.get(containers.size() - 1)
