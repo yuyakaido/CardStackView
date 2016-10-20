@@ -10,13 +10,13 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion "24.0.3"
 
     defaultConfig {
         applicationId "com.yuyakaido.android.cardstackview.sample"
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0.0"
     }
