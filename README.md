@@ -91,9 +91,11 @@ customAnimationButton.setOnClickListener(new View.OnClickListener() {
 
 # Install
 
+- Latest version is ![Download](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)
+
 ```
 dependencies {
-    compile 'com.yuyakaido.android:card-stack-view:0.7.7'
+    compile "com.yuyakaido.android:card-stack-view:${LatestVersion}"
 }
 ```
 
