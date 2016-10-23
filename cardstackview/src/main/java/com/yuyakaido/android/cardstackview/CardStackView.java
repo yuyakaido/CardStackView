@@ -271,7 +271,9 @@ public class CardStackView extends RelativeLayout {
 
     public void setElevationEnabled(boolean elevationEnabled) {
         this.elevationEnabled = elevationEnabled;
-        init(false);
+        if (adapter != null) {
+            init(false);
+        }
     }
 
 }
