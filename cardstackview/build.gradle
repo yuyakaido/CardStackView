@@ -22,12 +22,8 @@ android {
     }
 }
 
-ext {
-    supportLibVersion = '25.0.0'
-}
-
 dependencies {
-    compile "com.android.support:support-v4:${supportLibVersion}"
+    compile 'com.android.support:support-v4:25.0.0'
 }
 
 publish {
