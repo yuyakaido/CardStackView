@@ -29,6 +29,12 @@
             android:layout_height="wrap_content"
             android:text="Custom Animation"/>
 
+        <Button
+            android:id="@+id/activity_main_elevation_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elevation"/>
+
     </LinearLayout>
 
     <com.yuyakaido.android.cardstackview.CardStackView

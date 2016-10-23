@@ -1,8 +1,5 @@
 package com.yuyakaido.android.cardstackview.sample;
 
-import com.yuyakaido.android.cardstackview.CardStackView;
-import com.yuyakaido.android.cardstackview.Direction;
-
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
@@ -10,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.yuyakaido.android.cardstackview.CardStackView;
+import com.yuyakaido.android.cardstackview.Direction;
 
 public class MainActivity extends AppCompatActivity implements CardStackView.CardStackEventListener {
     private CardStackView cardStackView;
@@ -51,16 +51,25 @@ public class MainActivity extends AppCompatActivity implements CardStackView.Car
                 cardStackView.discard(animator);
             }
         });
+
+        View elevationButton = findViewById(R.id.activity_main_elevation_button);
+        elevationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cardStackView.setElevationEnabled(false);
+            }
+        });
     }
 
     @Override
-    public void onBeginSwipe(int index, Direction direction) {
-    }
+    public void onBeginSwipe(int index, Direction direction) {}
+
     @Override
     public void onEndSwipe(Direction direction) {
         cardStackView.getTopView().findViewById(R.id.item_card_stack_right_text).setAlpha(0);
         cardStackView.getTopView().findViewById(R.id.item_card_stack_left_text).setAlpha(0);
     }
+
     @Override
     public void onSwiping(float positionX) {
         TextView right = (TextView) cardStackView.getTopView().findViewById(R.id.item_card_stack_right_text);
@@ -71,10 +80,11 @@ public class MainActivity extends AppCompatActivity implements CardStackView.Car
             left.setAlpha(-positionX);
         }
     }
+
     @Override
-    public void onDiscarded(int index, Direction direction) {
-    }
+    public void onDiscarded(int index, Direction direction) {}
+
     @Override
-    public void onTapUp(int index) {
-    }
+    public void onTapUp(int index) {}
+
 }

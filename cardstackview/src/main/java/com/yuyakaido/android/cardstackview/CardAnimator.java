@@ -1,10 +1,5 @@
 package com.yuyakaido.android.cardstackview;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
@@ -18,6 +13,11 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class CardAnimator {
     private Context context;
     private List<ViewGroup> containers;
@@ -26,13 +26,13 @@ public class CardAnimator {
     private LayoutParams[] remoteParams = new LayoutParams[4];
     private LayoutParams baseParams;
 
-    public CardAnimator(Context context, List<ViewGroup> containers) {
+    public CardAnimator(Context context, List<ViewGroup> containers, boolean elevationEnabled) {
         this.context = context;
         this.containers = containers;
-        init();
+        init(elevationEnabled);
     }
 
-    private void init() {
+    private void init(boolean elevationEnabled) {
         for (View v : containers) {
             LayoutParams params = (LayoutParams) v.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -42,7 +42,7 @@ public class CardAnimator {
 
         baseParams = CardUtil.cloneParams((LayoutParams) containers.get(0).getLayoutParams());
 
-        initCards();
+        initCards(elevationEnabled);
 
         for (View v : containers) {
             cardParams.put(v, CardUtil.cloneParams((LayoutParams) v.getLayoutParams()));
@@ -51,7 +51,7 @@ public class CardAnimator {
         initRemoteParams();
     }
 
-    public void initCards() {
+    public void initCards(boolean elevationEnabled) {
         int size = containers.size();
         for (ViewGroup v : containers) {
             int index =  containers.indexOf(v);
@@ -65,8 +65,11 @@ public class CardAnimator {
             clearScale(v);
             clearTranslation(v);
 
-            CardUtil.scale(v, -(size - index - 1) * 5);
-            CardUtil.move(v, index * 20, 0);
+            if (elevationEnabled) {
+                CardUtil.scale(v, -(size - index - 1) * 5);
+                CardUtil.move(v, index * 20, 0);
+            }
+
             v.setRotation(0);
         }
     }
@@ -152,9 +155,9 @@ public class CardAnimator {
         containers.set(containers.size() - 1, bottomView);
     }
 
-    public void reverse(Direction direction, View prevView, final AnimatorListener listener) {
+    public void reverse(Direction direction, View prevView, boolean elevationEnabled, final AnimatorListener listener) {
         reorderForReverse(prevView);
-        initCards();
+        initCards(elevationEnabled);
 
         AnimatorSet animatorSet = new AnimatorSet();
         List<Animator> animators = new ArrayList<>();
@@ -313,7 +316,7 @@ public class CardAnimator {
         }
     }
 
-    public void drag(MotionEvent e1, MotionEvent e2) {
+    public void drag(MotionEvent e1, MotionEvent e2, boolean elevationEnabled) {
         View topView =  getTopView();
 
         float rotationCoefficient = 20f;
@@ -332,12 +335,14 @@ public class CardAnimator {
         topView.setRotation(rotation);
         topView.setLayoutParams(afterParams);
 
-        for (ViewGroup v : containers) {
-            int index  = containers.indexOf(v);
-            if (v != getTopView() && index != 0) {
-                LayoutParams l = CardUtil.scale(
-                        v, cardParams.get(v), (int) (Math.abs(distanceX) * 0.005));
-                CardUtil.move(v, l, (int) (Math.abs(distanceX) * 0.025), 0);
+        if (elevationEnabled) {
+            for (ViewGroup v : containers) {
+                int index  = containers.indexOf(v);
+                if (v != getTopView() && index != 0) {
+                    LayoutParams l = CardUtil.scale(
+                            v, cardParams.get(v), (int) (Math.abs(distanceX) * 0.005));
+                    CardUtil.move(v, l, (int) (Math.abs(distanceX) * 0.025), 0);
+                }
             }
         }
     }

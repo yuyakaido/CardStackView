@@ -26,6 +26,7 @@ public class CardStackView extends RelativeLayout {
     private List<ViewGroup> containers = new ArrayList<>();
     private CardStackEventListener cardStackEventListener;
     private Direction lastDirection;
+    private boolean elevationEnabled = true;
     private DataSetObserver dataSetObserver = new DataSetObserver() {
         @Override
         public void onChanged() {
@@ -89,14 +90,14 @@ public class CardStackView extends RelativeLayout {
     }
 
     public void setupAnimation() {
-        cardAnimator = new CardAnimator(getContext(), containers);
-        cardAnimator.initCards();
+        cardAnimator = new CardAnimator(getContext(), containers, elevationEnabled);
+        cardAnimator.initCards(elevationEnabled);
 
         final DragGestureDetector dragGestureDetector = new DragGestureDetector(getContext(),
                 new DragGestureDetector.DragListener() {
                     @Override
                     public void onBeginDrag(MotionEvent e1, MotionEvent e2) {
-                        cardAnimator.drag(e1, e2);
+                        cardAnimator.drag(e1, e2, elevationEnabled);
                         if (cardStackEventListener != null) {
                             float oldX = e1.getRawX();
                             float oldY = e1.getRawY();
@@ -109,7 +110,7 @@ public class CardStackView extends RelativeLayout {
 
                     @Override
                     public void onDragging(MotionEvent e1, MotionEvent e2) {
-                        cardAnimator.drag(e1, e2);
+                        cardAnimator.drag(e1, e2, elevationEnabled);
 
                         if (cardStackEventListener != null) {
                             float oldX = e1.getRawX();
@@ -198,7 +199,7 @@ public class CardStackView extends RelativeLayout {
             public void onAnimationEnd(Animator arg0) {
                 lastDirection = direction;
 
-                cardAnimator.initCards();
+                cardAnimator.initCards(elevationEnabled);
 
                 if (cardStackEventListener != null) {
                     cardStackEventListener.onDiscarded(topIndex, direction);
@@ -222,7 +223,7 @@ public class CardStackView extends RelativeLayout {
             public void onAnimationEnd(Animator arg0) {
                 lastDirection = Direction.BottomRight;
 
-                cardAnimator.initCards();
+                cardAnimator.initCards(elevationEnabled);
 
                 if (cardStackEventListener != null) {
                     cardStackEventListener.onDiscarded(topIndex, Direction.BottomRight);
@@ -245,7 +246,7 @@ public class CardStackView extends RelativeLayout {
 
             ViewGroup parent = containers.get(0);
             View prevView = adapter.getView(topIndex - 1, null, parent);
-            cardAnimator.reverse(lastDirection, prevView, new AnimatorListenerAdapter() {
+            cardAnimator.reverse(lastDirection, prevView, elevationEnabled, new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     lastDirection = null;
@@ -266,6 +267,11 @@ public class CardStackView extends RelativeLayout {
 
     public ViewGroup getTopView() {
         return cardAnimator.getTopView();
+    }
+
+    public void setElevationEnabled(boolean elevationEnabled) {
+        this.elevationEnabled = elevationEnabled;
+        init(false);
     }
 
 }
