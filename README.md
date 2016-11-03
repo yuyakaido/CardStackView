@@ -5,11 +5,11 @@
 
 Tinder like swipeable card view for Android
 
-# Demo
+# Sample
 
 ## Swipe
 
-![Tinder like swipe](https://github.com/yuyakaido/CardStackView/blob/master/sample-orverview.gif)
+![Swipe](https://github.com/yuyakaido/CardStackView/blob/master/sample-orverview.gif)
 
 ## Reverse
 
@@ -21,7 +21,7 @@ Tinder like swipeable card view for Android
 
 # Requirement
 
-- Android 4.0+
+- Android 4.0+ (API 14+)
 
 # Usage
 
@@ -89,11 +89,11 @@ customAnimationButton.setOnClickListener(new View.OnClickListener() {
 });
 ```
 
-# Install
+# Installation
 
 - Latest version is ![Download](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)
 
-```
+```groovy
 dependencies {
     compile "com.yuyakaido.android:card-stack-view:${LatestVersion}"
 }
