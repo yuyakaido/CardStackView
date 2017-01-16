@@ -109,27 +109,11 @@ public class CardAnimator {
         return containers.get(containers.size() - 1);
     }
 
-    public ViewGroup getBottomView() {
-        return containers.get(0);
-    }
-
     public void moveToBottom(ViewGroup container) {
         ViewGroup parent = (ViewGroup) container.getParent();
         if (parent != null) {
             parent.removeView(container);
             parent.addView(container, 0);
-        }
-    }
-
-    public void moveToTop(ViewGroup container, View child) {
-        ViewGroup parent = (ViewGroup) container.getParent();
-        if (parent != null) {
-            parent.removeView(container);
-            parent.addView(container);
-
-            container.removeAllViews();
-            container.addView(child);
-            container.setVisibility(View.VISIBLE);
         }
     }
 
@@ -142,56 +126,6 @@ public class CardAnimator {
         }
 
         containers.set(0, topView);
-    }
-
-    public void reorderForReverse(View prevView) {
-        ViewGroup bottomView = getBottomView();
-        moveToTop(bottomView, prevView);
-
-        for (int i = 0, size = containers.size() - 1; i < size; i++) {
-            containers.set(i, containers.get(i + 1));
-        }
-
-        containers.set(containers.size() - 1, bottomView);
-    }
-
-    public void reverse(Direction direction, View prevView, boolean elevationEnabled, final AnimatorListener listener) {
-        reorderForReverse(prevView);
-        initCards(elevationEnabled);
-
-        AnimatorSet animatorSet = new AnimatorSet();
-        List<Animator> animators = new ArrayList<>();
-
-        final View topView = getTopView();
-        LayoutParams topBeginParams = remoteParams[direction.getIndex()];
-        LayoutParams topEndParams = CardUtil.cloneParams((LayoutParams) topView.getLayoutParams());
-        ValueAnimator topAnimator = ValueAnimator.ofObject(
-                new LayoutParamsEvaluator(), topBeginParams, topEndParams);
-        topAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator value) {
-                topView.setLayoutParams((LayoutParams) value.getAnimatedValue());
-            }
-        });
-
-        topAnimator.setDuration(250);
-        animators.add(topAnimator);
-
-        animatorSet.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (listener != null) {
-                    listener.onAnimationEnd(animation);
-                }
-                cardParams = new HashMap<>();
-                for (View v : containers) {
-                    cardParams.put(v, CardUtil.cloneParams((LayoutParams) v.getLayoutParams()));
-                }
-            }
-        });
-
-        animatorSet.playTogether(animators);
-        animatorSet.start();
     }
 
     public void discard(Direction direction, final AnimatorListener listener) {

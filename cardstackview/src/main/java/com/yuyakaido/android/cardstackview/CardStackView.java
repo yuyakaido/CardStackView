@@ -25,7 +25,6 @@ public class CardStackView extends RelativeLayout {
     private CardAnimator cardAnimator;
     private List<ViewGroup> containers = new ArrayList<>();
     private CardStackEventListener cardStackEventListener;
-    private Direction lastDirection;
     private boolean elevationEnabled = true;
     private boolean swipeEnabled = true;
     private DataSetObserver dataSetObserver = new DataSetObserver() {
@@ -65,7 +64,6 @@ public class CardStackView extends RelativeLayout {
     public void initializeIndex(boolean resetIndex) {
         if (resetIndex) {
             topIndex = 0;
-            lastDirection = null;
         }
     }
 
@@ -202,8 +200,6 @@ public class CardStackView extends RelativeLayout {
         cardAnimator.discard(direction, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator arg0) {
-                lastDirection = direction;
-
                 cardAnimator.initCards(elevationEnabled);
 
                 if (cardStackEventListener != null) {
@@ -226,8 +222,6 @@ public class CardStackView extends RelativeLayout {
         cardAnimator.discard(Direction.BottomRight, topAnimator, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator arg0) {
-                lastDirection = Direction.BottomRight;
-
                 cardAnimator.initCards(elevationEnabled);
 
                 if (cardStackEventListener != null) {
@@ -244,26 +238,6 @@ public class CardStackView extends RelativeLayout {
             }
 
         });
-    }
-
-    public void reverse() {
-        if (lastDirection != null) {
-
-            ViewGroup parent = containers.get(0);
-            View prevView = adapter.getView(topIndex - 1, null, parent);
-            cardAnimator.reverse(lastDirection, prevView, elevationEnabled, new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    lastDirection = null;
-
-                    topIndex--;
-
-                    containers.get(0).setOnTouchListener(null);
-                    containers.get(containers.size() - 1)
-                            .setOnTouchListener(onTouchListener);
-                }
-            });
-        }
     }
 
     public int getTopIndex() {
