@@ -31,7 +31,7 @@ public class CardStackView extends RelativeLayout {
     private DataSetObserver dataSetObserver = new DataSetObserver() {
         @Override
         public void onChanged() {
-            init(false);
+            initialize(false);
         }
     };
 
@@ -55,20 +55,28 @@ public class CardStackView extends RelativeLayout {
         super(context, attrs, defStyle);
     }
 
-    public void init(boolean resetIndex) {
+    private void initialize(boolean resetIndex) {
+        initializeIndex(resetIndex);
+        initializeContainerViews();
+        initializeAnimation();
+        initializeViews();
+    }
+
+    public void initializeIndex(boolean resetIndex) {
         if (resetIndex) {
             topIndex = 0;
             lastDirection = null;
         }
+    }
 
+    private void initializeContainerViews() {
         removeAllViews();
         containers.clear();
-
         for (int i = 0; i < visibleCount; i++) {
-            addContainerViews();
+            FrameLayout v = new FrameLayout(getContext());
+            containers.add(v);
+            addView(v);
         }
-        setupAnimation();
-        loadViews();
     }
 
     public void setAdapter(ArrayAdapter<?> adapter) {
@@ -77,20 +85,14 @@ public class CardStackView extends RelativeLayout {
         }
         this.adapter = adapter;
         this.adapter.registerDataSetObserver(dataSetObserver);
-        init(true);
+        initialize(true);
     }
 
     public void setCardStackEventListener(CardStackEventListener listener) {
         cardStackEventListener = listener;
     }
 
-    public void addContainerViews() {
-        FrameLayout v = new FrameLayout(getContext());
-        containers.add(v);
-        addView(v);
-    }
-
-    public void setupAnimation() {
+    public void initializeAnimation() {
         cardAnimator = new CardAnimator(getContext(), containers, elevationEnabled);
         cardAnimator.initCards(elevationEnabled);
 
@@ -168,7 +170,7 @@ public class CardStackView extends RelativeLayout {
         containers.get(containers.size() - 1).setOnTouchListener(onTouchListener);
     }
 
-    public void loadViews() {
+    public void initializeViews() {
         for (int i = visibleCount - 1; i >= 0; i--) {
             ViewGroup parent = containers.get(i);
             int adapterIndex = (topIndex + visibleCount - 1) - i;
@@ -275,7 +277,7 @@ public class CardStackView extends RelativeLayout {
     public void setElevationEnabled(boolean elevationEnabled) {
         this.elevationEnabled = elevationEnabled;
         if (adapter != null) {
-            init(false);
+            initialize(false);
         }
     }
 
