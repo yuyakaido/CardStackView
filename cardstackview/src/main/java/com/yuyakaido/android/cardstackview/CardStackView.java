@@ -60,7 +60,7 @@ public class CardStackView extends RelativeLayout {
         initializeViews();
     }
 
-    public void initializeIndex(boolean resetIndex) {
+    private void initializeIndex(boolean resetIndex) {
         if (resetIndex) {
             topIndex = 0;
         }
@@ -76,7 +76,7 @@ public class CardStackView extends RelativeLayout {
         }
     }
 
-    public void initializeAnimation() {
+    private void initializeAnimation() {
         cardAnimator = new CardAnimator(getContext(), containers, elevationEnabled);
         cardAnimator.initCards(elevationEnabled);
 
@@ -154,7 +154,7 @@ public class CardStackView extends RelativeLayout {
         containers.get(containers.size() - 1).setOnTouchListener(onTouchListener);
     }
 
-    public void initializeViews() {
+    private void initializeViews() {
         for (int i = visibleCount - 1; i >= 0; i--) {
             ViewGroup parent = containers.get(i);
             int adapterIndex = (topIndex + visibleCount - 1) - i;
@@ -168,20 +168,7 @@ public class CardStackView extends RelativeLayout {
         }
     }
 
-    public void setAdapter(ArrayAdapter<?> adapter) {
-        if (this.adapter != null) {
-            this.adapter.unregisterDataSetObserver(dataSetObserver);
-        }
-        this.adapter = adapter;
-        this.adapter.registerDataSetObserver(dataSetObserver);
-        initialize(true);
-    }
-
-    public void setCardStackEventListener(CardStackEventListener listener) {
-        cardStackEventListener = listener;
-    }
-
-    public void loadNextView() {
+    private void loadNextView() {
         ViewGroup parent = containers.get(0);
 
         int lastIndex = (visibleCount - 1) + topIndex;
@@ -193,6 +180,19 @@ public class CardStackView extends RelativeLayout {
         View child = adapter.getView(lastIndex, parent.getChildAt(0), parent);
         parent.removeAllViews();
         parent.addView(child);
+    }
+
+    public void setAdapter(ArrayAdapter<?> adapter) {
+        if (this.adapter != null) {
+            this.adapter.unregisterDataSetObserver(dataSetObserver);
+        }
+        this.adapter = adapter;
+        this.adapter.registerDataSetObserver(dataSetObserver);
+        initialize(true);
+    }
+
+    public void setCardStackEventListener(CardStackEventListener listener) {
+        cardStackEventListener = listener;
     }
 
     public void discard(final Direction direction) {
