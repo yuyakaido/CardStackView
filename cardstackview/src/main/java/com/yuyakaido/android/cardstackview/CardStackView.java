@@ -2,7 +2,6 @@ package com.yuyakaido.android.cardstackview;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.util.AttributeSet;
@@ -204,28 +203,6 @@ public class CardStackView extends RelativeLayout {
 
                 if (cardStackEventListener != null) {
                     cardStackEventListener.onDiscarded(topIndex, direction);
-                }
-
-                topIndex++;
-
-                loadNextView();
-
-                containers.get(0).setOnTouchListener(null);
-                containers.get(containers.size() - 1)
-                        .setOnTouchListener(onTouchListener);
-            }
-
-        });
-    }
-
-    public void discard(ObjectAnimator topAnimator) {
-        cardAnimator.discard(Direction.BottomRight, topAnimator, new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator arg0) {
-                cardAnimator.initCards(elevationEnabled);
-
-                if (cardStackEventListener != null) {
-                    cardStackEventListener.onDiscarded(topIndex, Direction.BottomRight);
                 }
 
                 topIndex++;
