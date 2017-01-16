@@ -27,6 +27,7 @@ public class CardStackView extends RelativeLayout {
     private CardStackEventListener cardStackEventListener;
     private Direction lastDirection;
     private boolean elevationEnabled = true;
+    private boolean swipeEnabled = true;
     private DataSetObserver dataSetObserver = new DataSetObserver() {
         @Override
         public void onChanged() {
@@ -158,7 +159,9 @@ public class CardStackView extends RelativeLayout {
         onTouchListener = new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
-                dragGestureDetector.onTouchEvent(event);
+                if (swipeEnabled) {
+                    dragGestureDetector.onTouchEvent(event);
+                }
                 return true;
             }
         };
@@ -274,6 +277,10 @@ public class CardStackView extends RelativeLayout {
         if (adapter != null) {
             init(false);
         }
+    }
+
+    public void setSwipeEnabled(boolean swipeEnabled) {
+        this.swipeEnabled = swipeEnabled;
     }
 
 }
