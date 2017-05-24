@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.view.MotionEvent;
@@ -144,6 +145,46 @@ public class CardAnimator {
         });
 
         topAnimator.setDuration(250);
+        animators.add(topAnimator);
+
+        for (int i = 0, size = containers.size(); i < size - 1; i++) {
+            final View currentView = containers.get(i);
+            View nextView = containers.get(i + 1);
+            LayoutParams beginParams = CardUtil.cloneParams((LayoutParams) currentView.getLayoutParams());
+            LayoutParams endParams = cardParams.get(nextView);
+            ValueAnimator animator = ValueAnimator.ofObject(
+                    new LayoutParamsEvaluator(), beginParams, endParams);
+            animator.setDuration(250);
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator value) {
+                    currentView.setLayoutParams((LayoutParams) value.getAnimatedValue());
+                }
+            });
+            animators.add(animator);
+        }
+
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                reorderForDiscard();
+                if (listener != null) {
+                    listener.onAnimationEnd(animation);
+                }
+                cardParams = new HashMap<>();
+                for (View v : containers) {
+                    cardParams.put(v, CardUtil.cloneParams((LayoutParams) v.getLayoutParams()));
+                }
+            }
+        });
+
+        animatorSet.playTogether(animators);
+        animatorSet.start();
+    }
+
+    public void discard(Direction direction, ObjectAnimator topAnimator, final AnimatorListener listener) {
+        AnimatorSet animatorSet = new AnimatorSet();
+        List<Animator> animators = new ArrayList<>();
         animators.add(topAnimator);
 
         for (int i = 0, size = containers.size(); i < size - 1; i++) {
