@@ -60,7 +60,7 @@ public class CardStackView extends RelativeLayout {
         initializeViews();
     }
 
-    private void initializeIndex(boolean resetIndex) {
+    public void initializeIndex(boolean resetIndex) {
         if (resetIndex) {
             topIndex = 0;
         }
@@ -76,7 +76,7 @@ public class CardStackView extends RelativeLayout {
         }
     }
 
-    private void initializeAnimation() {
+    public void initializeAnimation() {
         cardAnimator = new CardAnimator(getContext(), containers, elevationEnabled);
         cardAnimator.initCards(elevationEnabled);
 
@@ -154,7 +154,7 @@ public class CardStackView extends RelativeLayout {
         containers.get(containers.size() - 1).setOnTouchListener(onTouchListener);
     }
 
-    private void initializeViews() {
+    public void initializeViews() {
         for (int i = visibleCount - 1; i >= 0; i--) {
             ViewGroup parent = containers.get(i);
             int adapterIndex = (topIndex + visibleCount - 1) - i;
@@ -168,20 +168,6 @@ public class CardStackView extends RelativeLayout {
         }
     }
 
-    private void loadNextView() {
-        ViewGroup parent = containers.get(0);
-
-        int lastIndex = (visibleCount - 1) + topIndex;
-        if (lastIndex > adapter.getCount() - 1) {
-            parent.setVisibility(View.GONE);
-            return;
-        }
-
-        View child = adapter.getView(lastIndex, parent.getChildAt(0), parent);
-        parent.removeAllViews();
-        parent.addView(child);
-    }
-
     public void setAdapter(ArrayAdapter<?> adapter) {
         if (this.adapter != null) {
             this.adapter.unregisterDataSetObserver(dataSetObserver);
@@ -193,6 +179,20 @@ public class CardStackView extends RelativeLayout {
 
     public void setCardStackEventListener(CardStackEventListener listener) {
         cardStackEventListener = listener;
+    }
+
+    public void loadNextView() {
+        ViewGroup parent = containers.get(0);
+
+        int lastIndex = (visibleCount - 1) + topIndex;
+        if (lastIndex > adapter.getCount() - 1) {
+            parent.setVisibility(View.GONE);
+            return;
+        }
+
+        View child = adapter.getView(lastIndex, parent.getChildAt(0), parent);
+        parent.removeAllViews();
+        parent.addView(child);
     }
 
     public void discard(final Direction direction) {
