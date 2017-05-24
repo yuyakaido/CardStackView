@@ -76,6 +76,19 @@ public class CardStackView extends RelativeLayout {
         }
     }
 
+    public void setAdapter(ArrayAdapter<?> adapter) {
+        if (this.adapter != null) {
+            this.adapter.unregisterDataSetObserver(dataSetObserver);
+        }
+        this.adapter = adapter;
+        this.adapter.registerDataSetObserver(dataSetObserver);
+        initialize(true);
+    }
+
+    public void setCardStackEventListener(CardStackEventListener listener) {
+        cardStackEventListener = listener;
+    }
+
     public void initializeAnimation() {
         cardAnimator = new CardAnimator(getContext(), containers, elevationEnabled);
         cardAnimator.initCards(elevationEnabled);
@@ -166,19 +179,6 @@ public class CardStackView extends RelativeLayout {
                 parent.setVisibility(View.VISIBLE);
             }
         }
-    }
-
-    public void setAdapter(ArrayAdapter<?> adapter) {
-        if (this.adapter != null) {
-            this.adapter.unregisterDataSetObserver(dataSetObserver);
-        }
-        this.adapter = adapter;
-        this.adapter.registerDataSetObserver(dataSetObserver);
-        initialize(true);
-    }
-
-    public void setCardStackEventListener(CardStackEventListener listener) {
-        cardStackEventListener = listener;
     }
 
     public void loadNextView() {
