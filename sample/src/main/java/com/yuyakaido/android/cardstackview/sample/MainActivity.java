@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements CardStackView.Car
         reverseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cardStackView.reverse();
             }
         });
 
