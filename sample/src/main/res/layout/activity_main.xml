@@ -5,43 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal">
-
-        <Button
-            android:id="@+id/activity_main_reverse_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reverse"/>
-
-        <Button
-            android:id="@+id/activity_main_custom_animation_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Custom Animation"/>
-
-        <Button
-            android:id="@+id/activity_main_elevation_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Elevation"/>
-
-    </LinearLayout>
-
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/activity_main_card_stack_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="50dp"
-        android:paddingBottom="80dp"
-        android:paddingRight="30dp"
-        android:paddingLeft="30dp"
+        android:padding="30dp"
         android:clipChildren="false"
         android:clipToPadding="false"/>
+
+    <ProgressBar
+        android:id="@+id/activity_main_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

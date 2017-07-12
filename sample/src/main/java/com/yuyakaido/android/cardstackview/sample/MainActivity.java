@@ -1,90 +1,150 @@
 package com.yuyakaido.android.cardstackview.sample;
 
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 
 import com.yuyakaido.android.cardstackview.CardStackView;
-import com.yuyakaido.android.cardstackview.Direction;
+import com.yuyakaido.android.cardstackview.StackFrom;
+import com.yuyakaido.android.cardstackview.SwipeDirection;
 
-public class MainActivity extends AppCompatActivity implements CardStackView.CardStackEventListener {
+public class MainActivity extends AppCompatActivity {
+
+    private ProgressBar progressBar;
     private CardStackView cardStackView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setup();
+        reload();
+    }
 
-        CardAdapter adapter = new CardAdapter(getApplicationContext());
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_activity_main_reload:
+                reload();
+                break;
+            case R.id.menu_activity_main_swipe_left:
+                swipeLeft();
+                break;
+            case R.id.menu_activity_main_swipe_right:
+                swipeRight();
+                break;
+            case R.id.menu_activity_main_reverse:
+                reverse();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private CardAdapter createCardAdapter() {
+        final CardAdapter adapter = new CardAdapter(getApplicationContext());
         for (int i = 0; i < 20; i++) {
             adapter.add(String.valueOf(i));
         }
+        return adapter;
+    }
+
+    private void setup() {
+        progressBar = (ProgressBar) findViewById(R.id.activity_main_progress_bar);
+
         cardStackView = (CardStackView) findViewById(R.id.activity_main_card_stack_view);
-        cardStackView.setAdapter(adapter);
-        cardStackView.setCardStackEventListener(this);
-
-        View reverseButton = findViewById(R.id.activity_main_reverse_button);
-        reverseButton.setOnClickListener(new View.OnClickListener() {
+        cardStackView.setStackFrom(StackFrom.Top);
+        cardStackView.setLeftOverlay(R.layout.view_overlay_left);
+        cardStackView.setRightOverlay(R.layout.view_overlay_right);
+        cardStackView.setCardEventListener(new CardStackView.CardEventListener() {
             @Override
-            public void onClick(View v) {
-                cardStackView.reverse();
+            public void onCardDragging(float percentX, float percentY) {
+                Log.d("CardStackView", "onCardDragging");
             }
-        });
 
-        View customAnimationButton = findViewById(R.id.activity_main_custom_animation_button);
-        customAnimationButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                ViewGroup target = cardStackView.getTopView();
-                
-                PropertyValuesHolder holderY = PropertyValuesHolder.ofFloat("translationY", 0.f, 600.f);
-                PropertyValuesHolder holderAlpha = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.8f);
-                PropertyValuesHolder holderScaleY = PropertyValuesHolder.ofFloat("scaleY", 1.0f, 0.3f);
-                PropertyValuesHolder holderScaleX = PropertyValuesHolder.ofFloat("scaleX", 1.0f, 0.3f);
-                ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(target, holderY, holderScaleY, holderScaleX, holderAlpha);
-                animator.setDuration(500);
-
-                cardStackView.discard(animator);
+            public void onCardSwiped() {
+                Log.d("CardStackView", "onCardSwiped");
             }
-        });
 
-        View elevationButton = findViewById(R.id.activity_main_elevation_button);
-        elevationButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                cardStackView.setElevationEnabled(false);
+            public void onCardReversed() {
+                Log.d("CardStackView", "onCardReversed");
+            }
+
+            @Override
+            public void onCardMovedToOrigin() {
+                Log.d("CardStackView", "onCardMovedToOrigin");
+            }
+
+            @Override
+            public void onCardClicked(int index) {
+                Log.d("CardStackView", "onCardClicked: " + index);
             }
         });
     }
 
-    @Override
-    public void onBeginSwipe(int index, Direction direction) {}
-
-    @Override
-    public void onEndSwipe(Direction direction) {
-        cardStackView.getTopView().findViewById(R.id.item_card_stack_right_text).setAlpha(0);
-        cardStackView.getTopView().findViewById(R.id.item_card_stack_left_text).setAlpha(0);
+    private void reload() {
+        cardStackView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                cardStackView.setAdapter(createCardAdapter());
+                cardStackView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }
+        }, 1000);
     }
 
-    @Override
-    public void onSwiping(float positionX) {
-        TextView right = (TextView) cardStackView.getTopView().findViewById(R.id.item_card_stack_right_text);
-        TextView left = (TextView) cardStackView.getTopView().findViewById(R.id.item_card_stack_left_text);
-        if (positionX > 0) {
-            right.setAlpha(positionX);
-        } else if (positionX < 0) {
-            left.setAlpha(-positionX);
-        }
+    public void swipeLeft() {
+        View target = cardStackView.getTopView();
+
+        ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("rotation", 5f));
+        rotation.setDuration(200);
+        ValueAnimator translate = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("translationX", 0.f, -2000f));
+        translate.setStartDelay(100);
+        translate.setDuration(500);
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(rotation, translate);
+
+        cardStackView.swipe(SwipeDirection.Left, set);
     }
 
-    @Override
-    public void onDiscarded(int index, Direction direction) {}
+    public void swipeRight() {
+        View target = cardStackView.getTopView();
 
-    @Override
-    public void onTapUp(int index) {}
+        ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("rotation", -5f));
+        rotation.setDuration(200);
+        ValueAnimator translate = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("translationX", 0.f, 2000f));
+        translate.setStartDelay(100);
+        translate.setDuration(500);
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(rotation, translate);
+
+        cardStackView.swipe(SwipeDirection.Right, set);
+    }
+
+    private void reverse() {
+        cardStackView.reverse();
+    }
 
 }
