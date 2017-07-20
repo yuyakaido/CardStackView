@@ -388,4 +388,8 @@ public class CardStackView extends FrameLayout {
         return containers.get(option.visibleCount - 1);
     }
 
+    public int getTopIndex() {
+        return topIndex;
+    }
+
 }
