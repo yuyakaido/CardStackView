@@ -19,6 +19,7 @@ import com.yuyakaido.android.cardstackview.internal.CardStackOption;
 import com.yuyakaido.android.cardstackview.internal.Util;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class CardStackView extends FrameLayout {
 
@@ -337,6 +338,13 @@ public class CardStackView extends FrameLayout {
 
     public void setSwipeEnabled(boolean swipeEnabled) {
         option.isSwipeEnabled = swipeEnabled;
+        if (adapter != null) {
+            initialize(false);
+        }
+    }
+
+    public void setEnableSwipeDirections(List<SwipeDirection> enableSwipeDirections) {
+        option.enableSwipeDirections = enableSwipeDirections;
         if (adapter != null) {
             initialize(false);
         }

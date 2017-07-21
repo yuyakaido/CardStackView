@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         cardStackView = (CardStackView) findViewById(R.id.activity_main_card_stack_view);
         cardStackView.setStackFrom(StackFrom.Top);
+        cardStackView.setEnableSwipeDirections(SwipeDirection.HORIZONTAL);
         cardStackView.setLeftOverlay(R.layout.view_overlay_left);
         cardStackView.setRightOverlay(R.layout.view_overlay_right);
         cardStackView.setCardEventListener(new CardStackView.CardEventListener() {

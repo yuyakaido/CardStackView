@@ -12,11 +12,15 @@ public class Util {
         return (float) Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     }
 
-    public static Point getTargetPoint(float x1, float y1, float x2, float y2) {
-        float radius = 2000f;
+    public static double getRadian(float x1, float y1, float x2, float y2) {
         float width = x2 - x1;
         float height = y1 - y2;
-        double radian = Math.atan(Math.abs(height) / Math.abs(width));
+        return Math.atan(Math.abs(height) / Math.abs(width));
+    }
+
+    public static Point getTargetPoint(float x1, float y1, float x2, float y2) {
+        float radius = 2000f;
+        double radian = Util.getRadian(x1, y1, x2, y2);
 
         Quadrant quadrant = getQuadrant(x1, y1, x2, y2);
         if (quadrant == Quadrant.TopLeft) {
