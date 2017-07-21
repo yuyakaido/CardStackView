@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.yuyakaido.android.cardstackview.CardStackView;
+import com.yuyakaido.android.cardstackview.Quadrant;
 import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeDirection;
 
@@ -77,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCardSwiped() {
-                Log.d("CardStackView", "onCardSwiped");
+            public void onCardSwiped(Quadrant quadrant) {
+                Log.d("CardStackView", "onCardSwiped: " + quadrant.toString());
             }
 
             @Override

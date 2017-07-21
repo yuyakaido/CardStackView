@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 
 import com.yuyakaido.android.cardstackview.internal.CardContainerView;
 import com.yuyakaido.android.cardstackview.internal.CardStackOption;
+import com.yuyakaido.android.cardstackview.internal.Util;
 
 import java.util.LinkedList;
 
@@ -23,7 +24,7 @@ public class CardStackView extends FrameLayout {
 
     public interface CardEventListener {
         void onCardDragging(float percentX, float percentY);
-        void onCardSwiped();
+        void onCardSwiped(Quadrant quadrant);
         void onCardReversed();
         void onCardMovedToOrigin();
         void onCardClicked(int index);
@@ -257,13 +258,14 @@ public class CardStackView extends FrameLayout {
 
         lastPoint = point;
 
-        clear();
-        update(0f, 0f);
+        initializeCardStackPosition();
 
         topIndex++;
 
         if (cardEventListener != null) {
-            cardEventListener.onCardSwiped();
+            cardEventListener.onCardSwiped(Util.getQuadrant(
+                    getTopView().getViewOriginX(), getTopView().getViewOriginY(),
+                    point.x, -point.y));
         }
 
         loadNextView();

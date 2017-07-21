@@ -2,6 +2,8 @@ package com.yuyakaido.android.cardstackview.internal;
 
 import android.graphics.Point;
 
+import com.yuyakaido.android.cardstackview.Quadrant;
+
 public class Util {
 
     private Util() {}
@@ -16,7 +18,7 @@ public class Util {
         float height = y1 - y2;
         double radian = Math.atan(Math.abs(height) / Math.abs(width));
 
-        Quadrant quadrant = getDirection(x1, y1, x2, y2);
+        Quadrant quadrant = getQuadrant(x1, y1, x2, y2);
         if (quadrant == Quadrant.TopLeft) {
             double degree = Math.toDegrees(radian);
             degree = 180 - degree;
@@ -40,7 +42,7 @@ public class Util {
         return new Point((int) x, (int) y);
     }
 
-    public static Quadrant getDirection(float x1, float y1, float x2, float y2) {
+    public static Quadrant getQuadrant(float x1, float y1, float x2, float y2) {
         if (x2 > x1) { // RIGHT
             if (y2 > y1) { // BOTTOM
                 return Quadrant.BottomRight;
