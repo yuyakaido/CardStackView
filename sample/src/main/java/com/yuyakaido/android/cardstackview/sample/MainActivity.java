@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     private CardStackView cardStackView;
+    private CardAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCardSwiped(Quadrant quadrant) {
                 Log.d("CardStackView", "onCardSwiped: " + quadrant.toString());
+                if (adapter.getCount() == cardStackView.getTopIndex()) {
+                    reload();
+                }
             }
 
             @Override
@@ -105,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                cardStackView.setAdapter(createCardAdapter());
+                adapter = createCardAdapter();
+                cardStackView.setAdapter(adapter);
                 cardStackView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
             }
