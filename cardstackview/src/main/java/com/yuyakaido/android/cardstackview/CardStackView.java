@@ -122,19 +122,23 @@ public class CardStackView extends FrameLayout {
             if (adapterIndex < adapter.getCount() - 1) {
                 View view = adapter.getView(adapterIndex, container.getContentContainer().getChildAt(0), this);
                 container.getContentContainer().addView(view);
+                container.setDraggable(true);
                 container.setVisibility(View.VISIBLE);
             } else {
+                container.setDraggable(false);
                 container.setVisibility(View.GONE);
             }
         }
     }
 
     private void loadNextView() {
-        ViewGroup parent = containers.getLast().getContentContainer();
+        CardContainerView container = containers.getLast();
+        ViewGroup parent = container.getContentContainer();
 
         int lastIndex = topIndex + (option.visibleCount - 1);
         if (lastIndex > adapter.getCount() - 1) {
-            parent.setVisibility(View.GONE);
+            container.setDraggable(false);
+            container.setVisibility(View.GONE);
             return;
         }
 

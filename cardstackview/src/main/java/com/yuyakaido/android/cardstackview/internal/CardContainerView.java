@@ -23,6 +23,7 @@ public class CardContainerView extends FrameLayout {
     private float motionOriginX = 0f;
     private float motionOriginY = 0f;
     private boolean isDragging = false;
+    private boolean isDraggable = true;
 
     private ViewGroup contentContainer = null;
     private ViewGroup overlayContainer = null;
@@ -60,7 +61,7 @@ public class CardContainerView extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!option.isSwipeEnabled) {
+        if (!option.isSwipeEnabled || !isDraggable) {
             return true;
         }
 
@@ -161,6 +162,10 @@ public class CardContainerView extends FrameLayout {
 
     public void setCardStackOption(CardStackOption option) {
         this.option = option;
+    }
+
+    public void setDraggable(boolean isDraggable) {
+        this.isDraggable = isDraggable;
     }
 
     public void reset() {
