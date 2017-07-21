@@ -203,8 +203,8 @@ public class CardContainerView extends FrameLayout {
     private void moveToOrigin() {
         animate().translationX(viewOriginX)
                 .translationY(viewOriginY)
-                .setDuration(250L)
-                .setInterpolator(new OvershootInterpolator())
+                .setDuration(300L)
+                .setInterpolator(new OvershootInterpolator(1.0f))
                 .setListener(null)
                 .start();
     }

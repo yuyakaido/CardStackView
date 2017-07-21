@@ -122,14 +122,18 @@ public class MainActivity extends AppCompatActivity {
         View target = cardStackView.getTopView();
 
         ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("rotation", 5f));
+                target, PropertyValuesHolder.ofFloat("rotation", -10f));
         rotation.setDuration(200);
-        ValueAnimator translate = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("translationX", 0.f, -2000f));
-        translate.setStartDelay(100);
-        translate.setDuration(500);
+        ValueAnimator translateX = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("translationX", 0f, -2000f));
+        ValueAnimator translateY = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("translationY", 0f, 500f));
+        translateX.setStartDelay(100);
+        translateY.setStartDelay(100);
+        translateX.setDuration(500);
+        translateY.setDuration(500);
         AnimatorSet set = new AnimatorSet();
-        set.playTogether(rotation, translate);
+        set.playTogether(rotation, translateX, translateY);
 
         cardStackView.swipe(SwipeDirection.Left, set);
     }
@@ -138,14 +142,18 @@ public class MainActivity extends AppCompatActivity {
         View target = cardStackView.getTopView();
 
         ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("rotation", -5f));
+                target, PropertyValuesHolder.ofFloat("rotation", 10f));
         rotation.setDuration(200);
-        ValueAnimator translate = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("translationX", 0.f, 2000f));
-        translate.setStartDelay(100);
-        translate.setDuration(500);
+        ValueAnimator translateX = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("translationX", 0f, 2000f));
+        ValueAnimator translateY = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("translationY", 0f, 500f));
+        translateX.setStartDelay(100);
+        translateY.setStartDelay(100);
+        translateX.setDuration(500);
+        translateY.setDuration(500);
         AnimatorSet set = new AnimatorSet();
-        set.playTogether(rotation, translate);
+        set.playTogether(rotation, translateX, translateY);
 
         cardStackView.swipe(SwipeDirection.Right, set);
     }

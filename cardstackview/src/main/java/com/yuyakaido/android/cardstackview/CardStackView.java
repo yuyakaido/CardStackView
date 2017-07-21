@@ -210,7 +210,6 @@ public class CardStackView extends FrameLayout {
         getTopView().animate()
                 .translationX(point.x)
                 .translationY(-point.y)
-                .setStartDelay(2L)
                 .setDuration(400L)
                 .setListener(listener)
                 .start();
