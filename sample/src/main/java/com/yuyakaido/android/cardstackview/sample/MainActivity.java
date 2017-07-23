@@ -82,9 +82,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCardSwiped(Quadrant quadrant) {
                 Log.d("CardStackView", "onCardSwiped: " + quadrant.toString());
-                if (adapter.getCount() == cardStackView.getTopIndex()) {
-                    reload();
-                }
             }
 
             @Override

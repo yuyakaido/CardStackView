@@ -120,7 +120,7 @@ public class CardStackView extends FrameLayout {
             CardContainerView container = containers.get(i);
             int adapterIndex = topIndex + i;
 
-            if (adapterIndex < adapter.getCount() - 1) {
+            if (adapterIndex < adapter.getCount()) {
                 View view = adapter.getView(adapterIndex, container.getContentContainer().getChildAt(0), this);
                 container.getContentContainer().addView(view);
                 container.setDraggable(true);
@@ -136,8 +136,8 @@ public class CardStackView extends FrameLayout {
         CardContainerView container = containers.getLast();
         ViewGroup parent = container.getContentContainer();
 
-        int lastIndex = topIndex + (option.visibleCount - 1);
-        if (lastIndex > adapter.getCount() - 1) {
+        int lastIndex = topIndex + option.visibleCount - 1;
+        if (adapter.getCount() <= lastIndex) {
             container.setDraggable(false);
             container.setVisibility(View.GONE);
             return;
