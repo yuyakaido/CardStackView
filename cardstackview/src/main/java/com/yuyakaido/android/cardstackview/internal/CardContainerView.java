@@ -5,6 +5,7 @@ import android.graphics.Point;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,7 +33,17 @@ public class CardContainerView extends FrameLayout {
     private View leftOverlayView = null;
     private View rightOverlayView = null;
 
-    private ContainerEventListener listener = null;
+    private ContainerEventListener containerEventListener = null;
+    private GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            if (containerEventListener != null) {
+                containerEventListener.onContainerClicked();
+            }
+            return true;
+        }
+    };
+    private GestureDetector gestureDetector = new GestureDetector(getContext(), gestureListener);
 
     public interface ContainerEventListener {
         void onContainerDragging(float percentX, float percentY);
@@ -63,6 +74,8 @@ public class CardContainerView extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        gestureDetector.onTouchEvent(event);
+
         if (!option.isSwipeEnabled || !isDraggable) {
             return true;
         }
@@ -145,24 +158,20 @@ public class CardContainerView extends FrameLayout {
                 }
 
                 if (option.enableSwipeDirections.contains(direction)) {
-                    if (listener != null) {
-                        listener.onContainerSwiped(point);
+                    if (containerEventListener != null) {
+                        containerEventListener.onContainerSwiped(point);
                     }
                 } else {
                     moveToOrigin();
-                    if (listener != null) {
-                        listener.onContainerMovedToOrigin();
+                    if (containerEventListener != null) {
+                        containerEventListener.onContainerMovedToOrigin();
                     }
                 }
             } else {
                 moveToOrigin();
-                if (listener != null) {
-                    listener.onContainerMovedToOrigin();
+                if (containerEventListener != null) {
+                    containerEventListener.onContainerMovedToOrigin();
                 }
-            }
-        } else {
-            if (listener != null) {
-                listener.onContainerClicked();
             }
         }
 
@@ -177,8 +186,8 @@ public class CardContainerView extends FrameLayout {
         updateRotation();
         updateAlpha();
 
-        if (listener != null) {
-            listener.onContainerDragging(getPercentX(), getPercentY());
+        if (containerEventListener != null) {
+            containerEventListener.onContainerDragging(getPercentX(), getPercentY());
         }
     }
 
@@ -210,7 +219,7 @@ public class CardContainerView extends FrameLayout {
     }
 
     public void setContainerEventListener(ContainerEventListener listener) {
-        this.listener = listener;
+        this.containerEventListener = listener;
         viewOriginX = ViewCompat.getTranslationX(this);
         viewOriginY = ViewCompat.getTranslationY(this);
     }
