@@ -1,6 +1,7 @@
 package com.yuyakaido.android.cardstackview.sample;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -17,7 +18,8 @@ public class CardAdapter extends ArrayAdapter<String> {
         ViewHolder holder;
 
         if (contentView == null) {
-            contentView = View.inflate(getContext(), R.layout.item_card_stack, null);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            contentView = inflater.inflate(R.layout.item_card_stack, parent, false);
             holder = new ViewHolder(contentView);
             contentView.setTag(holder);
         } else {

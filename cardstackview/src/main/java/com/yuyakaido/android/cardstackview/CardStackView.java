@@ -101,6 +101,7 @@ public class CardStackView extends FrameLayout {
         for (int i = 0; i < option.visibleCount; i++) {
             CardContainerView view = (CardContainerView) LayoutInflater.from(getContext())
                     .inflate(R.layout.card_container_view, this, false);
+            view.setDraggable(false);
             view.setCardStackOption(option);
             view.setOverlay(option.leftOverlay, option.rightOverlay);
             containers.add(0, view);
@@ -121,31 +122,42 @@ public class CardStackView extends FrameLayout {
             int adapterIndex = topIndex + i;
 
             if (adapterIndex < adapter.getCount()) {
-                View view = adapter.getView(adapterIndex, container.getContentContainer().getChildAt(0), this);
-                container.getContentContainer().addView(view);
-                container.setDraggable(true);
+                ViewGroup parent = container.getContentContainer();
+                View child = adapter.getView(adapterIndex, parent.getChildAt(0), parent);
+                if (parent.getChildCount() == 0) {
+                    parent.addView(child);
+                }
                 container.setVisibility(View.VISIBLE);
             } else {
-                container.setDraggable(false);
                 container.setVisibility(View.GONE);
             }
+        }
+        if (!adapter.isEmpty()) {
+            getTopView().setDraggable(true);
         }
     }
 
     private void loadNextView() {
-        CardContainerView container = containers.getLast();
-        ViewGroup parent = container.getContentContainer();
-
         int lastIndex = topIndex + option.visibleCount - 1;
-        if (adapter.getCount() <= lastIndex) {
+        boolean hasNextCard = lastIndex < adapter.getCount();
+        if (hasNextCard) {
+            CardContainerView container = getBottomView();
+            container.setDraggable(false);
+            ViewGroup parent = container.getContentContainer();
+            View child = adapter.getView(lastIndex, parent.getChildAt(0), parent);
+            if (parent.getChildCount() == 0) {
+                parent.addView(child);
+            }
+        } else {
+            CardContainerView container = getBottomView();
             container.setDraggable(false);
             container.setVisibility(View.GONE);
-            return;
         }
 
-        View child = adapter.getView(lastIndex, parent.getChildAt(0), parent);
-        parent.removeAllViews();
-        parent.addView(child);
+        boolean hasCard = topIndex < adapter.getCount();
+        if (hasCard) {
+            getTopView().setDraggable(true);
+        }
     }
 
     private void clear() {
@@ -399,7 +411,7 @@ public class CardStackView extends FrameLayout {
     }
 
     public CardContainerView getBottomView() {
-        return containers.get(option.visibleCount - 1);
+        return containers.getLast();
     }
 
     public int getTopIndex() {
