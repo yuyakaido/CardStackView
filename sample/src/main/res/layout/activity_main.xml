@@ -15,7 +15,8 @@
         android:padding="16dp"
         android:clipToPadding="false"
         app:visibleCardCount="3"
-        app:swipeThreshold="350"/>
+        app:swipeThreshold="350"
+        app:stackFrom="top"/>
 
     <ProgressBar
         android:id="@+id/activity_main_progress_bar"

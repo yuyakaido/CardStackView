@@ -4,5 +4,9 @@
     <declare-styleable name="CardStackView">
         <attr name="visibleCardCount" format="integer"/>
         <attr name="swipeThreshold" format="integer"/>
+        <attr name="stackFrom" format="enum">
+            <enum name="bottom" value="0"/>
+            <enum name="top" value="1"/>
+        </attr>
     </declare-styleable>
 </resources>
