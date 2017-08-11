@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     private CardStackView cardStackView;
-    private CardAdapter adapter;
+    private TouristSpotCardAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private CardAdapter createCardAdapter() {
-        final CardAdapter adapter = new CardAdapter(getApplicationContext());
+    private TouristSpotCardAdapter createCardAdapter() {
+        final TouristSpotCardAdapter adapter = new TouristSpotCardAdapter(getApplicationContext());
         adapter.add(new TouristSpot("Yasaka Shrine", "Kyoto", "https://source.unsplash.com/Xq1ntWruZQI"));
         adapter.add(new TouristSpot("Fushimi Inari Shrine", "Kyoto", "https://source.unsplash.com/NYyCqdBOKwc"));
         adapter.add(new TouristSpot("Bamboo Forest", "Kyoto", "https://source.unsplash.com/buF62ewDLcQ"));

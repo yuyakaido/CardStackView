@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-public class CardAdapter extends ArrayAdapter<TouristSpot> {
+public class TouristSpotCardAdapter extends ArrayAdapter<TouristSpot> {
 
-    public CardAdapter(Context context) {
+    public TouristSpotCardAdapter(Context context) {
         super(context, 0);
     }
 
