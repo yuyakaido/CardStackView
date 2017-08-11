@@ -20,7 +20,7 @@
         android:layout_centerInParent="true"
         android:padding="16dp"
         android:clipToPadding="false"
-        app:visibleCardCount="3"
+        app:visibleCount="3"
         app:swipeThreshold="350"
         app:stackFrom="top"
         app:isElevationEnabled="true"
