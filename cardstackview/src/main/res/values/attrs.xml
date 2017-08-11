@@ -8,5 +8,6 @@
             <enum name="bottom" value="0"/>
             <enum name="top" value="1"/>
         </attr>
+        <attr name="isElevationEnabled" format="boolean"/>
     </declare-styleable>
 </resources>

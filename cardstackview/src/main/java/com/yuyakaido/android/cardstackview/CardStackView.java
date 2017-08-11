@@ -84,6 +84,7 @@ public class CardStackView extends FrameLayout {
         setVisibleCount(array.getInt(R.styleable.CardStackView_visibleCardCount, option.visibleCount));
         setSwipeThreshold(array.getInt(R.styleable.CardStackView_swipeThreshold, (int) option.swipeThreshold));
         setStackFrom(StackFrom.values()[array.getInt(R.styleable.CardStackView_stackFrom, option.stackFrom.ordinal())]);
+        setElevationEnabled(array.getBoolean(R.styleable.CardStackView_isElevationEnabled, option.isElevationEnabled));
         array.recycle();
     }
 
