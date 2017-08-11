@@ -9,5 +9,10 @@
             <enum name="top" value="1"/>
         </attr>
         <attr name="isElevationEnabled" format="boolean"/>
+        <attr name="enableSwipeDirections" format="enum">
+            <enum name="freedom" value="0"/>
+            <enum name="horizontal" value="1"/>
+            <enum name="vertical" value="2"/>
+        </attr>
     </declare-styleable>
 </resources>

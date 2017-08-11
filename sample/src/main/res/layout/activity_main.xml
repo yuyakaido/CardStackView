@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|top">
+    </LinearLayout>
+
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/activity_main_card_stack_view"
         android:layout_width="match_parent"
@@ -17,7 +23,8 @@
         app:visibleCardCount="3"
         app:swipeThreshold="350"
         app:stackFrom="top"
-        app:isElevationEnabled="true"/>
+        app:isElevationEnabled="true"
+        app:enableSwipeDirections="horizontal"/>
 
     <ProgressBar
         android:id="@+id/activity_main_progress_bar"
