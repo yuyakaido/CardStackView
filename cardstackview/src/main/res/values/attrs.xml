@@ -16,5 +16,6 @@
             <enum name="vertical" value="2"/>
         </attr>
         <attr name="leftOverlay" format="reference"/>
+        <attr name="rightOverlay" format="reference"/>
     </declare-styleable>
 </resources>
