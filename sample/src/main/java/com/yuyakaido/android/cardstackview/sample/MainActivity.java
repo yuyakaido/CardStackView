@@ -59,9 +59,16 @@ public class MainActivity extends AppCompatActivity {
 
     private CardAdapter createCardAdapter() {
         final CardAdapter adapter = new CardAdapter(getApplicationContext());
-        for (int i = 0; i < 20; i++) {
-            adapter.add(String.valueOf(i));
-        }
+        adapter.add(new TouristSpot("Yasaka Shrine", "Kyoto", "https://source.unsplash.com/Xq1ntWruZQI"));
+        adapter.add(new TouristSpot("Fushimi Inari Shrine", "Kyoto", "https://source.unsplash.com/NYyCqdBOKwc"));
+        adapter.add(new TouristSpot("Bamboo Forest", "Kyoto", "https://source.unsplash.com/buF62ewDLcQ"));
+        adapter.add(new TouristSpot("Brooklyn Bridge", "New York", "https://source.unsplash.com/THozNzxEP3g"));
+        adapter.add(new TouristSpot("Empire State Building", "New York", "https://source.unsplash.com/USrZRcRS2Lw"));
+        adapter.add(new TouristSpot("The statue of Liberty", "New York", "https://source.unsplash.com/PeFk7fzxTdk"));
+        adapter.add(new TouristSpot("Louvre Museum", "Paris", "https://source.unsplash.com/LrMWHKqilUw"));
+        adapter.add(new TouristSpot("Eiffel Tower", "Paris", "https://source.unsplash.com/HN-5Z6AmxrM"));
+        adapter.add(new TouristSpot("Big Ben", "London", "https://source.unsplash.com/CdVAUADdqEc"));
+        adapter.add(new TouristSpot("Great Wall of China", "China", "https://source.unsplash.com/AWh9C-QjhE4"));
         return adapter;
     }
 

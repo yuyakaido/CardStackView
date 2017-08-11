@@ -5,9 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CardAdapter extends ArrayAdapter<String> {
+import com.bumptech.glide.Glide;
+
+public class CardAdapter extends ArrayAdapter<TouristSpot> {
 
     public CardAdapter(Context context) {
         super(context, 0);
@@ -26,16 +29,24 @@ public class CardAdapter extends ArrayAdapter<String> {
             holder = (ViewHolder) contentView.getTag();
         }
 
-        holder.textView.setText(getItem(position));
+        TouristSpot spot = getItem(position);
+
+        holder.name.setText(spot.name);
+        holder.city.setText(spot.city);
+        Glide.with(getContext()).load(spot.url).into(holder.image);
 
         return contentView;
     }
 
     private static class ViewHolder {
-        public TextView textView;
+        public TextView name;
+        public TextView city;
+        public ImageView image;
 
         public ViewHolder(View view) {
-            this.textView = (TextView) view.findViewById(R.id.item_card_stack_text);
+            this.name = (TextView) view.findViewById(R.id.item_card_stack_name);
+            this.city = (TextView) view.findViewById(R.id.item_card_stack_city);
+            this.image = (ImageView) view.findViewById(R.id.item_card_stack_image);
         }
     }
 
