@@ -15,5 +15,6 @@
             <enum name="horizontal" value="1"/>
             <enum name="vertical" value="2"/>
         </attr>
+        <attr name="leftOverlay" format="reference"/>
     </declare-styleable>
 </resources>

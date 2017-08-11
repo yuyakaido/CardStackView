@@ -87,6 +87,7 @@ public class CardStackView extends FrameLayout {
         setElevationEnabled(array.getBoolean(R.styleable.CardStackView_isElevationEnabled, option.isElevationEnabled));
         setSwipeEnabled(array.getBoolean(R.styleable.CardStackView_isSwipeEnabled, option.isSwipeEnabled));
         setEnableSwipeDirections(SwipeDirection.from(array.getInt(R.styleable.CardStackView_enableSwipeDirections, 0)));
+        setLeftOverlay(array.getResourceId(R.styleable.CardStackView_leftOverlay, 0));
         array.recycle();
     }
 
