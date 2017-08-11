@@ -3,5 +3,6 @@
 <resources>
     <declare-styleable name="CardStackView">
         <attr name="visibleCardCount" format="integer"/>
+        <attr name="swipeThreshold" format="integer"/>
     </declare-styleable>
 </resources>

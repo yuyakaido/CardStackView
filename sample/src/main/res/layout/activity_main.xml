@@ -14,7 +14,8 @@
         android:layout_centerInParent="true"
         android:padding="16dp"
         android:clipToPadding="false"
-        app:visibleCardCount="3"/>
+        app:visibleCardCount="3"
+        app:swipeThreshold="350"/>
 
     <ProgressBar
         android:id="@+id/activity_main_progress_bar"
