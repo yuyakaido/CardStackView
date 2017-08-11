@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Point;
 import android.support.v4.view.ViewCompat;
@@ -78,6 +79,10 @@ public class CardStackView extends FrameLayout {
 
     public CardStackView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CardStackView);
+        setVisibleCount(array.getInt(R.styleable.CardStackView_visibleCardCount, option.visibleCount));
+        array.recycle();
     }
 
     private void initialize(boolean shouldReset) {
