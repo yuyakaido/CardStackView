@@ -24,6 +24,7 @@
         app:swipeThreshold="350"
         app:stackFrom="top"
         app:isElevationEnabled="true"
+        app:isSwipeEnabled="true"
         app:enableSwipeDirections="horizontal"/>
 
     <ProgressBar
