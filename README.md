@@ -19,6 +19,7 @@
     - [StackFrom](#stackfrom)
     - [VisibleCount](#visiblecount)
     - [ElevationEnabled](#elevationenabled)
+    - [Overlay](#overlay)
     - [SwipeEnabled](#swipeenabled)
     - [SwipeDirection](#swipedirection)
     - [SwipeThreshold](#swipethreshold)
@@ -101,6 +102,26 @@ CardStackView#setVisibleCount(4);
 CardStackView#setElevationEnabled(true);
 or
 CardStackView#setElevationEnabled(false);
+```
+
+## Overlay
+
+| Value | Sample |
+| :----: | :----: |
+| Left | ![Overlay-Left](https://github.com/yuyakaido/CardStackView/blob/v1/images/overlay-left.png) |
+| Right | ![Overlay-Right](https://github.com/yuyakaido/CardStackView/blob/v1/images/overlay-right.png) |
+
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+    app:leftOverlay="@layout/overlay_left"
+    or
+    app:rightOverlay="@layout/overlay_right"/>
+```
+
+```java
+CardStackView#setLeftOverlay(R.layout.overlay_left);
+or
+CardStackView#setRightOverlay(R.layout.overlay_right);
 ```
 
 ## SwipeEnabled
