@@ -9,7 +9,23 @@
 
 ![Overview](https://github.com/yuyakaido/CardStackView/blob/v1/images/overview.gif)
 
-# Feature
+# Contents
+
+- [Features](#features)
+    - [Manual Swipe](#manual-swipe)
+    - [Automatic Swipe](#automatic-swipe)
+    - [Move to Origin](#move-to-origin)
+    - [Reverse](#reverse)
+    - [StackFrom](#stackfrom)
+    - [VisibleCount](#visiblecount)
+    - [ElevationEnabled](#elevationenabled)
+    - [SwipeEnabled](#swipeenabled)
+    - [SwipeDirection](#swipedirection)
+    - [SwipeThreshold](#swipethreshold)
+- [Installation](#installation)
+- [License](#license)
+
+# Features
 
 ## Manual Swipe
 
