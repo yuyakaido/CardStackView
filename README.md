@@ -116,6 +116,24 @@ or
 CardStackView#setEnableSwipeDirections(SwipeDirection.VERTICAL);
 ```
 
+## SwipeThreshold
+
+The range of SwipeThreshold is 0.0 - 1.0.
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | 0.75 | ![SwipeThreshold-75%](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-threshold-75.gif) |
+| | 0.1 | ![SwipeThreshold-10%](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-threshold-10.gif) |
+
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+    app:swipeThreshold="0.75"/>
+```
+
+```java
+CardStackView#setSwipeThreshold(0.75f);
+```
+
 # Installation
 
 Latest version is ![Download](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)
