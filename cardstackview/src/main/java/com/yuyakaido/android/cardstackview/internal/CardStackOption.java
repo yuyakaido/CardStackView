@@ -13,5 +13,5 @@ public class CardStackOption {
     public boolean isSwipeEnabled = true;
     public int leftOverlay = 0;
     public int rightOverlay = 0;
-    public List<SwipeDirection> enableSwipeDirections = SwipeDirection.FREEDOM;
+    public List<SwipeDirection> swipeDirection = SwipeDirection.FREEDOM;
 }

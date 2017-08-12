@@ -8,9 +8,9 @@
             <enum name="bottom" value="0"/>
             <enum name="top" value="1"/>
         </attr>
-        <attr name="isElevationEnabled" format="boolean"/>
-        <attr name="isSwipeEnabled" format="boolean"/>
-        <attr name="enableSwipeDirections" format="enum">
+        <attr name="elevationEnabled" format="boolean"/>
+        <attr name="swipeEnabled" format="boolean"/>
+        <attr name="swipeDirection" format="enum">
             <enum name="freedom" value="0"/>
             <enum name="horizontal" value="1"/>
             <enum name="vertical" value="2"/>

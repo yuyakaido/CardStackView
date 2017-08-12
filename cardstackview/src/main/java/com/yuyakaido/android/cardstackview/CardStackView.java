@@ -92,9 +92,9 @@ public class CardStackView extends FrameLayout {
         setVisibleCount(array.getInt(R.styleable.CardStackView_visibleCount, option.visibleCount));
         setSwipeThreshold(array.getFloat(R.styleable.CardStackView_swipeThreshold, option.swipeThreshold));
         setStackFrom(StackFrom.values()[array.getInt(R.styleable.CardStackView_stackFrom, option.stackFrom.ordinal())]);
-        setElevationEnabled(array.getBoolean(R.styleable.CardStackView_isElevationEnabled, option.isElevationEnabled));
-        setSwipeEnabled(array.getBoolean(R.styleable.CardStackView_isSwipeEnabled, option.isSwipeEnabled));
-        setEnableSwipeDirections(SwipeDirection.from(array.getInt(R.styleable.CardStackView_enableSwipeDirections, 0)));
+        setElevationEnabled(array.getBoolean(R.styleable.CardStackView_elevationEnabled, option.isElevationEnabled));
+        setSwipeEnabled(array.getBoolean(R.styleable.CardStackView_swipeEnabled, option.isSwipeEnabled));
+        setSwipeDirection(SwipeDirection.from(array.getInt(R.styleable.CardStackView_swipeDirection, 0)));
         setLeftOverlay(array.getResourceId(R.styleable.CardStackView_leftOverlay, 0));
         setRightOverlay(array.getResourceId(R.styleable.CardStackView_rightOverlay, 0));
         array.recycle();
@@ -279,7 +279,7 @@ public class CardStackView extends FrameLayout {
         }
     }
 
-    private void reorderForDiscard() {
+    private void reorderForSwipe() {
         moveToBottom(getTopView());
         containers.addLast(containers.removeFirst());
     }
@@ -298,7 +298,7 @@ public class CardStackView extends FrameLayout {
     }
 
     private void executePostSwipeTask(Point point) {
-        reorderForDiscard();
+        reorderForSwipe();
 
         state.lastPoint = point;
 
@@ -370,22 +370,22 @@ public class CardStackView extends FrameLayout {
         }
     }
 
-    public void setElevationEnabled(boolean elevationEnabled) {
-        option.isElevationEnabled = elevationEnabled;
+    public void setElevationEnabled(boolean isElevationEnabled) {
+        option.isElevationEnabled = isElevationEnabled;
         if (adapter != null) {
             initialize(false);
         }
     }
 
-    public void setSwipeEnabled(boolean swipeEnabled) {
-        option.isSwipeEnabled = swipeEnabled;
+    public void setSwipeEnabled(boolean isSwipeEnabled) {
+        option.isSwipeEnabled = isSwipeEnabled;
         if (adapter != null) {
             initialize(false);
         }
     }
 
-    public void setEnableSwipeDirections(List<SwipeDirection> enableSwipeDirections) {
-        option.enableSwipeDirections = enableSwipeDirections;
+    public void setSwipeDirection(List<SwipeDirection> swipeDirection) {
+        option.swipeDirection = swipeDirection;
         if (adapter != null) {
             initialize(false);
         }

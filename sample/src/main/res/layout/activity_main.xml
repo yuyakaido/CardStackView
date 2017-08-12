@@ -7,12 +7,6 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom|top">
-    </LinearLayout>
-
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/activity_main_card_stack_view"
         android:layout_width="match_parent"
@@ -23,9 +17,9 @@
         app:visibleCount="3"
         app:swipeThreshold="0.75"
         app:stackFrom="top"
-        app:isElevationEnabled="true"
-        app:isSwipeEnabled="true"
-        app:enableSwipeDirections="horizontal"
+        app:elevationEnabled="true"
+        app:swipeEnabled="true"
+        app:swipeDirection="horizontal"
         app:leftOverlay="@layout/view_overlay_left"
         app:rightOverlay="@layout/view_overlay_right"/>
 
