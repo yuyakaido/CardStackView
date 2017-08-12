@@ -3,7 +3,7 @@
 <resources>
     <declare-styleable name="CardStackView">
         <attr name="visibleCount" format="integer"/>
-        <attr name="swipeThreshold" format="integer"/>
+        <attr name="swipeThreshold" format="float"/>
         <attr name="stackFrom" format="enum">
             <enum name="bottom" value="0"/>
             <enum name="top" value="1"/>

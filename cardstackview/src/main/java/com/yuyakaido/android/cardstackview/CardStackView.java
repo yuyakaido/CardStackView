@@ -82,7 +82,7 @@ public class CardStackView extends FrameLayout {
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CardStackView);
         setVisibleCount(array.getInt(R.styleable.CardStackView_visibleCount, option.visibleCount));
-        setSwipeThreshold(array.getInt(R.styleable.CardStackView_swipeThreshold, (int) option.swipeThreshold));
+        setSwipeThreshold(array.getFloat(R.styleable.CardStackView_swipeThreshold, option.swipeThreshold));
         setStackFrom(StackFrom.values()[array.getInt(R.styleable.CardStackView_stackFrom, option.stackFrom.ordinal())]);
         setElevationEnabled(array.getBoolean(R.styleable.CardStackView_isElevationEnabled, option.isElevationEnabled));
         setSwipeEnabled(array.getBoolean(R.styleable.CardStackView_isSwipeEnabled, option.isSwipeEnabled));
@@ -338,7 +338,7 @@ public class CardStackView extends FrameLayout {
         }
     }
 
-    public void setSwipeThreshold(int swipeThreshold) {
+    public void setSwipeThreshold(float swipeThreshold) {
         option.swipeThreshold = swipeThreshold;
         if (adapter != null) {
             initialize(false);
