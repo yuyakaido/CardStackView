@@ -11,6 +11,22 @@
 
 # Feature
 
+## Manual Swipe
+
+![ManualSwipe](https://github.com/yuyakaido/CardStackView/blob/v1/images/basic-manual-swipe.gif)
+
+## Automatic Swipe
+
+![AutomaticSwipe](https://github.com/yuyakaido/CardStackView/blob/v1/images/basic-automatic-swipe.gif)
+
+## Move to Origin
+
+![MoveToOrigin](https://github.com/yuyakaido/CardStackView/blob/v1/images/basic-move-to-origin.gif)
+
+## Reverse
+
+![Reverse](https://github.com/yuyakaido/CardStackView/blob/v1/images/basic-reverse.gif)
+
 ## StackFrom
 
 | Default | Value | Sample |
@@ -42,7 +58,7 @@ CardStackView#setStackFrom(StackFrom.Bottom);
 <com.yuyakaido.android.cardstackview.CardStackView
     app:visibleCount="3"
     or
-    app:visibleCount="3"/>
+    app:visibleCount="4"/>
 ```
 
 ```java
