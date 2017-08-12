@@ -18,6 +18,7 @@ import com.yuyakaido.android.cardstackview.Quadrant;
 import com.yuyakaido.android.cardstackview.SwipeDirection;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +47,18 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_activity_main_reload:
                 reload();
                 break;
+            case R.id.menu_activity_main_add_first:
+                addFirst();
+                break;
+            case R.id.menu_activity_main_add_last:
+                addLast();
+                break;
+            case R.id.menu_activity_main_remove_first:
+                removeFirst();
+                break;
+            case R.id.menu_activity_main_remove_last:
+                removeLast();
+                break;
             case R.id.menu_activity_main_swipe_left:
                 swipeLeft();
                 break;
@@ -57,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private TouristSpot createTouriseSpot() {
+        return new TouristSpot("Yasaka Shrine", "Kyoto", "https://source.unsplash.com/Xq1ntWruZQI");
     }
 
     private List<TouristSpot> createTouristSpots() {
@@ -93,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCardSwiped(Quadrant quadrant) {
                 Log.d("CardStackView", "onCardSwiped: " + quadrant.toString());
+                Log.d("CardStackView", "topIndex: " + cardStackView.getTopIndex());
                 if (cardStackView.getTopIndex() == adapter.getCount() - 5) {
                     Log.d("CardStackView", "Paginate: " + cardStackView.getTopIndex());
                     paginate();
@@ -130,12 +148,65 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
     }
 
+    private LinkedList<TouristSpot> extractRemainingTouristSpots() {
+        LinkedList<TouristSpot> spots = new LinkedList<>();
+        for (int i = cardStackView.getTopIndex(); i < adapter.getCount(); i++) {
+            spots.add(adapter.getItem(i));
+        }
+        return spots;
+    }
+
+    private void addFirst() {
+        LinkedList<TouristSpot> spots = extractRemainingTouristSpots();
+        spots.addFirst(createTouriseSpot());
+        adapter.clear();
+        adapter.addAll(spots);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void addLast() {
+        LinkedList<TouristSpot> spots = extractRemainingTouristSpots();
+        spots.addLast(createTouriseSpot());
+        adapter.clear();
+        adapter.addAll(spots);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void removeFirst() {
+        LinkedList<TouristSpot> spots = extractRemainingTouristSpots();
+        if (spots.isEmpty()) {
+            return;
+        }
+
+        spots.removeFirst();
+        adapter.clear();
+        adapter.addAll(spots);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void removeLast() {
+        LinkedList<TouristSpot> spots = extractRemainingTouristSpots();
+        if (spots.isEmpty()) {
+            return;
+        }
+
+        spots.removeLast();
+        adapter.clear();
+        adapter.addAll(spots);
+        adapter.notifyDataSetChanged();
+    }
+
     private void paginate() {
         adapter.addAll(createTouristSpots());
         adapter.notifyDataSetChanged();
     }
 
     public void swipeLeft() {
+        List<TouristSpot> spots = extractRemainingTouristSpots();
+        if (spots.isEmpty()) {
+            return;
+        }
+
         View target = cardStackView.getTopView();
 
         ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
@@ -156,6 +227,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void swipeRight() {
+        List<TouristSpot> spots = extractRemainingTouristSpots();
+        if (spots.isEmpty()) {
+            return;
+        }
+
         View target = cardStackView.getTopView();
 
         ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(

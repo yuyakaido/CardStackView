@@ -38,11 +38,14 @@ public class CardStackView extends FrameLayout {
     private ArrayAdapter<?> adapter = null;
     private LinkedList<CardContainerView> containers = new LinkedList<>();
     private Point lastPoint = null;
+    private Integer lastCount = null;
     private CardEventListener cardEventListener = null;
     private DataSetObserver dataSetObserver = new DataSetObserver() {
         @Override
         public void onChanged() {
-            initialize(false);
+            boolean isSameCount = lastCount == adapter.getCount();
+            initialize(!isSameCount);
+            lastCount = adapter.getCount();
         }
     };
     private CardContainerView.ContainerEventListener containerEventListener = new CardContainerView.ContainerEventListener() {
@@ -337,6 +340,7 @@ public class CardStackView extends FrameLayout {
         }
         this.adapter = adapter;
         this.adapter.registerDataSetObserver(dataSetObserver);
+        this.lastCount = adapter.getCount();
         initialize(true);
     }
 
