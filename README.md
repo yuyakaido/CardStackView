@@ -1,4 +1,4 @@
-![Logo](https://github.com/yuyakaido/CardStackView/blob/v1/logo.png)
+![Logo](https://github.com/yuyakaido/CardStackView/blob/v1/images/logo.png)
 
 # CardStackView
 
