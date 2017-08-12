@@ -30,19 +30,19 @@
 
 ## Manual Swipe
 
-![ManualSwipe](https://github.com/yuyakaido/CardStackView/blob/v1/images/basic-manual-swipe.gif)
+![ManualSwipe](https://github.com/yuyakaido/CardStackView/blob/v1/images/manual-swipe.gif)
 
 ## Automatic Swipe
 
-![AutomaticSwipe](https://github.com/yuyakaido/CardStackView/blob/v1/images/basic-automatic-swipe.gif)
+![AutomaticSwipe](https://github.com/yuyakaido/CardStackView/blob/v1/images/automatic-swipe.gif)
 
 ## Move to Origin
 
-![MoveToOrigin](https://github.com/yuyakaido/CardStackView/blob/v1/images/basic-move-to-origin.gif)
+![MoveToOrigin](https://github.com/yuyakaido/CardStackView/blob/v1/images/move-to-origin.gif)
 
 ## Reverse
 
-![Reverse](https://github.com/yuyakaido/CardStackView/blob/v1/images/basic-reverse.gif)
+![Reverse](https://github.com/yuyakaido/CardStackView/blob/v1/images/reverse.gif)
 
 ## StackFrom
 
