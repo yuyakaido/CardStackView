@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 
 import com.yuyakaido.android.cardstackview.internal.CardContainerView;
 import com.yuyakaido.android.cardstackview.internal.CardStackOption;
+import com.yuyakaido.android.cardstackview.internal.CardStackState;
 import com.yuyakaido.android.cardstackview.internal.Util;
 
 import java.util.LinkedList;
@@ -33,26 +34,23 @@ public class CardStackView extends FrameLayout {
     }
 
     private CardStackOption option = new CardStackOption();
+    private CardStackState state = new CardStackState();
 
-    private int topIndex = 0;
     private ArrayAdapter<?> adapter = null;
     private LinkedList<CardContainerView> containers = new LinkedList<>();
-    private Point lastPoint = null;
-    private Integer lastCount = null;
-    private boolean isPaginationReserved = false;
     private CardEventListener cardEventListener = null;
     private DataSetObserver dataSetObserver = new DataSetObserver() {
         @Override
         public void onChanged() {
             boolean shouldReset = false;
-            if (isPaginationReserved) {
-                isPaginationReserved = false;
+            if (state.isPaginationReserved) {
+                state.isPaginationReserved = false;
             } else {
-                boolean isSameCount = lastCount == adapter.getCount();
+                boolean isSameCount = state.lastCount == adapter.getCount();
                 shouldReset = !isSameCount;
             }
             initialize(shouldReset);
-            lastCount = adapter.getCount();
+            state.lastCount = adapter.getCount();
         }
     };
     private CardContainerView.ContainerEventListener containerEventListener = new CardContainerView.ContainerEventListener() {
@@ -74,7 +72,7 @@ public class CardStackView extends FrameLayout {
         @Override
         public void onContainerClicked() {
             if (cardEventListener != null) {
-                cardEventListener.onCardClicked(topIndex);
+                cardEventListener.onCardClicked(state.topIndex);
             }
         }
     };
@@ -111,8 +109,8 @@ public class CardStackView extends FrameLayout {
 
     private void resetIfNeeded(boolean shouldReset) {
         if (shouldReset) {
-            topIndex = 0;
-            lastPoint = null;
+            state.topIndex = 0;
+            state.lastPoint = null;
         }
     }
 
@@ -141,7 +139,7 @@ public class CardStackView extends FrameLayout {
     private void initializeViewContents() {
         for (int i = 0; i < option.visibleCount; i++) {
             CardContainerView container = containers.get(i);
-            int adapterIndex = topIndex + i;
+            int adapterIndex = state.topIndex + i;
 
             if (adapterIndex < adapter.getCount()) {
                 ViewGroup parent = container.getContentContainer();
@@ -160,7 +158,7 @@ public class CardStackView extends FrameLayout {
     }
 
     private void loadNextView() {
-        int lastIndex = topIndex + option.visibleCount - 1;
+        int lastIndex = state.topIndex + option.visibleCount - 1;
         boolean hasNextCard = lastIndex < adapter.getCount();
         if (hasNextCard) {
             CardContainerView container = getBottomView();
@@ -176,7 +174,7 @@ public class CardStackView extends FrameLayout {
             container.setVisibility(View.GONE);
         }
 
-        boolean hasCard = topIndex < adapter.getCount();
+        boolean hasCard = state.topIndex < adapter.getCount();
         if (hasCard) {
             getTopView().setDraggable(true);
         }
@@ -302,11 +300,11 @@ public class CardStackView extends FrameLayout {
     private void executePostSwipeTask(Point point) {
         reorderForDiscard();
 
-        lastPoint = point;
+        state.lastPoint = point;
 
         initializeCardStackPosition();
 
-        topIndex++;
+        state.topIndex++;
 
         if (cardEventListener != null) {
             cardEventListener.onCardSwiped(Util.getQuadrant(
@@ -321,11 +319,11 @@ public class CardStackView extends FrameLayout {
     }
 
     private void executePostReverseTask() {
-        lastPoint = null;
+        state.lastPoint = null;
 
         initializeCardStackPosition();
 
-        topIndex--;
+        state.topIndex--;
 
         if (cardEventListener != null) {
             cardEventListener.onCardReversed();
@@ -347,7 +345,7 @@ public class CardStackView extends FrameLayout {
         }
         this.adapter = adapter;
         this.adapter.registerDataSetObserver(dataSetObserver);
-        this.lastCount = adapter.getCount();
+        this.state.lastCount = adapter.getCount();
         initialize(true);
     }
 
@@ -408,7 +406,7 @@ public class CardStackView extends FrameLayout {
     }
 
     public void setPaginationReserved() {
-        isPaginationReserved = true;
+        state.isPaginationReserved = true;
     }
 
     public void swipe(final Point point) {
@@ -432,10 +430,10 @@ public class CardStackView extends FrameLayout {
     }
 
     public void reverse() {
-        if (lastPoint != null) {
+        if (state.lastPoint != null) {
             ViewGroup parent = containers.getLast();
-            View prevView = adapter.getView(topIndex - 1, null, parent);
-            performReverse(lastPoint, prevView, new AnimatorListenerAdapter() {
+            View prevView = adapter.getView(state.topIndex - 1, null, parent);
+            performReverse(state.lastPoint, prevView, new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animator) {
                     executePostReverseTask();
@@ -453,7 +451,7 @@ public class CardStackView extends FrameLayout {
     }
 
     public int getTopIndex() {
-        return topIndex;
+        return state.topIndex;
     }
 
 }

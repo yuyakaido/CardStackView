@@ -8,10 +8,6 @@ public class Util {
 
     private Util() {}
 
-    public static float getDistance(float x1, float y1, float x2, float y2) {
-        return (float) Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-    }
-
     public static double getRadian(float x1, float y1, float x2, float y2) {
         float width = x2 - x1;
         float height = y1 - y2;
@@ -47,16 +43,16 @@ public class Util {
     }
 
     public static Quadrant getQuadrant(float x1, float y1, float x2, float y2) {
-        if (x2 > x1) { // RIGHT
-            if (y2 > y1) { // BOTTOM
+        if (x2 > x1) { // Right
+            if (y2 > y1) { // Bottom
                 return Quadrant.BottomRight;
-            } else { // TOP
+            } else { // Top
                 return Quadrant.TopRight;
             }
-        } else { // LEFT
-            if (y2 > y1) { // BOTTOM
+        } else { // Left
+            if (y2 > y1) { // Bottom
                 return Quadrant.BottomLeft;
-            } else { // TOP
+            } else { // Top
                 return Quadrant.TopLeft;
             }
         }
