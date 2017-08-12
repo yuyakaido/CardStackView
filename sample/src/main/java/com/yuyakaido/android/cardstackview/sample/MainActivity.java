@@ -197,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void paginate() {
+        cardStackView.setPaginationReserved();
         adapter.addAll(createTouristSpots());
         adapter.notifyDataSetChanged();
     }

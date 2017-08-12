@@ -39,12 +39,19 @@ public class CardStackView extends FrameLayout {
     private LinkedList<CardContainerView> containers = new LinkedList<>();
     private Point lastPoint = null;
     private Integer lastCount = null;
+    private boolean isPaginationReserved = false;
     private CardEventListener cardEventListener = null;
     private DataSetObserver dataSetObserver = new DataSetObserver() {
         @Override
         public void onChanged() {
-            boolean isSameCount = lastCount == adapter.getCount();
-            initialize(!isSameCount);
+            boolean shouldReset = false;
+            if (isPaginationReserved) {
+                isPaginationReserved = false;
+            } else {
+                boolean isSameCount = lastCount == adapter.getCount();
+                shouldReset = !isSameCount;
+            }
+            initialize(shouldReset);
             lastCount = adapter.getCount();
         }
     };
@@ -398,6 +405,10 @@ public class CardStackView extends FrameLayout {
         if (adapter != null) {
             initialize(false);
         }
+    }
+
+    public void setPaginationReserved() {
+        isPaginationReserved = true;
     }
 
     public void swipe(final Point point) {
