@@ -92,9 +92,9 @@ CardStackView#setVisibleCount(4);
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
-    app:isElevationEnabled="true"
+    app:elevationEnabled="true"
     or
-    app:isElevationEnabled="false"/>
+    app:elevationEnabled="false"/>
 ```
 
 ```java
@@ -112,9 +112,9 @@ CardStackView#setElevationEnabled(false);
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
-    app:isSwipeEnabled="true"
+    app:swipeEnabled="true"
     or
-    app:isSwipeEnabled="false"/>
+    app:swipeEnabled="false"/>
 ```
 
 ```java
@@ -133,19 +133,19 @@ CardStackView#setSwipeEnabled(false);
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
-    app:enableSwipeDirections="freedom"
+    app:swipeDirection="freedom"
     or
-    app:enableSwipeDirections="horizontal"
+    app:swipeDirection="horizontal"
     or
-    app:enableSwipeDirections="vertical"/>
+    app:swipeDirection="vertical"/>
 ```
 
 ```java
-CardStackView#setEnableSwipeDirections(SwipeDirection.FREEDOM);
+CardStackView#setSwipeDirection(SwipeDirection.FREEDOM);
 or
-CardStackView#setEnableSwipeDirections(SwipeDirection.HORIZONTAL);
+CardStackView#setSwipeDirection(SwipeDirection.HORIZONTAL);
 or
-CardStackView#setEnableSwipeDirections(SwipeDirection.VERTICAL);
+CardStackView#setSwipeDirection(SwipeDirection.VERTICAL);
 ```
 
 ## SwipeThreshold
@@ -168,7 +168,7 @@ CardStackView#setSwipeThreshold(0.75f);
 
 # Installation
 
-LatestVersion is ![Download](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)
+LatestVersion is ![LatestVersion](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)
 
 ```groovy
 dependencies {
