@@ -22,7 +22,7 @@ public class TouristSpotCardAdapter extends ArrayAdapter<TouristSpot> {
 
         if (contentView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            contentView = inflater.inflate(R.layout.item_card_stack, parent, false);
+            contentView = inflater.inflate(R.layout.item_tourist_spot_card, parent, false);
             holder = new ViewHolder(contentView);
             contentView.setTag(holder);
         } else {
@@ -44,9 +44,9 @@ public class TouristSpotCardAdapter extends ArrayAdapter<TouristSpot> {
         public ImageView image;
 
         public ViewHolder(View view) {
-            this.name = (TextView) view.findViewById(R.id.item_card_stack_name);
-            this.city = (TextView) view.findViewById(R.id.item_card_stack_city);
-            this.image = (ImageView) view.findViewById(R.id.item_card_stack_image);
+            this.name = (TextView) view.findViewById(R.id.item_tourist_spot_card_name);
+            this.city = (TextView) view.findViewById(R.id.item_tourist_spot_card_city);
+            this.image = (ImageView) view.findViewById(R.id.item_tourist_spot_card_image);
         }
     }
 

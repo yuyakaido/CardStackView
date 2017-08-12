@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/item_card_stack_image"
+            android:id="@+id/item_tourist_spot_card_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
@@ -29,7 +29,7 @@
             android:layout_alignParentBottom="true">
 
             <TextView
-                android:id="@+id/item_card_stack_name"
+                android:id="@+id/item_tourist_spot_card_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -37,7 +37,7 @@
                 android:textSize="26sp"/>
 
             <TextView
-                android:id="@+id/item_card_stack_city"
+                android:id="@+id/item_tourist_spot_card_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
