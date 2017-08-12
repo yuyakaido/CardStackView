@@ -91,6 +91,31 @@ or
 CardStackView#setSwipeEnabled(false);
 ```
 
+## SwipeDirection
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | Freedom | ![SwipeDirection-Freedom](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-direction-freedom.gif) |
+| | Horizontal | ![SwipeDirection-Horizontal](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-direction-horizontal.gif) |
+| | Vertical | ![SwipeDirection-Vertical](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-direction-vertical.gif) |
+
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+    app:enableSwipeDirections="freedom"
+    or
+    app:enableSwipeDirections="horizontal"
+    or
+    app:enableSwipeDirections="vertical"/>
+```
+
+```java
+CardStackView#setEnableSwipeDirections(SwipeDirection.FREEDOM);
+or
+CardStackView#setEnableSwipeDirections(SwipeDirection.HORIZONTAL);
+or
+CardStackView#setEnableSwipeDirections(SwipeDirection.VERTICAL);
+```
+
 # Installation
 
 Latest version is ![Download](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)
