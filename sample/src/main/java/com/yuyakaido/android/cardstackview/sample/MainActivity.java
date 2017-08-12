@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private TouristSpot createTouriseSpot() {
+    private TouristSpot createTouristSpot() {
         return new TouristSpot("Yasaka Shrine", "Kyoto", "https://source.unsplash.com/Xq1ntWruZQI");
     }
 
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addFirst() {
         LinkedList<TouristSpot> spots = extractRemainingTouristSpots();
-        spots.addFirst(createTouriseSpot());
+        spots.addFirst(createTouristSpot());
         adapter.clear();
         adapter.addAll(spots);
         adapter.notifyDataSetChanged();
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addLast() {
         LinkedList<TouristSpot> spots = extractRemainingTouristSpots();
-        spots.addLast(createTouriseSpot());
+        spots.addLast(createTouristSpot());
         adapter.clear();
         adapter.addAll(spots);
         adapter.notifyDataSetChanged();
