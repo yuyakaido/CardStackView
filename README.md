@@ -11,8 +11,8 @@
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | Top | ![StackFromTop](https://github.com/yuyakaido/CardStackView/blob/v1/images/stack-from-top.png) |
-| | Bottom | ![StackFromBottom](https://github.com/yuyakaido/CardStackView/blob/v1/images/stack-from-bottom.png) |
+| ✅ | Top | ![StackFrom-Top](https://github.com/yuyakaido/CardStackView/blob/v1/images/stack-from-top.png) |
+| | Bottom | ![StackFrom-Bottom](https://github.com/yuyakaido/CardStackView/blob/v1/images/stack-from-bottom.png) |
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
@@ -31,8 +31,8 @@ CardStackView#setStackFrom(StackFrom.Bottom);
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | 3 | ![VisibleCount](https://github.com/yuyakaido/CardStackView/blob/v1/images/visible-count-3.png) |
-| | 4 | ![VisibleCount](https://github.com/yuyakaido/CardStackView/blob/v1/images/visible-count-4.png) |
+| ✅ | 3 | ![VisibleCount-3](https://github.com/yuyakaido/CardStackView/blob/v1/images/visible-count-3.png) |
+| | 4 | ![VisibleCount-4](https://github.com/yuyakaido/CardStackView/blob/v1/images/visible-count-4.png) |
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
@@ -45,6 +45,26 @@ CardStackView#setStackFrom(StackFrom.Bottom);
 CardStackView#setVisibleCount(3);
 or
 CardStackView#setVisibleCount(4);
+```
+
+## ElevationEnabled
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | true | ![ElevationEnabled](https://github.com/yuyakaido/CardStackView/blob/v1/images/elevation-enabled.png) |
+| | false | ![ElevationDisabled](https://github.com/yuyakaido/CardStackView/blob/v1/images/elevation-disabled.png) |
+
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+    app:isElevationEnabled="true"
+    or
+    app:isElevationEnabled="false"/>
+```
+
+```java
+CardStackView#setElevationEnabled(true);
+or
+CardStackView#setElevationEnabled(false);
 ```
 
 # Installation
