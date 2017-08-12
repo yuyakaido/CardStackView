@@ -323,6 +323,8 @@ public class CardStackView extends FrameLayout {
 
         containers.getLast().setContainerEventListener(null);
         containers.getFirst().setContainerEventListener(containerEventListener);
+
+        getTopView().setDraggable(true);
     }
 
     public void setCardEventListener(CardEventListener listener) {
