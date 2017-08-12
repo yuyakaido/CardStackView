@@ -11,20 +11,20 @@
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | Bottom | ![StackFromBottom](https://github.com/yuyakaido/CardStackView/blob/v1/images/stack-from-bottom.png) |
-| | Top | ![StackFromTop](https://github.com/yuyakaido/CardStackView/blob/v1/images/stack-from-top.png) |
+| ✅ | Top | ![StackFromTop](https://github.com/yuyakaido/CardStackView/blob/v1/images/stack-from-top.png) |
+| | Bottom | ![StackFromBottom](https://github.com/yuyakaido/CardStackView/blob/v1/images/stack-from-bottom.png) |
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
-    app:stackFrom="bottom"
+    app:stackFrom="top"
     or
-    app:stackFrom="top"/>
+    app:stackFrom="bottom"/>
 ```
 
 ```java
-CardStackView#setStackFrom(StackFrom.Bottom);
-or
 CardStackView#setStackFrom(StackFrom.Top);
+or
+CardStackView#setStackFrom(StackFrom.Bottom);
 ```
 
 ## VisibleCount
