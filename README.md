@@ -71,6 +71,26 @@ or
 CardStackView#setElevationEnabled(false);
 ```
 
+## SwipeEnabled
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | true | ![SwipeEnabled](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-enabled.gif) |
+| | false | ![SwipeDisabled](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-disabled.gif) |
+
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+    app:isSwipeEnabled="true"
+    or
+    app:isSwipeEnabled="false"/>
+```
+
+```java
+CardStackView#setSwipeEnabled(true);
+or
+CardStackView#setSwipeEnabled(false);
+```
+
 # Installation
 
 Latest version is ![Download](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)
