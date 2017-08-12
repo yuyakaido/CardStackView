@@ -36,6 +36,12 @@
 
 ![AutomaticSwipe](https://github.com/yuyakaido/CardStackView/blob/v1/images/automatic-swipe.gif)
 
+Custom animation is available when automatic swiping!
+
+```java
+CardStackView#swipe(SwipeDirection, AnimatorSet)
+```
+
 ## Move to Origin
 
 ![MoveToOrigin](https://github.com/yuyakaido/CardStackView/blob/v1/images/move-to-origin.gif)
@@ -43,6 +49,10 @@
 ## Reverse
 
 ![Reverse](https://github.com/yuyakaido/CardStackView/blob/v1/images/reverse.gif)
+
+```java
+CardStackView#reverse();
+```
 
 ## StackFrom
 
