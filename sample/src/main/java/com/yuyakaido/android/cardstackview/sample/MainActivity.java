@@ -15,8 +15,10 @@ import android.widget.ProgressBar;
 
 import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.Quadrant;
-import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeDirection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,18 +59,24 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private TouristSpotCardAdapter createCardAdapter() {
+    private List<TouristSpot> createTouristSpots() {
+        List<TouristSpot> spots = new ArrayList<>();
+        spots.add(new TouristSpot("Yasaka Shrine", "Kyoto", "https://source.unsplash.com/Xq1ntWruZQI"));
+        spots.add(new TouristSpot("Fushimi Inari Shrine", "Kyoto", "https://source.unsplash.com/NYyCqdBOKwc"));
+        spots.add(new TouristSpot("Bamboo Forest", "Kyoto", "https://source.unsplash.com/buF62ewDLcQ"));
+        spots.add(new TouristSpot("Brooklyn Bridge", "New York", "https://source.unsplash.com/THozNzxEP3g"));
+        spots.add(new TouristSpot("Empire State Building", "New York", "https://source.unsplash.com/USrZRcRS2Lw"));
+        spots.add(new TouristSpot("The statue of Liberty", "New York", "https://source.unsplash.com/PeFk7fzxTdk"));
+        spots.add(new TouristSpot("Louvre Museum", "Paris", "https://source.unsplash.com/LrMWHKqilUw"));
+        spots.add(new TouristSpot("Eiffel Tower", "Paris", "https://source.unsplash.com/HN-5Z6AmxrM"));
+        spots.add(new TouristSpot("Big Ben", "London", "https://source.unsplash.com/CdVAUADdqEc"));
+        spots.add(new TouristSpot("Great Wall of China", "China", "https://source.unsplash.com/AWh9C-QjhE4"));
+        return spots;
+    }
+
+    private TouristSpotCardAdapter createTouristSpotCardAdapter() {
         final TouristSpotCardAdapter adapter = new TouristSpotCardAdapter(getApplicationContext());
-        adapter.add(new TouristSpot("Yasaka Shrine", "Kyoto", "https://source.unsplash.com/Xq1ntWruZQI"));
-        adapter.add(new TouristSpot("Fushimi Inari Shrine", "Kyoto", "https://source.unsplash.com/NYyCqdBOKwc"));
-        adapter.add(new TouristSpot("Bamboo Forest", "Kyoto", "https://source.unsplash.com/buF62ewDLcQ"));
-        adapter.add(new TouristSpot("Brooklyn Bridge", "New York", "https://source.unsplash.com/THozNzxEP3g"));
-        adapter.add(new TouristSpot("Empire State Building", "New York", "https://source.unsplash.com/USrZRcRS2Lw"));
-        adapter.add(new TouristSpot("The statue of Liberty", "New York", "https://source.unsplash.com/PeFk7fzxTdk"));
-        adapter.add(new TouristSpot("Louvre Museum", "Paris", "https://source.unsplash.com/LrMWHKqilUw"));
-        adapter.add(new TouristSpot("Eiffel Tower", "Paris", "https://source.unsplash.com/HN-5Z6AmxrM"));
-        adapter.add(new TouristSpot("Big Ben", "London", "https://source.unsplash.com/CdVAUADdqEc"));
-        adapter.add(new TouristSpot("Great Wall of China", "China", "https://source.unsplash.com/AWh9C-QjhE4"));
+        adapter.addAll(createTouristSpots());
         return adapter;
     }
 
@@ -85,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCardSwiped(Quadrant quadrant) {
                 Log.d("CardStackView", "onCardSwiped: " + quadrant.toString());
+                if (cardStackView.getTopIndex() == adapter.getCount() - 5) {
+                    Log.d("CardStackView", "Paginate: " + cardStackView.getTopIndex());
+                    paginate();
+                }
             }
 
             @Override
@@ -110,12 +122,17 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                adapter = createCardAdapter();
+                adapter = createTouristSpotCardAdapter();
                 cardStackView.setAdapter(adapter);
                 cardStackView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
             }
         }, 1000);
+    }
+
+    private void paginate() {
+        adapter.addAll(createTouristSpots());
+        adapter.notifyDataSetChanged();
     }
 
     public void swipeLeft() {
