@@ -282,6 +282,13 @@ public class CardStackView extends FrameLayout {
         containers.addFirst(containers.removeLast());
     }
 
+    private void executePreSwipeTask() {
+        containers.getFirst().setContainerEventListener(null);
+        containers.getFirst().setDraggable(false);
+        containers.get(1).setContainerEventListener(containerEventListener);
+        containers.get(1).setDraggable(true);
+    }
+
     private void executePostSwipeTask(Point point) {
         reorderForDiscard();
 
@@ -388,6 +395,7 @@ public class CardStackView extends FrameLayout {
     }
 
     public void swipe(final Point point) {
+        executePreSwipeTask();
         performSwipe(point, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
@@ -397,6 +405,7 @@ public class CardStackView extends FrameLayout {
     }
 
     public void swipe(SwipeDirection direction, AnimatorSet set) {
+        executePreSwipeTask();
         performSwipe(direction, set, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
