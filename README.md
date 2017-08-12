@@ -168,7 +168,7 @@ CardStackView#setSwipeThreshold(0.75f);
 
 # Installation
 
-Latest version is ![Download](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)
+LatestVersion is ![Download](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)
 
 ```groovy
 dependencies {
