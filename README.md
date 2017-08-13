@@ -4,6 +4,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Download](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)](https://bintray.com/yuyakaido/maven/CardStackView/_latestVersion)
+[![CircleCI](https://circleci.com/gh/yuyakaido/CardStackView.svg?style=svg)](https://circleci.com/gh/yuyakaido/CardStackView)
 
 # Overview
 
