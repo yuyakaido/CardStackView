@@ -1,4 +1,4 @@
-![Logo](https://github.com/yuyakaido/CardStackView/blob/v1/images/logo.png)
+![Logo](https://github.com/yuyakaido/CardStackView/blob/master/images/logo.png)
 
 # CardStackView
 
@@ -7,7 +7,7 @@
 
 # Overview
 
-![Overview](https://github.com/yuyakaido/CardStackView/blob/v1/images/overview.gif)
+![Overview](https://github.com/yuyakaido/CardStackView/blob/master/images/overview.gif)
 
 # Contents
 
@@ -30,11 +30,11 @@
 
 ## Manual Swipe
 
-![ManualSwipe](https://github.com/yuyakaido/CardStackView/blob/v1/images/manual-swipe.gif)
+![ManualSwipe](https://github.com/yuyakaido/CardStackView/blob/master/images/manual-swipe.gif)
 
 ## Automatic Swipe
 
-![AutomaticSwipe](https://github.com/yuyakaido/CardStackView/blob/v1/images/automatic-swipe.gif)
+![AutomaticSwipe](https://github.com/yuyakaido/CardStackView/blob/master/images/automatic-swipe.gif)
 
 Custom animation is available when automatic swiping!
 
@@ -44,11 +44,11 @@ CardStackView#swipe(SwipeDirection, AnimatorSet)
 
 ## Move to Origin
 
-![MoveToOrigin](https://github.com/yuyakaido/CardStackView/blob/v1/images/move-to-origin.gif)
+![MoveToOrigin](https://github.com/yuyakaido/CardStackView/blob/master/images/move-to-origin.gif)
 
 ## Reverse
 
-![Reverse](https://github.com/yuyakaido/CardStackView/blob/v1/images/reverse.gif)
+![Reverse](https://github.com/yuyakaido/CardStackView/blob/master/images/reverse.gif)
 
 ```java
 CardStackView#reverse();
@@ -58,8 +58,8 @@ CardStackView#reverse();
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | Top | ![StackFrom-Top](https://github.com/yuyakaido/CardStackView/blob/v1/images/stack-from-top.png) |
-| | Bottom | ![StackFrom-Bottom](https://github.com/yuyakaido/CardStackView/blob/v1/images/stack-from-bottom.png) |
+| ✅ | Top | ![StackFrom-Top](https://github.com/yuyakaido/CardStackView/blob/master/images/stack-from-top.png) |
+| | Bottom | ![StackFrom-Bottom](https://github.com/yuyakaido/CardStackView/blob/master/images/stack-from-bottom.png) |
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
@@ -78,8 +78,8 @@ CardStackView#setStackFrom(StackFrom.Bottom);
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | 3 | ![VisibleCount-3](https://github.com/yuyakaido/CardStackView/blob/v1/images/visible-count-3.png) |
-| | 4 | ![VisibleCount-4](https://github.com/yuyakaido/CardStackView/blob/v1/images/visible-count-4.png) |
+| ✅ | 3 | ![VisibleCount-3](https://github.com/yuyakaido/CardStackView/blob/master/images/visible-count-3.png) |
+| | 4 | ![VisibleCount-4](https://github.com/yuyakaido/CardStackView/blob/master/images/visible-count-4.png) |
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
@@ -98,8 +98,8 @@ CardStackView#setVisibleCount(4);
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | true | ![ElevationEnabled](https://github.com/yuyakaido/CardStackView/blob/v1/images/elevation-enabled.png) |
-| | false | ![ElevationDisabled](https://github.com/yuyakaido/CardStackView/blob/v1/images/elevation-disabled.png) |
+| ✅ | true | ![ElevationEnabled](https://github.com/yuyakaido/CardStackView/blob/master/images/elevation-enabled.png) |
+| | false | ![ElevationDisabled](https://github.com/yuyakaido/CardStackView/blob/master/images/elevation-disabled.png) |
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
@@ -118,8 +118,8 @@ CardStackView#setElevationEnabled(false);
 
 | Value | Sample |
 | :----: | :----: |
-| Left | ![Overlay-Left](https://github.com/yuyakaido/CardStackView/blob/v1/images/overlay-left.png) |
-| Right | ![Overlay-Right](https://github.com/yuyakaido/CardStackView/blob/v1/images/overlay-right.png) |
+| Left | ![Overlay-Left](https://github.com/yuyakaido/CardStackView/blob/master/images/overlay-left.png) |
+| Right | ![Overlay-Right](https://github.com/yuyakaido/CardStackView/blob/master/images/overlay-right.png) |
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
@@ -138,8 +138,8 @@ CardStackView#setRightOverlay(R.layout.overlay_right);
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | true | ![SwipeEnabled](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-enabled.gif) |
-| | false | ![SwipeDisabled](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-disabled.gif) |
+| ✅ | true | ![SwipeEnabled](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-enabled.gif) |
+| | false | ![SwipeDisabled](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-disabled.gif) |
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
@@ -158,9 +158,9 @@ CardStackView#setSwipeEnabled(false);
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | Freedom | ![SwipeDirection-Freedom](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-direction-freedom.gif) |
-| | Horizontal | ![SwipeDirection-Horizontal](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-direction-horizontal.gif) |
-| | Vertical | ![SwipeDirection-Vertical](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-direction-vertical.gif) |
+| ✅ | Freedom | ![SwipeDirection-Freedom](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-direction-freedom.gif) |
+| | Horizontal | ![SwipeDirection-Horizontal](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-direction-horizontal.gif) |
+| | Vertical | ![SwipeDirection-Vertical](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-direction-vertical.gif) |
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
@@ -185,8 +185,8 @@ The range of SwipeThreshold is 0.0 - 1.0.
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | 0.75 | ![SwipeThreshold-75%](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-threshold-75.gif) |
-| | 0.1 | ![SwipeThreshold-10%](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-threshold-10.gif) |
+| ✅ | 0.75 | ![SwipeThreshold-75%](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-threshold-75.gif) |
+| | 0.1 | ![SwipeThreshold-10%](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-threshold-10.gif) |
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
