@@ -1,97 +1,205 @@
+![Logo](https://github.com/yuyakaido/CardStackView/blob/v1/images/logo.png)
+
 # CardStackView
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Download](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)](https://bintray.com/yuyakaido/maven/CardStackView/_latestVersion)
 
-Tinder like swipeable card view for Android
+# Overview
 
-# Sample
+![Overview](https://github.com/yuyakaido/CardStackView/blob/v1/images/overview.gif)
 
-## Swipe
+# Contents
 
-![Swipe](https://github.com/yuyakaido/CardStackView/blob/master/sample-orverview.gif)
+- [Features](#features)
+    - [Manual Swipe](#manual-swipe)
+    - [Automatic Swipe](#automatic-swipe)
+    - [Move to Origin](#move-to-origin)
+    - [Reverse](#reverse)
+    - [StackFrom](#stackfrom)
+    - [VisibleCount](#visiblecount)
+    - [ElevationEnabled](#elevationenabled)
+    - [Overlay](#overlay)
+    - [SwipeEnabled](#swipeenabled)
+    - [SwipeDirection](#swipedirection)
+    - [SwipeThreshold](#swipethreshold)
+- [Installation](#installation)
+- [License](#license)
+
+# Features
+
+## Manual Swipe
+
+![ManualSwipe](https://github.com/yuyakaido/CardStackView/blob/v1/images/manual-swipe.gif)
+
+## Automatic Swipe
+
+![AutomaticSwipe](https://github.com/yuyakaido/CardStackView/blob/v1/images/automatic-swipe.gif)
+
+Custom animation is available when automatic swiping!
+
+```java
+CardStackView#swipe(SwipeDirection, AnimatorSet)
+```
+
+## Move to Origin
+
+![MoveToOrigin](https://github.com/yuyakaido/CardStackView/blob/v1/images/move-to-origin.gif)
 
 ## Reverse
 
-![Reverse](https://github.com/yuyakaido/CardStackView/blob/master/sample-reverse.gif)
+![Reverse](https://github.com/yuyakaido/CardStackView/blob/v1/images/reverse.gif)
 
-## Custom animation
+```java
+CardStackView#reverse();
+```
 
-![Custom animation](https://github.com/yuyakaido/CardStackView/blob/master/sample-custom-animation.gif)
+## StackFrom
 
-# Requirement
-
-Android 4.0+ (API 14+)
-
-# Usage
-
-## Swipe
-
-Add CardStackView in layout file
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | Top | ![StackFrom-Top](https://github.com/yuyakaido/CardStackView/blob/v1/images/stack-from-top.png) |
+| | Bottom | ![StackFrom-Bottom](https://github.com/yuyakaido/CardStackView/blob/v1/images/stack-from-bottom.png) |
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
-    android:id="@+id/activity_main_card_stack"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="30dp"
-    android:clipChildren="false"
-    android:clipToPadding="false"/>
+    app:stackFrom="top"
+    or
+    app:stackFrom="bottom"/>
 ```
 
-Set adapter to CardStackView
-
 ```java
-CardStackView cardStackView = (CardStackView) findViewById(R.id.activity_main_card_stack);
-cardStackView.setAdapter(adapter);
+CardStackView#setStackFrom(StackFrom.Top);
+or
+CardStackView#setStackFrom(StackFrom.Bottom);
 ```
 
-## Reverse
+## VisibleCount
 
-Call reverse method
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | 3 | ![VisibleCount-3](https://github.com/yuyakaido/CardStackView/blob/v1/images/visible-count-3.png) |
+| | 4 | ![VisibleCount-4](https://github.com/yuyakaido/CardStackView/blob/v1/images/visible-count-4.png) |
 
-```java
-final CardStackView cardStackView = (CardStackView) findViewById(R.id.activity_main_card_stack_view);
-cardStackView.setAdapter(adapter);
-
-View reverseButton = findViewById(R.id.activity_main_reverse_button);
-reverseButton.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        cardStackView.reverse();
-    }
-});
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+    app:visibleCount="3"
+    or
+    app:visibleCount="4"/>
 ```
 
-## Custom animation
+```java
+CardStackView#setVisibleCount(3);
+or
+CardStackView#setVisibleCount(4);
+```
 
-Call discard mathod with custom animator
+## ElevationEnabled
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | true | ![ElevationEnabled](https://github.com/yuyakaido/CardStackView/blob/v1/images/elevation-enabled.png) |
+| | false | ![ElevationDisabled](https://github.com/yuyakaido/CardStackView/blob/v1/images/elevation-disabled.png) |
+
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+    app:elevationEnabled="true"
+    or
+    app:elevationEnabled="false"/>
+```
 
 ```java
-final CardStackView cardStackView = (CardStackView) findViewById(R.id.activity_main_card_stack_view);
-cardStackView.setAdapter(adapter);
+CardStackView#setElevationEnabled(true);
+or
+CardStackView#setElevationEnabled(false);
+```
 
-View customAnimationButton = findViewById(R.id.activity_main_custom_animation_button);
-customAnimationButton.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        ViewGroup target = cardStackView.getTopView();
-        
-        PropertyValuesHolder holderY = PropertyValuesHolder.ofFloat("translationY", 0.f, 600.f);
-        PropertyValuesHolder holderAlpha = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.8f);
-        PropertyValuesHolder holderScaleY = PropertyValuesHolder.ofFloat("scaleY", 1.0f, 0.3f);
-        PropertyValuesHolder holderScaleX = PropertyValuesHolder.ofFloat("scaleX", 1.0f, 0.3f);
-        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(target, holderY, holderScaleY, holderScaleX, holderAlpha);
-        animator.setDuration(500);
-        
-        cardStackView.discard(animator);
-    }
-});
+## Overlay
+
+| Value | Sample |
+| :----: | :----: |
+| Left | ![Overlay-Left](https://github.com/yuyakaido/CardStackView/blob/v1/images/overlay-left.png) |
+| Right | ![Overlay-Right](https://github.com/yuyakaido/CardStackView/blob/v1/images/overlay-right.png) |
+
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+    app:leftOverlay="@layout/overlay_left"
+    or
+    app:rightOverlay="@layout/overlay_right"/>
+```
+
+```java
+CardStackView#setLeftOverlay(R.layout.overlay_left);
+or
+CardStackView#setRightOverlay(R.layout.overlay_right);
+```
+
+## SwipeEnabled
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | true | ![SwipeEnabled](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-enabled.gif) |
+| | false | ![SwipeDisabled](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-disabled.gif) |
+
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+    app:swipeEnabled="true"
+    or
+    app:swipeEnabled="false"/>
+```
+
+```java
+CardStackView#setSwipeEnabled(true);
+or
+CardStackView#setSwipeEnabled(false);
+```
+
+## SwipeDirection
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | Freedom | ![SwipeDirection-Freedom](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-direction-freedom.gif) |
+| | Horizontal | ![SwipeDirection-Horizontal](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-direction-horizontal.gif) |
+| | Vertical | ![SwipeDirection-Vertical](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-direction-vertical.gif) |
+
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+    app:swipeDirection="freedom"
+    or
+    app:swipeDirection="horizontal"
+    or
+    app:swipeDirection="vertical"/>
+```
+
+```java
+CardStackView#setSwipeDirection(SwipeDirection.FREEDOM);
+or
+CardStackView#setSwipeDirection(SwipeDirection.HORIZONTAL);
+or
+CardStackView#setSwipeDirection(SwipeDirection.VERTICAL);
+```
+
+## SwipeThreshold
+
+The range of SwipeThreshold is 0.0 - 1.0.
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | 0.75 | ![SwipeThreshold-75%](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-threshold-75.gif) |
+| | 0.1 | ![SwipeThreshold-10%](https://github.com/yuyakaido/CardStackView/blob/v1/images/swipe-threshold-10.gif) |
+
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+    app:swipeThreshold="0.75"/>
+```
+
+```java
+CardStackView#setSwipeThreshold(0.75f);
 ```
 
 # Installation
 
-Latest version is ![Download](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)
+LatestVersion is ![LatestVersion](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)
 
 ```groovy
 dependencies {
@@ -102,7 +210,7 @@ dependencies {
 # License
 
 ```
-Copyright 2016 yuyakaido
+Copyright 2017 yuyakaido
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

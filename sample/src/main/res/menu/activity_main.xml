@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_activity_main_reload"
+        android:title="Reload"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_activity_main_add_first"
+        android:title="Add First"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_activity_main_add_last"
+        android:title="Add Last"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_activity_main_remove_first"
+        android:title="Remove First"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_activity_main_remove_last"
+        android:title="Remove Last"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_activity_main_swipe_left"
+        android:title="Swipe Left"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_activity_main_swipe_right"
+        android:title="Swipe Right"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_activity_main_reverse"
+        android:title="Reverse"
+        app:showAsAction="never"/>
+
+</menu>

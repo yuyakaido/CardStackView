@@ -29,7 +29,7 @@ dependencies {
 publish {
     groupId = 'com.yuyakaido.android'
     artifactId = 'card-stack-view'
-    publishVersion = '0.7.10'
+    publishVersion = '1.0.0-beta1'
     uploadName = 'CardStackView'
     website = 'https://github.com/yuyakaido/CardStackView'
 }

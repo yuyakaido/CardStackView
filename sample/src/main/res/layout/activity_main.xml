@@ -2,46 +2,32 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal">
-
-        <Button
-            android:id="@+id/activity_main_reverse_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reverse"/>
-
-        <Button
-            android:id="@+id/activity_main_custom_animation_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Custom Animation"/>
-
-        <Button
-            android:id="@+id/activity_main_elevation_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Elevation"/>
-
-    </LinearLayout>
 
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/activity_main_card_stack_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="50dp"
-        android:paddingBottom="80dp"
-        android:paddingRight="30dp"
-        android:paddingLeft="30dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"/>
+        android:paddingTop="32dp"
+        android:paddingBottom="32dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:clipToPadding="false"
+        app:visibleCount="3"
+        app:swipeThreshold="0.75"
+        app:stackFrom="top"
+        app:elevationEnabled="true"
+        app:swipeEnabled="true"
+        app:swipeDirection="horizontal"
+        app:leftOverlay="@layout/overlay_left"
+        app:rightOverlay="@layout/overlay_right"/>
+
+    <ProgressBar
+        android:id="@+id/activity_main_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>
