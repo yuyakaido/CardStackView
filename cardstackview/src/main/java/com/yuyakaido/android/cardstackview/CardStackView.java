@@ -92,6 +92,7 @@ public class CardStackView extends FrameLayout {
         setVisibleCount(array.getInt(R.styleable.CardStackView_visibleCount, option.visibleCount));
         setSwipeThreshold(array.getFloat(R.styleable.CardStackView_swipeThreshold, option.swipeThreshold));
         setTranslationDiff(array.getFloat(R.styleable.CardStackView_translationDiff, option.translationDiff));
+        setScaleDiff(array.getFloat(R.styleable.CardStackView_scaleDiff, option.scaleDiff));
         setStackFrom(StackFrom.values()[array.getInt(R.styleable.CardStackView_stackFrom, option.stackFrom.ordinal())]);
         setElevationEnabled(array.getBoolean(R.styleable.CardStackView_elevationEnabled, option.isElevationEnabled));
         setSwipeEnabled(array.getBoolean(R.styleable.CardStackView_swipeEnabled, option.isSwipeEnabled));
@@ -205,8 +206,8 @@ public class CardStackView extends FrameLayout {
         for (int i = 1; i < option.visibleCount; i++) {
             CardContainerView view = containers.get(i);
 
-            float currentScale = 1f - (i * 0.02f);
-            float nextScale = 1f - ((i - 1) * 0.02f);
+            float currentScale = 1f - (i * option.scaleDiff);
+            float nextScale = 1f - ((i - 1) * option.scaleDiff);
             float percent = currentScale + (nextScale - currentScale) * Math.abs(percentX);
             ViewCompat.setScaleX(view, percent);
             ViewCompat.setScaleY(view, percent);
@@ -366,6 +367,13 @@ public class CardStackView extends FrameLayout {
 
     public void setTranslationDiff(float translationDiff) {
         option.translationDiff = translationDiff;
+        if (adapter != null) {
+            initialize(false);
+        }
+    }
+
+    public void setScaleDiff(float scaleDiff) {
+        option.scaleDiff = scaleDiff;
         if (adapter != null) {
             initialize(false);
         }
