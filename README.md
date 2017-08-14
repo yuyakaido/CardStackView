@@ -20,6 +20,7 @@
     - [StackFrom](#stackfrom)
     - [VisibleCount](#visiblecount)
     - [ElevationEnabled](#elevationenabled)
+    - [TranslationDiff](#translationdiff)
     - [Overlay](#overlay)
     - [SwipeEnabled](#swipeenabled)
     - [SwipeDirection](#swipedirection)
@@ -113,6 +114,25 @@ CardStackView#setVisibleCount(4);
 CardStackView#setElevationEnabled(true);
 or
 CardStackView#setElevationEnabled(false);
+```
+
+## TranslationDiff
+
+The unit of TranslationDiff is **dp**.
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| | 8dp | ![TranslationDiff-18](https://github.com/yuyakaido/CardStackView/blob/master/images/translation-diff-8.png) |
+| ✅ | 12dp | ![TranslationDiff-12](https://github.com/yuyakaido/CardStackView/blob/master/images/translation-diff-12.png) |
+| | 16dp | ![TranslationDiff-16](https://github.com/yuyakaido/CardStackView/blob/master/images/translation-diff-16.png) |
+
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+    app:translationDiff="12"/>
+```
+
+```java
+CardStackView#setTranslationDiff(12f);
 ```
 
 ## Overlay
