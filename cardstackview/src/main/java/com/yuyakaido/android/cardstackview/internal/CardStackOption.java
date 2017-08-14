@@ -8,6 +8,7 @@ import java.util.List;
 public class CardStackOption {
     public int visibleCount = 3;
     public float swipeThreshold = 0.75f;
+    public float translationDiff = 12f; // DP
     public StackFrom stackFrom = StackFrom.DEFAULT;
     public boolean isElevationEnabled = true;
     public boolean isSwipeEnabled = true;

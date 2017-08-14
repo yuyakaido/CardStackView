@@ -1,5 +1,6 @@
 package com.yuyakaido.android.cardstackview.internal;
 
+import android.content.Context;
 import android.graphics.Point;
 
 import com.yuyakaido.android.cardstackview.Quadrant;
@@ -7,6 +8,11 @@ import com.yuyakaido.android.cardstackview.Quadrant;
 public class Util {
 
     private Util() {}
+
+    public static float toPx(Context context, float dp) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        return dp * scale + 0.5f;
+    }
 
     public static double getRadian(float x1, float y1, float x2, float y2) {
         float width = x2 - x1;
