@@ -26,4 +26,4 @@ jobs:
           path: cardstackview/build/reports
           destination: reports
       - store_test_results:
-          path: app/build/test-results
+          path: cardstackview/build/test-results
