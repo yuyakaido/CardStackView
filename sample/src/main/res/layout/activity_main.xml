@@ -17,6 +17,7 @@
         android:clipToPadding="false"
         app:visibleCount="3"
         app:swipeThreshold="0.75"
+        app:translationDiff="12"
         app:stackFrom="top"
         app:elevationEnabled="true"
         app:swipeEnabled="true"
