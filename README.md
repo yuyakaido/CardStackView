@@ -21,6 +21,7 @@
     - [VisibleCount](#visiblecount)
     - [ElevationEnabled](#elevationenabled)
     - [TranslationDiff](#translationdiff)
+    - [ScaleDiff](#scalediff)
     - [Overlay](#overlay)
     - [SwipeEnabled](#swipeenabled)
     - [SwipeDirection](#swipedirection)
@@ -133,6 +134,24 @@ The unit of TranslationDiff is **dp**.
 
 ```java
 CardStackView#setTranslationDiff(12f);
+```
+
+## ScaleDiff
+
+The range of ScaleDiff is 0.0 - 1.0.
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | 0.02 | ![ScaleDiff-2](https://github.com/yuyakaido/CardStackView/blob/master/images/scale-diff-2.png) |
+| | 0.1 | ![ScaleDiff-10](https://github.com/yuyakaido/CardStackView/blob/master/images/scale-diff-10.png) |
+
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+    app:scaleDiff="0.02"/>
+```
+
+```java
+CardStackView#setScaleDiff(0.02f);
 ```
 
 ## Overlay
