@@ -9,7 +9,7 @@
 
 # Overview
 
-![Overview](https://github.com/yuyakaido/CardStackView/blob/master/images/overview.gif)
+![Overview](https://github.com/yuyakaido/CardStackView/blob/master/images/overview-github.gif)
 
 # Contents
 
