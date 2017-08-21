@@ -22,9 +22,10 @@
         app:stackFrom="top"
         app:elevationEnabled="true"
         app:swipeEnabled="true"
-        app:swipeDirection="horizontal"
+        app:swipeDirection="freedom_no_bottom"
         app:leftOverlay="@layout/overlay_left"
-        app:rightOverlay="@layout/overlay_right"/>
+        app:rightOverlay="@layout/overlay_right"
+        app:topOverlay="@layout/overlay_top" />
 
     <ProgressBar
         android:id="@+id/activity_main_progress_bar"

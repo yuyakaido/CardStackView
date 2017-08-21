@@ -14,10 +14,13 @@
         <attr name="swipeEnabled" format="boolean"/>
         <attr name="swipeDirection" format="enum">
             <enum name="freedom" value="0"/>
-            <enum name="horizontal" value="1"/>
-            <enum name="vertical" value="2"/>
+            <enum name="freedom_no_bottom" value="1"/>
+            <enum name="horizontal" value="2"/>
+            <enum name="vertical" value="3"/>
         </attr>
         <attr name="leftOverlay" format="reference"/>
         <attr name="rightOverlay" format="reference"/>
+        <attr name="bottomOverlay" format="reference"/>
+        <attr name="topOverlay" format="reference"/>
     </declare-styleable>
 </resources>
