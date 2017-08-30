@@ -99,6 +99,8 @@ public class CardStackView extends FrameLayout {
         setSwipeDirection(SwipeDirection.from(array.getInt(R.styleable.CardStackView_swipeDirection, 0)));
         setLeftOverlay(array.getResourceId(R.styleable.CardStackView_leftOverlay, 0));
         setRightOverlay(array.getResourceId(R.styleable.CardStackView_rightOverlay, 0));
+        setBottomOverlay(array.getResourceId(R.styleable.CardStackView_bottomOverlay, 0));
+        setTopOverlay(array.getResourceId(R.styleable.CardStackView_topOverlay, 0));
         array.recycle();
     }
 
@@ -125,7 +127,7 @@ public class CardStackView extends FrameLayout {
                     .inflate(R.layout.card_container, this, false);
             view.setDraggable(false);
             view.setCardStackOption(option);
-            view.setOverlay(option.leftOverlay, option.rightOverlay);
+            view.setOverlay(option.leftOverlay, option.rightOverlay, option.bottomOverlay, option.topOverlay);
             containers.add(0, view);
             addView(view);
         }
@@ -255,6 +257,12 @@ public class CardStackView extends FrameLayout {
             getTopView().setOverlayAlpha(1f);
         } else if (direction == SwipeDirection.Right) {
             getTopView().showRightOverlay();
+            getTopView().setOverlayAlpha(1f);
+        } else if (direction == SwipeDirection.Bottom){
+            getTopView().showBottomOverlay();
+            getTopView().setOverlayAlpha(1f);
+        } else if (direction == SwipeDirection.Top){
+            getTopView().showTopOverlay();
             getTopView().setOverlayAlpha(1f);
         }
         set.addListener(listener);
@@ -416,6 +424,20 @@ public class CardStackView extends FrameLayout {
 
     public void setRightOverlay(int rightOverlay) {
         option.rightOverlay = rightOverlay;
+        if (adapter != null) {
+            initialize(false);
+        }
+    }
+
+    public void setBottomOverlay(int bottomOverlay) {
+        option.bottomOverlay = bottomOverlay;
+        if (adapter != null) {
+            initialize(false);
+        }
+    }
+
+    public void setTopOverlay(int topOverlay) {
+        option.topOverlay = topOverlay;
         if (adapter != null) {
             initialize(false);
         }

@@ -32,6 +32,8 @@ public class CardContainerView extends FrameLayout {
     private ViewGroup overlayContainer = null;
     private View leftOverlayView = null;
     private View rightOverlayView = null;
+    private View bottomOverlayView = null;
+    private View topOverlayView = null;
 
     private ContainerEventListener containerEventListener = null;
     private GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
@@ -139,7 +141,7 @@ public class CardContainerView extends FrameLayout {
                     if (Math.cos(radian) < -0.5) {
                         direction = SwipeDirection.Left;
                     } else {
-                        direction = SwipeDirection.Top;
+                        direction = SwipeDirection.Bottom;
                     }
                     break;
                 case BottomRight:
@@ -148,7 +150,7 @@ public class CardContainerView extends FrameLayout {
                     radian = Math.toRadians(degree);
                     if (Math.cos(radian) < 0.5) {
                         direction = SwipeDirection.Bottom;
-                    } else {
+                    }else{
                         direction = SwipeDirection.Right;
                     }
                     break;
@@ -206,12 +208,24 @@ public class CardContainerView extends FrameLayout {
     }
 
     private void updateAlpha() {
-        if (getPercentX() < 0) {
-            showLeftOverlay();
-        } else {
-            showRightOverlay();
+        float percentX = getPercentX();
+        float percentY = getPercentY();
+
+        if (Math.abs(percentX) > Math.abs(percentY)){
+            if (percentX < 0) {
+                showLeftOverlay();
+            } else {
+                showRightOverlay();
+            }
+            setOverlayAlpha(Math.abs(percentX));
+        }else{
+            if (percentY < 0) {
+                showTopOverlay();
+            } else {
+                showBottomOverlay();
+            }
+            setOverlayAlpha(Math.abs(percentY));
         }
-        setOverlayAlpha(Math.abs(getPercentX()));
     }
 
     private void moveToOrigin() {
@@ -250,7 +264,7 @@ public class CardContainerView extends FrameLayout {
         return overlayContainer;
     }
 
-    public void setOverlay(int left, int right) {
+    public void setOverlay(int left, int right, int bottom, int top) {
         if (leftOverlayView != null) {
             overlayContainer.removeView(leftOverlayView);
         }
@@ -268,6 +282,24 @@ public class CardContainerView extends FrameLayout {
             overlayContainer.addView(rightOverlayView);
             ViewCompat.setAlpha(rightOverlayView, 0f);
         }
+
+        if (bottomOverlayView != null) {
+            overlayContainer.removeView(bottomOverlayView);
+        }
+        if (bottom != 0) {
+            bottomOverlayView = LayoutInflater.from(getContext()).inflate(bottom, overlayContainer, false);
+            overlayContainer.addView(bottomOverlayView);
+            ViewCompat.setAlpha(bottomOverlayView, 0f);
+        }
+
+        if (topOverlayView != null) {
+            overlayContainer.removeView(topOverlayView);
+        }
+        if (top != 0) {
+            topOverlayView = LayoutInflater.from(getContext()).inflate(top, overlayContainer, false);
+            overlayContainer.addView(topOverlayView);
+            ViewCompat.setAlpha(topOverlayView, 0f);
+        }
     }
 
     public void setOverlayAlpha(float alpha) {
@@ -281,14 +313,66 @@ public class CardContainerView extends FrameLayout {
         if (rightOverlayView != null) {
             ViewCompat.setAlpha(rightOverlayView, 0f);
         }
+        if (bottomOverlayView != null) {
+            ViewCompat.setAlpha(bottomOverlayView, 0f);
+        }
+        if (topOverlayView != null) {
+            ViewCompat.setAlpha(topOverlayView, 0f);
+        }
     }
 
     public void showRightOverlay() {
         if (leftOverlayView != null) {
             ViewCompat.setAlpha(leftOverlayView, 0f);
         }
+
+        if (bottomOverlayView != null) {
+            ViewCompat.setAlpha(bottomOverlayView, 0f);
+        }
+
+        if (topOverlayView != null) {
+            ViewCompat.setAlpha(topOverlayView, 0f);
+        }
+
         if (rightOverlayView != null) {
             ViewCompat.setAlpha(rightOverlayView, 1f);
+        }
+    }
+
+    public void showBottomOverlay() {
+        if (leftOverlayView != null) {
+            ViewCompat.setAlpha(leftOverlayView, 0f);
+        }
+
+        if (bottomOverlayView != null) {
+            ViewCompat.setAlpha(bottomOverlayView, 1f);
+        }
+
+        if (topOverlayView != null) {
+            ViewCompat.setAlpha(topOverlayView, 0f);
+        }
+
+        if (rightOverlayView != null) {
+            ViewCompat.setAlpha(rightOverlayView, 0f);
+        }
+    }
+
+
+    public void showTopOverlay() {
+        if (leftOverlayView != null) {
+            ViewCompat.setAlpha(leftOverlayView, 0f);
+        }
+
+        if (bottomOverlayView != null) {
+            ViewCompat.setAlpha(bottomOverlayView, 0f);
+        }
+
+        if (topOverlayView != null) {
+            ViewCompat.setAlpha(topOverlayView, 1f);
+        }
+
+        if (rightOverlayView != null) {
+            ViewCompat.setAlpha(rightOverlayView, 0f);
         }
     }
 

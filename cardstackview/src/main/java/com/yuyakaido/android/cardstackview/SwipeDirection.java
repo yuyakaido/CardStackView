@@ -8,6 +8,8 @@ public enum SwipeDirection {
 
     public static final List<SwipeDirection> FREEDOM = Arrays
             .asList(SwipeDirection.values());
+    public static final List<SwipeDirection> FREEDOM_NO_BOTTOM = Arrays
+            .asList(SwipeDirection.Top,SwipeDirection.Left, SwipeDirection.Right);
     public static final List<SwipeDirection> HORIZONTAL = Arrays
             .asList(SwipeDirection.Left, SwipeDirection.Right);
     public static final List<SwipeDirection> VERTICAL = Arrays
@@ -18,8 +20,10 @@ public enum SwipeDirection {
             case 0:
                 return FREEDOM;
             case 1:
-                return HORIZONTAL;
+                return FREEDOM_NO_BOTTOM;
             case 2:
+                return HORIZONTAL;
+            case 3:
                 return VERTICAL;
             default:
                 return FREEDOM;
