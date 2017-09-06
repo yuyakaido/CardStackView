@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.yuyakaido.android.cardstackview.CardStackView;
-import com.yuyakaido.android.cardstackview.Quadrant;
 import com.yuyakaido.android.cardstackview.SwipeDirection;
 
 import java.util.ArrayList;
@@ -108,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCardSwiped(Quadrant quadrant) {
-                Log.d("CardStackView", "onCardSwiped: " + quadrant.toString());
+            public void onCardSwiped(SwipeDirection direction) {
+                Log.d("CardStackView", "onCardSwiped: " + direction.toString());
                 Log.d("CardStackView", "topIndex: " + cardStackView.getTopIndex());
                 if (cardStackView.getTopIndex() == adapter.getCount() - 5) {
                     Log.d("CardStackView", "Paginate: " + cardStackView.getTopIndex());

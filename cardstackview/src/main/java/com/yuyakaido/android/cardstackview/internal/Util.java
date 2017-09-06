@@ -3,8 +3,6 @@ package com.yuyakaido.android.cardstackview.internal;
 import android.content.Context;
 import android.graphics.Point;
 
-import com.yuyakaido.android.cardstackview.Quadrant;
-
 public class Util {
 
     private Util() {}
