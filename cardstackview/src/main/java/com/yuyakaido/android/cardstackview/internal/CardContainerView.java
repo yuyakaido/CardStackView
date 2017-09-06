@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 
-import com.yuyakaido.android.cardstackview.Quadrant;
 import com.yuyakaido.android.cardstackview.R;
 import com.yuyakaido.android.cardstackview.SwipeDirection;
 
@@ -49,7 +48,7 @@ public class CardContainerView extends FrameLayout {
 
     public interface ContainerEventListener {
         void onContainerDragging(float percentX, float percentY);
-        void onContainerSwiped(Point point);
+        void onContainerSwiped(Point point, SwipeDirection direction);
         void onContainerMovedToOrigin();
         void onContainerClicked();
     }
@@ -166,7 +165,7 @@ public class CardContainerView extends FrameLayout {
             if (Math.abs(percent) > option.swipeThreshold) {
                 if (option.swipeDirection.contains(direction)) {
                     if (containerEventListener != null) {
-                        containerEventListener.onContainerSwiped(point);
+                        containerEventListener.onContainerSwiped(point, direction);
                     }
                 } else {
                     moveToOrigin();

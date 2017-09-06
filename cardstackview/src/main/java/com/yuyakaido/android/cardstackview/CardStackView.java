@@ -27,7 +27,7 @@ public class CardStackView extends FrameLayout {
 
     public interface CardEventListener {
         void onCardDragging(float percentX, float percentY);
-        void onCardSwiped(Quadrant quadrant);
+        void onCardSwiped(SwipeDirection direction);
         void onCardReversed();
         void onCardMovedToOrigin();
         void onCardClicked(int index);
@@ -59,8 +59,8 @@ public class CardStackView extends FrameLayout {
             update(percentX, percentY);
         }
         @Override
-        public void onContainerSwiped(Point point) {
-            swipe(point);
+        public void onContainerSwiped(Point point, SwipeDirection direction) {
+            swipe(point, direction);
         }
         @Override
         public void onContainerMovedToOrigin() {
@@ -307,7 +307,7 @@ public class CardStackView extends FrameLayout {
         containers.get(1).setDraggable(true);
     }
 
-    private void executePostSwipeTask(Point point) {
+    private void executePostSwipeTask(Point point, SwipeDirection direction) {
         reorderForSwipe();
 
         state.lastPoint = point;
@@ -317,9 +317,7 @@ public class CardStackView extends FrameLayout {
         state.topIndex++;
 
         if (cardEventListener != null) {
-            cardEventListener.onCardSwiped(Util.getQuadrant(
-                    getTopView().getViewOriginX(), getTopView().getViewOriginY(),
-                    point.x, -point.y));
+            cardEventListener.onCardSwiped(direction);
         }
 
         loadNextView();
@@ -447,22 +445,22 @@ public class CardStackView extends FrameLayout {
         state.isPaginationReserved = true;
     }
 
-    public void swipe(final Point point) {
+    public void swipe(final Point point, final SwipeDirection direction) {
         executePreSwipeTask();
         performSwipe(point, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
-                executePostSwipeTask(point);
+                executePostSwipeTask(point, direction);
             }
         });
     }
 
-    public void swipe(SwipeDirection direction, AnimatorSet set) {
+    public void swipe(final SwipeDirection direction, AnimatorSet set) {
         executePreSwipeTask();
         performSwipe(direction, set, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
-                executePostSwipeTask(new Point(0, -2000));
+                executePostSwipeTask(new Point(0, -2000), direction);
             }
         });
     }
