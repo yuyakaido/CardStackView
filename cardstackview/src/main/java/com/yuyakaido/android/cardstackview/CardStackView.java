@@ -3,6 +3,7 @@ package com.yuyakaido.android.cardstackview;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.animation.TimeInterpolator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
@@ -266,6 +267,14 @@ public class CardStackView extends FrameLayout {
             getTopView().setOverlayAlpha(1f);
         }
         set.addListener(listener);
+        set.setInterpolator(new TimeInterpolator() {
+            @Override
+            public float getInterpolation(float input) {
+                CardContainerView view = getTopView();
+                update(view.getPercentX(), view.getPercentY());
+                return input;
+            }
+        });
         set.start();
     }
 
