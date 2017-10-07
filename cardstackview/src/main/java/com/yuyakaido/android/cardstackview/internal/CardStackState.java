@@ -7,4 +7,5 @@ public class CardStackState {
     public Point lastPoint = null;
     public Integer lastCount = null;
     public boolean isPaginationReserved = false;
+    public boolean isInitialized = false;
 }
