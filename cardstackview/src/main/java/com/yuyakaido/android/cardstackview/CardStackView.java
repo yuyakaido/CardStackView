@@ -105,6 +105,14 @@ public class CardStackView extends FrameLayout {
         array.recycle();
     }
 
+    @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+        if (state.isInitialized && visibility == View.VISIBLE) {
+            initializeCardStackPosition();
+        }
+    }
+
     private void initialize(boolean shouldReset) {
         resetIfNeeded(shouldReset);
         initializeViews();
@@ -116,6 +124,7 @@ public class CardStackView extends FrameLayout {
         if (shouldReset) {
             state.topIndex = 0;
             state.lastPoint = null;
+            state.isInitialized = false;
         }
     }
 
@@ -134,6 +143,8 @@ public class CardStackView extends FrameLayout {
         }
 
         containers.getFirst().setContainerEventListener(containerEventListener);
+
+        state.isInitialized = true;
     }
 
     private void initializeCardStackPosition() {
