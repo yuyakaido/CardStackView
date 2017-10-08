@@ -122,9 +122,7 @@ public class CardStackView extends FrameLayout {
 
     private void resetIfNeeded(boolean shouldReset) {
         if (shouldReset) {
-            state.topIndex = 0;
-            state.lastPoint = null;
-            state.isInitialized = false;
+            state.reset();
         }
     }
 
