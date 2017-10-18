@@ -82,6 +82,8 @@ CardStackView#setStackFrom(StackFrom.Bottom);
 
 ## VisibleCount
 
+This value must be greater than 0.
+
 | Default | Value | Sample |
 | :----: | :----: | :----: |
 | ✅ | 3 | ![VisibleCount-3](https://github.com/yuyakaido/CardStackView/blob/master/images/visible-count-3.png) |
