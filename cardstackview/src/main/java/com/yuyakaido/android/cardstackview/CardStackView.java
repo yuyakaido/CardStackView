@@ -321,8 +321,10 @@ public class CardStackView extends FrameLayout {
     private void executePreSwipeTask() {
         containers.getFirst().setContainerEventListener(null);
         containers.getFirst().setDraggable(false);
-        containers.get(1).setContainerEventListener(containerEventListener);
-        containers.get(1).setDraggable(true);
+        if (containers.size() > 1) {
+            containers.get(1).setContainerEventListener(containerEventListener);
+            containers.get(1).setDraggable(true);
+        }
     }
 
     private void executePostSwipeTask(Point point, SwipeDirection direction) {
