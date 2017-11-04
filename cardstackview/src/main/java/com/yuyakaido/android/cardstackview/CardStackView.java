@@ -13,7 +13,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 
 import com.yuyakaido.android.cardstackview.internal.CardContainerView;
@@ -37,7 +37,7 @@ public class CardStackView extends FrameLayout {
     private CardStackOption option = new CardStackOption();
     private CardStackState state = new CardStackState();
 
-    private ArrayAdapter<?> adapter = null;
+    private BaseAdapter adapter = null;
     private LinkedList<CardContainerView> containers = new LinkedList<>();
     private CardEventListener cardEventListener = null;
     private DataSetObserver dataSetObserver = new DataSetObserver() {
@@ -367,7 +367,7 @@ public class CardStackView extends FrameLayout {
         this.cardEventListener = listener;
     }
 
-    public void setAdapter(ArrayAdapter<?> adapter) {
+    public void setAdapter(BaseAdapter adapter) {
         if (this.adapter != null) {
             this.adapter.unregisterDataSetObserver(dataSetObserver);
         }
