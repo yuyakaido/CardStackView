@@ -19,7 +19,7 @@
         app:swipeThreshold="0.75"
         app:translationDiff="12"
         app:scaleDiff="0.02"
-        app:stackFromY="none"
+        app:stackFromY="top"
         app:stackFromX="right"
         app:elevationEnabled="true"
         app:swipeEnabled="true"
