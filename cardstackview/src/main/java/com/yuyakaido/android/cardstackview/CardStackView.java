@@ -50,7 +50,11 @@ public class CardStackView extends FrameLayout {
                 boolean isSameCount = state.lastCount == adapter.getCount();
                 shouldReset = !isSameCount;
             }
-            initialize(shouldReset);
+            if (shouldReset) {
+                initialize(true);
+            } else {
+                initializeViewContents();
+            }
             state.lastCount = adapter.getCount();
         }
     };
