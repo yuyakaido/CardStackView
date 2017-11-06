@@ -1,6 +1,7 @@
 package com.yuyakaido.android.cardstackview.internal;
 
-import com.yuyakaido.android.cardstackview.StackFrom;
+import com.yuyakaido.android.cardstackview.StackFromX;
+import com.yuyakaido.android.cardstackview.StackFromY;
 import com.yuyakaido.android.cardstackview.SwipeDirection;
 
 import java.util.List;
@@ -10,7 +11,8 @@ public class CardStackOption {
     public float swipeThreshold = 0.75f; // Percentage
     public float translationDiff = 12f; // DP
     public float scaleDiff = 0.02f; // Percentage
-    public StackFrom stackFrom = StackFrom.DEFAULT;
+    public StackFromY stackFromY = StackFromY.DEFAULT;
+    public StackFromX stackFromX = StackFromX.DEFAULT;
     public boolean isElevationEnabled = true;
     public boolean isSwipeEnabled = true;
     public int leftOverlay = 0; // Layout Resource ID

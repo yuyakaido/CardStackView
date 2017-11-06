@@ -94,7 +94,10 @@ public class CardStackView extends FrameLayout {
         setSwipeThreshold(array.getFloat(R.styleable.CardStackView_swipeThreshold, option.swipeThreshold));
         setTranslationDiff(array.getFloat(R.styleable.CardStackView_translationDiff, option.translationDiff));
         setScaleDiff(array.getFloat(R.styleable.CardStackView_scaleDiff, option.scaleDiff));
-        setStackFrom(StackFrom.values()[array.getInt(R.styleable.CardStackView_stackFrom, option.stackFrom.ordinal())]);
+        setStackFrom(
+                StackFromY.values()[array.getInt(R.styleable.CardStackView_stackFromY, option.stackFromY.ordinal())],
+                StackFromX.values()[array.getInt(R.styleable.CardStackView_stackFromX, option.stackFromX.ordinal())]
+        );
         setElevationEnabled(array.getBoolean(R.styleable.CardStackView_elevationEnabled, option.isElevationEnabled));
         setSwipeEnabled(array.getBoolean(R.styleable.CardStackView_swipeEnabled, option.isSwipeEnabled));
         setSwipeDirection(SwipeDirection.from(array.getInt(R.styleable.CardStackView_swipeDirection, 0)));
@@ -225,16 +228,34 @@ public class CardStackView extends FrameLayout {
             ViewCompat.setScaleY(view, percent);
 
             float currentTranslationY = i * Util.toPx(getContext(), option.translationDiff);
-            if (option.stackFrom == StackFrom.Top) {
-                currentTranslationY *= -1;
-            }
-
+            float currentTranslationX = i * Util.toPx(getContext(), option.translationDiff);
             float nextTranslationY = (i - 1) * Util.toPx(getContext(), option.translationDiff);
-            if (option.stackFrom == StackFrom.Top) {
-                nextTranslationY *= -1;
+            float nextTranslationX = (i - 1) * Util.toPx(getContext(), option.translationDiff);
+
+            switch (option.stackFromY) {
+                case Top:
+                    currentTranslationY *= -1;
+                    nextTranslationY *= -1;
+                    break;
+                case None:
+                    currentTranslationY = 0;
+                    nextTranslationY = 0;
+                    break;
+            }
+            switch (option.stackFromX) {
+                case Left:
+                    currentTranslationX *= -1;
+                    nextTranslationX *= -1;
+                    break;
+                case None:
+                    currentTranslationX = 0;
+                    nextTranslationX = 0;
+                    break;
             }
 
             float translationY = currentTranslationY - Math.abs(percentX) * (currentTranslationY - nextTranslationY);
+            float translationX = currentTranslationX - Math.abs(percentX) * (currentTranslationX - nextTranslationX);
+            ViewCompat.setTranslationX(view, translationX);
             ViewCompat.setTranslationY(view, translationY);
         }
     }
@@ -405,8 +426,17 @@ public class CardStackView extends FrameLayout {
         }
     }
 
-    public void setStackFrom(StackFrom stackFrom) {
-        option.stackFrom = stackFrom;
+    public void setStackFrom(StackFromY stackFromY) {
+        setStackFrom(stackFromY, option.stackFromX);
+    }
+
+    public void setStackFrom(StackFromX stackFromX) {
+        setStackFrom(option.stackFromY, stackFromX);
+    }
+
+    public void setStackFrom(StackFromY stackFromY, StackFromX stackFromX) {
+        option.stackFromY = stackFromY;
+        option.stackFromX = stackFromX;
         if (adapter != null) {
             initialize(false);
         }
