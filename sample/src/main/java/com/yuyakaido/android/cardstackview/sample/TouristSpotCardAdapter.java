@@ -44,9 +44,9 @@ public class TouristSpotCardAdapter extends ArrayAdapter<TouristSpot> {
         public ImageView image;
 
         public ViewHolder(View view) {
-            this.name = (TextView) view.findViewById(R.id.item_tourist_spot_card_name);
-            this.city = (TextView) view.findViewById(R.id.item_tourist_spot_card_city);
-            this.image = (ImageView) view.findViewById(R.id.item_tourist_spot_card_image);
+            this.name = view.findViewById(R.id.item_tourist_spot_card_name);
+            this.city = view.findViewById(R.id.item_tourist_spot_card_city);
+            this.image = view.findViewById(R.id.item_tourist_spot_card_image);
         }
     }
 

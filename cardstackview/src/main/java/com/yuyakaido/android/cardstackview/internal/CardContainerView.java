@@ -69,8 +69,8 @@ public class CardContainerView extends FrameLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         inflate(getContext(), R.layout.card_frame, this);
-        contentContainer = (ViewGroup) findViewById(R.id.card_frame_content_container);
-        overlayContainer = (ViewGroup) findViewById(R.id.card_frame_overlay_container);
+        contentContainer = findViewById(R.id.card_frame_content_container);
+        overlayContainer = findViewById(R.id.card_frame_overlay_container);
     }
 
     @Override

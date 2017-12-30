@@ -97,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setup() {
-        progressBar = (ProgressBar) findViewById(R.id.activity_main_progress_bar);
+        progressBar = findViewById(R.id.activity_main_progress_bar);
 
-        cardStackView = (CardStackView) findViewById(R.id.activity_main_card_stack_view);
+        cardStackView = findViewById(R.id.activity_main_card_stack_view);
         cardStackView.setCardEventListener(new CardStackView.CardEventListener() {
             @Override
             public void onCardDragging(float percentX, float percentY) {
