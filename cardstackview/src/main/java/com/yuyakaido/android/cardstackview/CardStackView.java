@@ -21,6 +21,7 @@ import com.yuyakaido.android.cardstackview.internal.CardStackOption;
 import com.yuyakaido.android.cardstackview.internal.CardStackState;
 import com.yuyakaido.android.cardstackview.internal.Util;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -94,7 +95,7 @@ public class CardStackView extends FrameLayout {
         setSwipeThreshold(array.getFloat(R.styleable.CardStackView_swipeThreshold, option.swipeThreshold));
         setTranslationDiff(array.getFloat(R.styleable.CardStackView_translationDiff, option.translationDiff));
         setScaleDiff(array.getFloat(R.styleable.CardStackView_scaleDiff, option.scaleDiff));
-        setStackFrom(StackFrom.values()[array.getInt(R.styleable.CardStackView_stackFrom, option.stackFrom.ordinal())]);
+        setStackFrom(StackFrom.values()[array.getInt(R.styleable.CardStackView_stackFrom, StackFrom.Top.ordinal())]);
         setElevationEnabled(array.getBoolean(R.styleable.CardStackView_elevationEnabled, option.isElevationEnabled));
         setSwipeEnabled(array.getBoolean(R.styleable.CardStackView_swipeEnabled, option.isSwipeEnabled));
         setSwipeDirection(SwipeDirection.from(array.getInt(R.styleable.CardStackView_swipeDirection, 0)));
@@ -225,17 +226,29 @@ public class CardStackView extends FrameLayout {
             ViewCompat.setScaleY(view, percent);
 
             float currentTranslationY = i * Util.toPx(getContext(), option.translationDiff);
-            if (option.stackFrom == StackFrom.Top) {
+            if (option.stackFrom.contains(StackFrom.Top)) {
                 currentTranslationY *= -1;
             }
 
             float nextTranslationY = (i - 1) * Util.toPx(getContext(), option.translationDiff);
-            if (option.stackFrom == StackFrom.Top) {
+            if (option.stackFrom.contains(StackFrom.Top)) {
                 nextTranslationY *= -1;
+            }
+
+            float currentTranslationX = i * Util.toPx(getContext(), option.translationDiff);
+            if (option.stackFrom.contains(StackFrom.Left)) {
+                currentTranslationX *= -1;
+            }
+
+            float nextTranslationX = (i - 1) * Util.toPx(getContext(), option.translationDiff);
+            if (option.stackFrom.contains(StackFrom.Left)) {
+                nextTranslationX *= -1;
             }
 
             float translationY = currentTranslationY - Math.abs(percentX) * (currentTranslationY - nextTranslationY);
             ViewCompat.setTranslationY(view, translationY);
+            float translationX = currentTranslationX - Math.abs(percentX) * (currentTranslationX - nextTranslationX);
+            ViewCompat.setTranslationX(view, translationX);
         }
     }
 
@@ -406,6 +419,13 @@ public class CardStackView extends FrameLayout {
     }
 
     public void setStackFrom(StackFrom stackFrom) {
+        option.stackFrom = Collections.singletonList(stackFrom);
+        if (adapter != null) {
+            initialize(false);
+        }
+    }
+
+    public void setStackFrom(List<StackFrom> stackFrom) {
         option.stackFrom = stackFrom;
         if (adapter != null) {
             initialize(false);

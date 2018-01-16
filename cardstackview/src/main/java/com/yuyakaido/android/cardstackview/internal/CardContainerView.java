@@ -16,6 +16,11 @@ import android.widget.FrameLayout;
 import com.yuyakaido.android.cardstackview.R;
 import com.yuyakaido.android.cardstackview.SwipeDirection;
 
+import static com.yuyakaido.android.cardstackview.SwipeDirection.Bottom;
+import static com.yuyakaido.android.cardstackview.SwipeDirection.Left;
+import static com.yuyakaido.android.cardstackview.SwipeDirection.Right;
+import static com.yuyakaido.android.cardstackview.SwipeDirection.Top;
+
 public class CardContainerView extends FrameLayout {
 
     private CardStackOption option;
@@ -91,10 +96,13 @@ public class CardContainerView extends FrameLayout {
                 getParent().getParent().requestDisallowInterceptTouchEvent(false);
                 break;
             case MotionEvent.ACTION_CANCEL:
+                handleActionUp(event);
                 getParent().getParent().requestDisallowInterceptTouchEvent(false);
                 break;
             case MotionEvent.ACTION_MOVE:
-                handleActionMove(event);
+                if (!handleActionMove(event)) {
+                    getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                }
                 break;
         }
 
@@ -114,51 +122,7 @@ public class CardContainerView extends FrameLayout {
             float motionCurrentY = event.getRawY();
 
             Point point = Util.getTargetPoint(motionOriginX, motionOriginY, motionCurrentX, motionCurrentY);
-            Quadrant quadrant = Util.getQuadrant(motionOriginX, motionOriginY, motionCurrentX, motionCurrentY);
-            double radian = Util.getRadian(motionOriginX, motionOriginY, motionCurrentX, motionCurrentY);
-            double degree = 0;
-            SwipeDirection direction = null;
-            switch (quadrant) {
-                case TopLeft:
-                    degree = Math.toDegrees(radian);
-                    degree = 180 - degree;
-                    radian = Math.toRadians(degree);
-                    if (Math.cos(radian) < -0.5) {
-                        direction = SwipeDirection.Left;
-                    } else {
-                        direction = SwipeDirection.Top;
-                    }
-                    break;
-                case TopRight:
-                    degree = Math.toDegrees(radian);
-                    radian = Math.toRadians(degree);
-                    if (Math.cos(radian) < 0.5) {
-                        direction = SwipeDirection.Top;
-                    } else {
-                        direction = SwipeDirection.Right;
-                    }
-                    break;
-                case BottomLeft:
-                    degree = Math.toDegrees(radian);
-                    degree = 180 + degree;
-                    radian = Math.toRadians(degree);
-                    if (Math.cos(radian) < -0.5) {
-                        direction = SwipeDirection.Left;
-                    } else {
-                        direction = SwipeDirection.Bottom;
-                    }
-                    break;
-                case BottomRight:
-                    degree = Math.toDegrees(radian);
-                    degree = 360 - degree;
-                    radian = Math.toRadians(degree);
-                    if (Math.cos(radian) < 0.5) {
-                        direction = SwipeDirection.Bottom;
-                    }else{
-                        direction = SwipeDirection.Right;
-                    }
-                    break;
-            }
+            SwipeDirection direction = getDirection(motionCurrentX, motionCurrentY);
 
             float percent = 0f;
             if (direction == SwipeDirection.Left || direction == SwipeDirection.Right) {
@@ -190,21 +154,31 @@ public class CardContainerView extends FrameLayout {
         motionOriginY = event.getRawY();
     }
 
-    private void handleActionMove(MotionEvent event) {
-        isDragging = true;
+    private boolean handleActionMove(MotionEvent event) {
+        if (option.swipeDirection.contains(getDirection(event.getRawX(), event.getRawY()))) {
+            isDragging = true;
 
-        updateTranslation(event);
-        updateRotation();
-        updateAlpha();
+            updateTranslation(event);
+            updateRotation();
+            updateAlpha();
 
-        if (containerEventListener != null) {
-            containerEventListener.onContainerDragging(getPercentX(), getPercentY());
+            if (containerEventListener != null) {
+                containerEventListener.onContainerDragging(getPercentX(), getPercentY());
+            }
+
+            return true;
         }
+
+        return false;
     }
 
     private void updateTranslation(MotionEvent event) {
-        ViewCompat.setTranslationX(this, viewOriginX + event.getRawX() - motionOriginX);
-        ViewCompat.setTranslationY(this, viewOriginY + event.getRawY() - motionOriginY);
+        if (option.swipeDirection.contains(Left) || option.swipeDirection.contains(Right)) {
+            ViewCompat.setTranslationX(this, viewOriginX + event.getRawX() - motionOriginX);
+        }
+        if (option.swipeDirection.contains(Bottom) || option.swipeDirection.contains(Top)) {
+            ViewCompat.setTranslationY(this, viewOriginY + event.getRawY() - motionOriginY);
+        }
     }
 
     private void updateRotation() {
@@ -239,6 +213,51 @@ public class CardContainerView extends FrameLayout {
                 .setInterpolator(new OvershootInterpolator(1.0f))
                 .setListener(null)
                 .start();
+    }
+
+    private SwipeDirection getDirection(float motionCurrentX, float motionCurrentY) {
+        Quadrant quadrant = Util.getQuadrant(motionOriginX, motionOriginY, motionCurrentX, motionCurrentY);
+        double radian = Util.getRadian(motionOriginX, motionOriginY, motionCurrentX, motionCurrentY);
+        double degree;
+        switch (quadrant) {
+            case TopLeft:
+                degree = Math.toDegrees(radian);
+                degree = 180 - degree;
+                radian = Math.toRadians(degree);
+                if (Math.cos(radian) < -0.5) {
+                    return SwipeDirection.Left;
+                } else {
+                    return SwipeDirection.Top;
+                }
+            case TopRight:
+                degree = Math.toDegrees(radian);
+                radian = Math.toRadians(degree);
+                if (Math.cos(radian) < 0.5) {
+                    return SwipeDirection.Top;
+                } else {
+                    return SwipeDirection.Right;
+                }
+            case BottomLeft:
+                degree = Math.toDegrees(radian);
+                degree = 180 + degree;
+                radian = Math.toRadians(degree);
+                if (Math.cos(radian) < -0.5) {
+                    return SwipeDirection.Left;
+                } else {
+                    return Bottom;
+                }
+            case BottomRight:
+                degree = Math.toDegrees(radian);
+                degree = 360 - degree;
+                radian = Math.toRadians(degree);
+                if (Math.cos(radian) < 0.5) {
+                    return Bottom;
+                }else{
+                    return SwipeDirection.Right;
+                }
+        }
+
+        return null; // Never should reach here
     }
 
     public void setContainerEventListener(ContainerEventListener listener) {
