@@ -14,9 +14,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.yuyakaido.android.cardstackview.CardStackView;
+import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeDirection;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -67,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_activity_main_reverse:
                 reverse();
                 break;
+            case R.id.menu_activity_main_reorder_reverse:
+                reorderForReverse();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -100,6 +105,12 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.activity_main_progress_bar);
 
         cardStackView = (CardStackView) findViewById(R.id.activity_main_card_stack_view);
+        cardStackView.setVisibleCount(3);
+        cardStackView.setSwipeDirection(SwipeDirection.HORIZONTAL);
+        cardStackView.setStackFrom(Arrays.asList(StackFrom.Bottom, StackFrom.Right));
+        cardStackView.setElevationEnabled(true);
+        cardStackView.setTranslationDiff(12f);
+        cardStackView.setScaleDiff(0.02f);
         cardStackView.setCardEventListener(new CardStackView.CardEventListener() {
             @Override
             public void onCardDragging(float percentX, float percentY) {
@@ -253,6 +264,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void reverse() {
         cardStackView.reverse();
+    }
+
+    private void reorderForReverse() {
+        // TODO DEBUG REMOVE ME
+        cardStackView.reorderForReverse();
     }
 
 }

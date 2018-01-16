@@ -8,9 +8,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Point;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -41,6 +44,8 @@ public class CardStackView extends FrameLayout {
     private BaseAdapter adapter = null;
     private LinkedList<CardContainerView> containers = new LinkedList<>();
     private CardEventListener cardEventListener = null;
+    private boolean isReversing = false;
+    private MotionEvent actionDownEvent = null;
     private DataSetObserver dataSetObserver = new DataSetObserver() {
         @Override
         public void onChanged() {
@@ -62,10 +67,20 @@ public class CardStackView extends FrameLayout {
         }
         @Override
         public void onContainerSwiped(Point point, SwipeDirection direction) {
-            swipe(point, direction);
+            if (isReversing) {
+                // If we're reversing, don't allow for instant swiping
+                // Card has to go through stop at origin first
+                onContainerMovedToOrigin();
+            } else {
+                swipe(point, direction);
+            }
         }
         @Override
         public void onContainerMovedToOrigin() {
+            if (isReversing) {
+                isReversing = false;
+                executePostReverseTask();
+            }
             initializeCardStackPosition();
             if (cardEventListener != null) {
                 cardEventListener.onCardMovedToOrigin();
@@ -325,10 +340,18 @@ public class CardStackView extends FrameLayout {
         containers.addLast(containers.removeFirst());
     }
 
+    public void reorderForReverse() {
+        // TODO DEBUG REMOVE ME
+        ViewGroup parent = containers.getLast();
+        View prevView = adapter.getView(state.topIndex - 1, null, parent);
+        reorderForReverse(prevView);
+    }
+
     private void reorderForReverse(View prevView) {
         CardContainerView bottomView = getBottomView();
         moveToTop(bottomView, prevView);
         containers.addFirst(containers.removeLast());
+        initializeCardStackPosition();
     }
 
     private void executePreSwipeTask() {
@@ -357,6 +380,19 @@ public class CardStackView extends FrameLayout {
 
         containers.getLast().setContainerEventListener(null);
         containers.getFirst().setContainerEventListener(containerEventListener);
+    }
+
+    private void executePreReverseTask() {
+        getTopView().setDraggable(true);
+        getTopView().setContainerEventListener(containerEventListener);
+        Log.d("ASDASD", "lastPoint.x = " + state.lastPoint.x);
+        Log.d("ASDASD", "lastPoint.y = " + state.lastPoint.y);
+        ViewCompat.setTranslationX(getTopView(), /*state.lastPoint.x*/ -getTopView().getWidth());
+        ViewCompat.setTranslationY(getTopView(), /*-state.lastPoint.y*/ 0);
+        if (containers.size() > 1) {
+            containers.get(1).setDraggable(false);
+            containers.get(1).setContainerEventListener(null);
+        }
     }
 
     private void executePostReverseTask() {
@@ -530,4 +566,40 @@ public class CardStackView extends FrameLayout {
         return state.topIndex;
     }
 
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        switch (MotionEventCompat.getActionMasked(ev)) {
+            case MotionEvent.ACTION_DOWN:
+                actionDownEvent = ev;
+                return false;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                return false;
+            case MotionEvent.ACTION_MOVE:
+                return getTopView().isSwipingBack(ev);
+            default:
+                return false;
+        }
+        // return super.onInterceptTouchEvent(ev);
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (!isReversing) {
+            //Log.d("ASDASD", "starting reverse");
+            ViewGroup parent = containers.getLast();
+            View prevView = adapter.getView(state.topIndex - 1, null, parent);
+            reorderForReverse(prevView);
+            executePreReverseTask();
+            isReversing = true;
+            getTopView().onTouchEvent(actionDownEvent);
+            actionDownEvent = null;
+        } else {
+            Log.d("ASDASD", "continuing reverse");
+            getTopView().onTouchEvent(event);
+        }
+        return super.onTouchEvent(event);
+    }
 }
