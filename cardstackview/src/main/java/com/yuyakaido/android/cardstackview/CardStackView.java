@@ -45,6 +45,7 @@ public class CardStackView extends FrameLayout {
     private LinkedList<CardContainerView> containers = new LinkedList<>();
     private CardEventListener cardEventListener = null;
     private boolean isReversing = false;
+    private boolean needsReorder = false;
     private MotionEvent actionDownEvent = null;
     private DataSetObserver dataSetObserver = new DataSetObserver() {
         @Override
@@ -72,12 +73,14 @@ public class CardStackView extends FrameLayout {
                 // Card has to go through stop at origin first
                 onContainerMovedToOrigin();
             } else {
+                needsReorder = true;
                 swipe(point, direction);
             }
         }
         @Override
         public void onContainerMovedToOrigin() {
             if (isReversing) {
+                needsReorder = true;
                 isReversing = false;
                 executePostReverseTask();
             }
@@ -164,6 +167,7 @@ public class CardStackView extends FrameLayout {
     private void initializeCardStackPosition() {
         clear();
         update(0f, 0f);
+        needsReorder = false;
     }
 
     private void initializeViewContents() {
@@ -555,6 +559,12 @@ public class CardStackView extends FrameLayout {
 
     public int getTopIndex() {
         return state.topIndex;
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return !needsReorder && super.dispatchTouchEvent(ev);
     }
 
 
