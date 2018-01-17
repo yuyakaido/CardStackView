@@ -37,6 +37,7 @@ public class CardStackView extends FrameLayout {
 
     private CardStackOption option = new CardStackOption();
     private CardStackState state = new CardStackState();
+    private long lastSwipe = 0L;
 
     private BaseAdapter adapter = null;
     private LinkedList<CardContainerView> containers = new LinkedList<>();
@@ -263,12 +264,17 @@ public class CardStackView extends FrameLayout {
     }
 
     public void performSwipe(View container, Point point, final Animator.AnimatorListener listener) {
+        long timeDiff = System.currentTimeMillis() - lastSwipe;
+        long duration = 300L;
+        if (timeDiff < 800) duration = 200L;
+
         container.animate()
                 .translationX(point.x)
                 .translationY(-point.y)
-                .setDuration(400L)
+                .setDuration(duration)
                 .setListener(listener)
                 .start();
+        lastSwipe = System.currentTimeMillis();
     }
 
     public void performSwipe(SwipeDirection direction, AnimatorSet set, final Animator.AnimatorListener listener) {
@@ -478,7 +484,6 @@ public class CardStackView extends FrameLayout {
     }
 
     public void swipe(final View container, final Point point, final SwipeDirection direction) {
-        Log.d("Swipe", "swiping");
         executePreSwipeTask();
 
         performSwipe(container, point, new AnimatorListenerAdapter() {

@@ -182,7 +182,6 @@ public class CardContainerView extends FrameLayout {
 
             if (Math.abs(percent) > option.swipeThreshold) {
                 if (option.swipeDirection.contains(direction)) {
-                    Log.d("Swipe", String.valueOf(Math.abs(percent)));
                     isSwiping = true;
                     if (containerEventListener != null) {
                         containerEventListener.onContainerSwiped(this, point, direction);
