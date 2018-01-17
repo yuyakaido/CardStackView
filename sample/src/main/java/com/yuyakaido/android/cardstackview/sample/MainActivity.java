@@ -69,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_activity_main_reverse:
                 reverse();
                 break;
-            case R.id.menu_activity_main_reorder_reverse:
-                reorderForReverse();
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -264,11 +261,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void reverse() {
         cardStackView.reverse();
-    }
-
-    private void reorderForReverse() {
-        // TODO DEBUG REMOVE ME
-        cardStackView.reorderForReverse();
     }
 
 }

@@ -340,13 +340,6 @@ public class CardStackView extends FrameLayout {
         containers.addLast(containers.removeFirst());
     }
 
-    public void reorderForReverse() {
-        // TODO DEBUG REMOVE ME
-        ViewGroup parent = containers.getLast();
-        View prevView = adapter.getView(state.topIndex - 1, null, parent);
-        reorderForReverse(prevView);
-    }
-
     private void reorderForReverse(View prevView) {
         CardContainerView bottomView = getBottomView();
         moveToTop(bottomView, prevView);
@@ -385,8 +378,6 @@ public class CardStackView extends FrameLayout {
     private void executePreReverseTask() {
         getTopView().setDraggable(true);
         getTopView().setContainerEventListener(containerEventListener);
-        Log.d("ASDASD", "lastPoint.x = " + state.lastPoint.x);
-        Log.d("ASDASD", "lastPoint.y = " + state.lastPoint.y);
         ViewCompat.setTranslationX(getTopView(), /*state.lastPoint.x*/ -getTopView().getWidth());
         ViewCompat.setTranslationY(getTopView(), /*-state.lastPoint.y*/ 0);
         if (containers.size() > 1) {
@@ -587,8 +578,7 @@ public class CardStackView extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!isReversing) {
-            //Log.d("ASDASD", "starting reverse");
+        if (!isReversing && state.topIndex > 0) {
             ViewGroup parent = containers.getLast();
             View prevView = adapter.getView(state.topIndex - 1, null, parent);
             reorderForReverse(prevView);
@@ -597,7 +587,6 @@ public class CardStackView extends FrameLayout {
             getTopView().onTouchEvent(actionDownEvent);
             actionDownEvent = null;
         } else {
-            Log.d("ASDASD", "continuing reverse");
             getTopView().onTouchEvent(event);
         }
         return super.onTouchEvent(event);

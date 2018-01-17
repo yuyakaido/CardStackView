@@ -44,7 +44,4 @@
         android:title="Reverse"
         app:showAsAction="never"/>
 
-    <item android:id="@+id/menu_activity_main_reorder_reverse"
-          android:title="Reorder for reverse"
-          app:showAsAction="never"/>
 </menu>

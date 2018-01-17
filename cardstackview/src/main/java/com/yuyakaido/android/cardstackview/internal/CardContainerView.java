@@ -89,22 +89,18 @@ public class CardContainerView extends FrameLayout {
 
         switch (MotionEventCompat.getActionMasked(event)) {
             case MotionEvent.ACTION_DOWN:
-                Log.d("ASDASD", "ACTION_DOWN");
                 handleActionDown(event);
                 getParent().getParent().requestDisallowInterceptTouchEvent(true);
                 break;
             case MotionEvent.ACTION_UP:
-                Log.d("ASDASD", "ACTION_UP");
                 handleActionUp(event);
                 getParent().getParent().requestDisallowInterceptTouchEvent(false);
                 break;
             case MotionEvent.ACTION_CANCEL:
-                Log.d("ASDASD", "ACTION_CANCEL");
                 handleActionUp(event);
                 getParent().getParent().requestDisallowInterceptTouchEvent(false);
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.d("ASDASD", "ACTION_MOVE");
                 if (!handleActionMove(event)) {
                     getParent().getParent().requestDisallowInterceptTouchEvent(false);
                 }
@@ -168,7 +164,6 @@ public class CardContainerView extends FrameLayout {
             updateAlpha();
 
             if (containerEventListener != null) {
-                Log.d("ASDASD", "AYY");
                 containerEventListener.onContainerDragging(getPercentX(), getPercentY());
             }
 
@@ -183,15 +178,10 @@ public class CardContainerView extends FrameLayout {
     }
 
     private void updateTranslation(MotionEvent event) {
-        Log.d("ASDASD", "AYO viewOriginX = " + viewOriginX);
-        Log.d("ASDASD", "AYO event.rawX = " + event.getRawX());
-        Log.d("ASDASD", "AYO motionOriginX = " + motionOriginX);
         float translationX = viewOriginX + event.getRawX() - motionOriginX;
         if (getDirection(event.getRawX(), event.getRawY()) == Right) {
             //translationX -= getWidth();
         }
-        Log.d("ASDASD", "AYO " + getPercentX()*100 + "%");
-        Log.d("ASDASD", "AYO currentTranslation = " + ViewCompat.getTranslationX(this));
         ViewCompat.setTranslationX(this, translationX);
         ViewCompat.setTranslationY(this, viewOriginY);
     }
