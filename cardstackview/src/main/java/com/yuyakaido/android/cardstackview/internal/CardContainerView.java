@@ -84,13 +84,16 @@ public class CardContainerView extends FrameLayout {
         switch (MotionEventCompat.getActionMasked(event)) {
             case MotionEvent.ACTION_DOWN:
                 handleActionDown(event);
+                if (getParent() == null) break;
                 getParent().getParent().requestDisallowInterceptTouchEvent(true);
                 break;
             case MotionEvent.ACTION_UP:
                 handleActionUp(event);
+                if (getParent() == null) break;
                 getParent().getParent().requestDisallowInterceptTouchEvent(false);
                 break;
             case MotionEvent.ACTION_CANCEL:
+                if (getParent() == null) break;
                 getParent().getParent().requestDisallowInterceptTouchEvent(false);
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -104,6 +107,10 @@ public class CardContainerView extends FrameLayout {
     private void handleActionDown(MotionEvent event) {
         motionOriginX = event.getRawX();
         motionOriginY = event.getRawY();
+    }
+
+    public boolean isDragging() {
+        return isDragging;
     }
 
     private void handleActionUp(MotionEvent event) {
@@ -258,6 +265,7 @@ public class CardContainerView extends FrameLayout {
     public void reset() {
         ViewCompat.setAlpha(contentContainer, 1f);
         ViewCompat.setAlpha(overlayContainer, 0f);
+        isDragging = false;
     }
 
     public ViewGroup getContentContainer() {

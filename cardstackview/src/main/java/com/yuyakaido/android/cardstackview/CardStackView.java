@@ -50,7 +50,13 @@ public class CardStackView extends FrameLayout {
                 boolean isSameCount = state.lastCount == adapter.getCount();
                 shouldReset = !isSameCount;
             }
-            initialize(shouldReset);
+
+            if (shouldReset) {
+                initialize(true);
+            } else {
+                initializeViewContents();
+            }
+            // initialize(shouldReset);
             state.lastCount = adapter.getCount();
         }
     };
@@ -197,6 +203,7 @@ public class CardStackView extends FrameLayout {
     private void clear() {
         for (int i = 0; i < option.visibleCount; i++) {
             CardContainerView view = containers.get(i);
+            if (view.isDragging()) continue;
             view.reset();
             ViewCompat.setTranslationX(view, 0f);
             ViewCompat.setTranslationY(view, 0f);
@@ -207,6 +214,7 @@ public class CardStackView extends FrameLayout {
     }
 
     private void update(float percentX, float percentY) {
+
         if (cardEventListener != null) {
             cardEventListener.onCardDragging(percentX, percentY);
         }
@@ -237,6 +245,7 @@ public class CardStackView extends FrameLayout {
             float translationY = currentTranslationY - Math.abs(percentX) * (currentTranslationY - nextTranslationY);
             ViewCompat.setTranslationY(view, translationY);
         }
+
     }
 
     public void performReverse(Point point, View prevView, final Animator.AnimatorListener listener) {
@@ -309,7 +318,9 @@ public class CardStackView extends FrameLayout {
 
     private void reorderForSwipe() {
         moveToBottom(getTopView());
-        containers.addLast(containers.removeFirst());
+        CardContainerView view = containers.removeFirst();
+        view.reset();
+        containers.addLast(view);
     }
 
     private void reorderForReverse(View prevView) {
