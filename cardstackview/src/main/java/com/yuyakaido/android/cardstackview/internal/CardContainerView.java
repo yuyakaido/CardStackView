@@ -27,7 +27,7 @@ public class CardContainerView extends FrameLayout {
     private float motionOriginY = 0f;
     private boolean isDragging = false;
     private boolean isDraggable = true;
-    private boolean isSwiping = true;
+    private boolean isSwiping = false;
 
     private ViewGroup contentContainer = null;
     private ViewGroup overlayContainer = null;
@@ -50,7 +50,7 @@ public class CardContainerView extends FrameLayout {
 
     public interface ContainerEventListener {
         void onContainerDragging(float percentX, float percentY);
-        void onContainerSwiped(View container, Point point, SwipeDirection direction);
+        void onContainerSwiped(CardContainerView container, Point point, SwipeDirection direction);
         void onContainerMovedToOrigin();
         void onContainerClicked();
     }
@@ -117,6 +117,10 @@ public class CardContainerView extends FrameLayout {
 
     public boolean isSwiping() {
         return isSwiping;
+    }
+
+    public void setSwiping() {
+        isSwiping = true;
     }
 
     private void handleActionUp(MotionEvent event) {

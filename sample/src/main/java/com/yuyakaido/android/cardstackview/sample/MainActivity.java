@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private CardStackView cardStackView;
     private TouristSpotCardAdapter adapter;
+    private Button btLeft;
+    private Button btRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +134,23 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("CardStackView", "onCardClicked: " + index);
             }
         });
+
+        btLeft = (Button) findViewById(R.id.btLeft);
+        btRight = (Button) findViewById(R.id.btRight);
+
+        btLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardStackView.swipeLeft();
+            }
+        });
+
+        btRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardStackView.swipeRight();
+            }
+        });
     }
 
     private void reload() {
@@ -202,53 +222,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void swipeLeft() {
-        List<TouristSpot> spots = extractRemainingTouristSpots();
-        if (spots.isEmpty()) {
-            return;
-        }
-
-        View target = cardStackView.getTopView();
-
-        ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("rotation", -10f));
-        rotation.setDuration(200);
-        ValueAnimator translateX = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("translationX", 0f, -2000f));
-        ValueAnimator translateY = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("translationY", 0f, 500f));
-        translateX.setStartDelay(100);
-        translateY.setStartDelay(100);
-        translateX.setDuration(500);
-        translateY.setDuration(500);
-        AnimatorSet set = new AnimatorSet();
-        set.playTogether(rotation, translateX, translateY);
-
-        cardStackView.swipe(SwipeDirection.Left, set);
+        cardStackView.swipeLeft();
     }
 
     public void swipeRight() {
-        List<TouristSpot> spots = extractRemainingTouristSpots();
-        if (spots.isEmpty()) {
-            return;
-        }
-
-        View target = cardStackView.getTopView();
-
-        ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("rotation", 10f));
-        rotation.setDuration(200);
-        ValueAnimator translateX = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("translationX", 0f, 2000f));
-        ValueAnimator translateY = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("translationY", 0f, 500f));
-        translateX.setStartDelay(100);
-        translateY.setStartDelay(100);
-        translateX.setDuration(500);
-        translateY.setDuration(500);
-        AnimatorSet set = new AnimatorSet();
-        set.playTogether(rotation, translateX, translateY);
-
-        cardStackView.swipe(SwipeDirection.Right, set);
+        cardStackView.swipeRight();
     }
 
     private void reverse() {

@@ -6,6 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/btLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="left"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"/>
+
+    <Button
+        android:id="@+id/btRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="right"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/activity_main_card_stack_view"
         android:layout_width="match_parent"
@@ -25,7 +41,8 @@
         app:swipeDirection="freedom_no_bottom"
         app:leftOverlay="@layout/overlay_left"
         app:rightOverlay="@layout/overlay_right"
-        app:topOverlay="@layout/overlay_top" />
+        app:topOverlay="@layout/overlay_top"
+        android:layout_above="@id/btLeft"/>
 
     <ProgressBar
         android:id="@+id/activity_main_progress_bar"

@@ -3,7 +3,10 @@ package com.yuyakaido.android.cardstackview;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.animation.TimeInterpolator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
@@ -68,7 +71,7 @@ public class CardStackView extends FrameLayout {
             update(percentX, percentY);
         }
         @Override
-        public void onContainerSwiped(View container, Point point, SwipeDirection direction) {
+        public void onContainerSwiped(CardContainerView container, Point point, SwipeDirection direction) {
             swipe(container, point, direction);
         }
         @Override
@@ -263,7 +266,7 @@ public class CardStackView extends FrameLayout {
                 .start();
     }
 
-    public void performSwipe(View container, Point point, final Animator.AnimatorListener listener) {
+    public void performSwipe(CardContainerView container, Point point, final Animator.AnimatorListener listener) {
         long timeDiff = System.currentTimeMillis() - lastSwipe;
         long duration = 300L;
         if (timeDiff < 800) duration = 200L;
@@ -277,19 +280,19 @@ public class CardStackView extends FrameLayout {
         lastSwipe = System.currentTimeMillis();
     }
 
-    public void performSwipe(SwipeDirection direction, AnimatorSet set, final Animator.AnimatorListener listener) {
+    public void performSwipe(CardContainerView container, SwipeDirection direction, AnimatorSet set, final Animator.AnimatorListener listener) {
         if (direction == SwipeDirection.Left) {
-            getTopView().showLeftOverlay();
-            getTopView().setOverlayAlpha(1f);
+            container.showLeftOverlay();
+            container.setOverlayAlpha(1f);
         } else if (direction == SwipeDirection.Right) {
-            getTopView().showRightOverlay();
-            getTopView().setOverlayAlpha(1f);
+            container.showRightOverlay();
+            container.setOverlayAlpha(1f);
         } else if (direction == SwipeDirection.Bottom){
-            getTopView().showBottomOverlay();
-            getTopView().setOverlayAlpha(1f);
+            container.showBottomOverlay();
+            container.setOverlayAlpha(1f);
         } else if (direction == SwipeDirection.Top){
-            getTopView().showTopOverlay();
-            getTopView().setOverlayAlpha(1f);
+            container.showTopOverlay();
+            container.setOverlayAlpha(1f);
         }
         set.addListener(listener);
         set.setInterpolator(new TimeInterpolator() {
@@ -483,7 +486,7 @@ public class CardStackView extends FrameLayout {
         state.isPaginationReserved = true;
     }
 
-    public void swipe(final View container, final Point point, final SwipeDirection direction) {
+    public void swipe(final CardContainerView container, final Point point, final SwipeDirection direction) {
         executePreSwipeTask();
 
         performSwipe(container, point, new AnimatorListenerAdapter() {
@@ -494,10 +497,10 @@ public class CardStackView extends FrameLayout {
         });
     }
 
-    public void swipe(final SwipeDirection direction, AnimatorSet set) {
+    public void swipe(final CardContainerView container, final SwipeDirection direction, AnimatorSet set) {
         executePreSwipeTask();
 
-        performSwipe(direction, set, new AnimatorListenerAdapter() {
+        performSwipe(container, direction, set, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 executePostSwipeTask(new Point(0, -2000), direction);
@@ -516,6 +519,62 @@ public class CardStackView extends FrameLayout {
                 }
             });
         }
+    }
+
+    public void swipeLeft() {
+        CardContainerView target = null;
+        for (CardContainerView view : containers) {
+            if (view.isSwiping()) continue;
+            target = view;
+            break;
+        }
+        if (target == null) return;
+
+        target.setSwiping();
+
+        ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("rotation", -10f));
+        rotation.setDuration(200);
+        ValueAnimator translateX = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("translationX", 0f, -2000f));
+        ValueAnimator translateY = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("translationY", 0f, 500f));
+        translateX.setStartDelay(100);
+        translateY.setStartDelay(100);
+        translateX.setDuration(500);
+        translateY.setDuration(500);
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(rotation, translateX, translateY);
+
+        swipe(target, SwipeDirection.Left, set);
+    }
+
+    public void swipeRight() {
+        CardContainerView target = null;
+        for (CardContainerView view : containers) {
+            if (view.isSwiping()) continue;
+            target = view;
+            break;
+        }
+        if (target == null) return;
+
+        target.setSwiping();
+
+        ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("rotation", 10f));
+        rotation.setDuration(200);
+        ValueAnimator translateX = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("translationX", 0f, 2000f));
+        ValueAnimator translateY = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("translationY", 0f, 500f));
+        translateX.setStartDelay(100);
+        translateY.setStartDelay(100);
+        translateX.setDuration(500);
+        translateY.setDuration(500);
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(rotation, translateX, translateY);
+
+        swipe(target, SwipeDirection.Right, set);
     }
 
     public CardContainerView getTopView() {
