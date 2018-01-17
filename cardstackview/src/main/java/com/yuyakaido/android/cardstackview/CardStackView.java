@@ -572,7 +572,8 @@ public class CardStackView extends FrameLayout {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         switch (MotionEventCompat.getActionMasked(ev)) {
             case MotionEvent.ACTION_DOWN:
-                actionDownEvent = ev;
+                // Motion events are recycled, so we need to make a copy
+                actionDownEvent = MotionEvent.obtain(ev);
                 return false;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -595,6 +596,7 @@ public class CardStackView extends FrameLayout {
             executePreReverseTask();
             isReversing = true;
             getTopView().onTouchEvent(actionDownEvent);
+            actionDownEvent.recycle();
             actionDownEvent = null;
         } else {
             getTopView().onTouchEvent(event);
