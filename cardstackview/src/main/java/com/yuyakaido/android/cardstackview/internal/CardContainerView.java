@@ -5,6 +5,7 @@ import android.graphics.Point;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -26,6 +27,7 @@ public class CardContainerView extends FrameLayout {
     private float motionOriginY = 0f;
     private boolean isDragging = false;
     private boolean isDraggable = true;
+    private boolean isSwiping = true;
 
     private ViewGroup contentContainer = null;
     private ViewGroup overlayContainer = null;
@@ -48,7 +50,7 @@ public class CardContainerView extends FrameLayout {
 
     public interface ContainerEventListener {
         void onContainerDragging(float percentX, float percentY);
-        void onContainerSwiped(Point point, SwipeDirection direction);
+        void onContainerSwiped(View container, Point point, SwipeDirection direction);
         void onContainerMovedToOrigin();
         void onContainerClicked();
     }
@@ -111,6 +113,10 @@ public class CardContainerView extends FrameLayout {
 
     public boolean isDragging() {
         return isDragging;
+    }
+
+    public boolean isSwiping() {
+        return isSwiping;
     }
 
     private void handleActionUp(MotionEvent event) {
@@ -176,8 +182,10 @@ public class CardContainerView extends FrameLayout {
 
             if (Math.abs(percent) > option.swipeThreshold) {
                 if (option.swipeDirection.contains(direction)) {
+                    Log.d("Swipe", String.valueOf(Math.abs(percent)));
+                    isSwiping = true;
                     if (containerEventListener != null) {
-                        containerEventListener.onContainerSwiped(point, direction);
+                        containerEventListener.onContainerSwiped(this, point, direction);
                     }
                 } else {
                     moveToOrigin();
@@ -250,8 +258,8 @@ public class CardContainerView extends FrameLayout {
 
     public void setContainerEventListener(ContainerEventListener listener) {
         this.containerEventListener = listener;
-        viewOriginX = ViewCompat.getTranslationX(this);
-        viewOriginY = ViewCompat.getTranslationY(this);
+        //viewOriginX = ViewCompat.getTranslationX(this);
+        //viewOriginY = ViewCompat.getTranslationY(this);
     }
 
     public void setCardStackOption(CardStackOption option) {
@@ -266,6 +274,7 @@ public class CardContainerView extends FrameLayout {
         ViewCompat.setAlpha(contentContainer, 1f);
         ViewCompat.setAlpha(overlayContainer, 0f);
         isDragging = false;
+        isSwiping = false;
     }
 
     public ViewGroup getContentContainer() {

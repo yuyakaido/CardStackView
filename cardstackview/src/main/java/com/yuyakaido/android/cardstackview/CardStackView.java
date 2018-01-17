@@ -10,6 +10,7 @@ import android.database.DataSetObserver;
 import android.graphics.Point;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,8 +67,8 @@ public class CardStackView extends FrameLayout {
             update(percentX, percentY);
         }
         @Override
-        public void onContainerSwiped(Point point, SwipeDirection direction) {
-            swipe(point, direction);
+        public void onContainerSwiped(View container, Point point, SwipeDirection direction) {
+            swipe(container, point, direction);
         }
         @Override
         public void onContainerMovedToOrigin() {
@@ -203,7 +204,7 @@ public class CardStackView extends FrameLayout {
     private void clear() {
         for (int i = 0; i < option.visibleCount; i++) {
             CardContainerView view = containers.get(i);
-            if (view.isDragging()) continue;
+            if (view.isDragging() || view.isSwiping()) continue;
             view.reset();
             ViewCompat.setTranslationX(view, 0f);
             ViewCompat.setTranslationY(view, 0f);
@@ -261,8 +262,8 @@ public class CardStackView extends FrameLayout {
                 .start();
     }
 
-    public void performSwipe(Point point, final Animator.AnimatorListener listener) {
-        getTopView().animate()
+    public void performSwipe(View container, Point point, final Animator.AnimatorListener listener) {
+        container.animate()
                 .translationX(point.x)
                 .translationY(-point.y)
                 .setDuration(400L)
@@ -476,9 +477,11 @@ public class CardStackView extends FrameLayout {
         state.isPaginationReserved = true;
     }
 
-    public void swipe(final Point point, final SwipeDirection direction) {
+    public void swipe(final View container, final Point point, final SwipeDirection direction) {
+        Log.d("Swipe", "swiping");
         executePreSwipeTask();
-        performSwipe(point, new AnimatorListenerAdapter() {
+
+        performSwipe(container, point, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 executePostSwipeTask(point, direction);
@@ -488,6 +491,7 @@ public class CardStackView extends FrameLayout {
 
     public void swipe(final SwipeDirection direction, AnimatorSet set) {
         executePreSwipeTask();
+
         performSwipe(direction, set, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
