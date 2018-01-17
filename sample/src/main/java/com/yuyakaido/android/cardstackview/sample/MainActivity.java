@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private TouristSpotCardAdapter adapter;
     private Button btLeft;
     private Button btRight;
+    private Button btReverse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
         btLeft = (Button) findViewById(R.id.btLeft);
         btRight = (Button) findViewById(R.id.btRight);
+        btReverse = (Button) findViewById(R.id.btReverse);
 
         btLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +153,14 @@ public class MainActivity extends AppCompatActivity {
                 cardStackView.swipeRight();
             }
         });
+
+        btReverse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardStackView.reverse();
+            }
+        });
+
     }
 
     private void reload() {

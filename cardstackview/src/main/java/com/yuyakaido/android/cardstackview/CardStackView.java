@@ -368,8 +368,6 @@ public class CardStackView extends FrameLayout {
     }
 
     private void executePostReverseTask() {
-        state.lastPoint = null;
-
         initializeCardStackPosition();
 
         state.topIndex--;
@@ -509,10 +507,15 @@ public class CardStackView extends FrameLayout {
     }
 
     public void reverse() {
+        for (CardContainerView view : containers) {
+            if (view.isDragging() || view.isSwiping()) return;
+        }
         if (state.lastPoint != null) {
+            Point lastPoint = state.lastPoint;
+            state.lastPoint = null;
             ViewGroup parent = containers.getLast();
             View prevView = adapter.getView(state.topIndex - 1, null, parent);
-            performReverse(state.lastPoint, prevView, new AnimatorListenerAdapter() {
+            performReverse(lastPoint, prevView, new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animator) {
                     executePostReverseTask();

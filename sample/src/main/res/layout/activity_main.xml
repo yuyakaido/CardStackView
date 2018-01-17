@@ -22,6 +22,14 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"/>
 
+    <Button
+        android:id="@+id/btReverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reverse"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/btLeft"/>
+
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/activity_main_card_stack_view"
         android:layout_width="match_parent"
