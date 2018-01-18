@@ -11,7 +11,6 @@ import android.graphics.Point;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -128,7 +127,7 @@ public class CardStackView extends FrameLayout {
     @Override
     protected void onWindowVisibilityChanged(int visibility) {
         super.onWindowVisibilityChanged(visibility);
-        if (state.isInitialized && visibility == View.VISIBLE) {
+        if (state.isInitialized && visibility == VISIBLE) {
             initializeCardStackPosition();
         }
     }
@@ -182,9 +181,6 @@ public class CardStackView extends FrameLayout {
                 if (parent.getChildCount() == 0) {
                     parent.addView(child);
                 }
-                container.setVisibility(View.VISIBLE);
-            } else {
-                container.setVisibility(View.GONE);
             }
         }
         if (!adapter.isEmpty()) {
@@ -328,7 +324,7 @@ public class CardStackView extends FrameLayout {
         }
     }
 
-    private void moveToTop(CardContainerView container, View child) {
+    private void moveToTop(CardContainerView container, View child, boolean hide) {
         CardStackView parent = (CardStackView) container.getParent();
         if (parent != null) {
             parent.removeView(container);
@@ -336,7 +332,11 @@ public class CardStackView extends FrameLayout {
 
             container.getContentContainer().removeAllViews();
             container.getContentContainer().addView(child);
-            container.setVisibility(View.VISIBLE);
+            if (hide) {
+                container.setVisibility(INVISIBLE);
+            } else {
+                container.setVisibility(VISIBLE);
+            }
         }
     }
 
@@ -347,9 +347,11 @@ public class CardStackView extends FrameLayout {
 
     private void reorderForReverse(View prevView) {
         CardContainerView bottomView = getBottomView();
-        moveToTop(bottomView, prevView);
+        moveToTop(bottomView, prevView, true); // Hide the view before reordering to avoid flickers
         containers.addFirst(containers.removeLast());
-        initializeCardStackPosition();
+
+        clear();
+        needsReorder = false;
     }
 
     private void executePreSwipeTask() {
@@ -383,8 +385,6 @@ public class CardStackView extends FrameLayout {
     private void executePreReverseTask() {
         getTopView().setDraggable(true);
         getTopView().setContainerEventListener(containerEventListener);
-        ViewCompat.setTranslationX(getTopView(), /*state.lastPoint.x*/ -getTopView().getWidth());
-        ViewCompat.setTranslationY(getTopView(), /*-state.lastPoint.y*/ 0);
         if (containers.size() > 1) {
             containers.get(1).setDraggable(false);
             containers.get(1).setContainerEventListener(null);
@@ -565,7 +565,6 @@ public class CardStackView extends FrameLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        Log.d("ASDASD", "AYY LMAO");
         return !needsReorder && super.dispatchTouchEvent(ev);
     }
 
@@ -601,6 +600,7 @@ public class CardStackView extends FrameLayout {
             actionDownEvent = null;
             return true;
         } else {
+            getTopView().setVisibility(VISIBLE);
             return getTopView().onTouchEvent(event);
         }
     }
