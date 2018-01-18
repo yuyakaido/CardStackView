@@ -70,7 +70,8 @@ public class CardStackView extends FrameLayout {
         public void onContainerSwiped(Point point, SwipeDirection direction) {
             if (isReversing) {
                 // If we're reversing, don't allow for instant swiping
-                // Card has to go through stop at origin first
+                // Card has to stop at origin first
+                getTopView().moveToOrigin();
                 onContainerMovedToOrigin();
             } else {
                 needsReorder = true;

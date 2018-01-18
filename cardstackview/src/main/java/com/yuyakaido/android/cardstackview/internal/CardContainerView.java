@@ -178,17 +178,11 @@ public class CardContainerView extends FrameLayout {
     }
 
     private void updateTranslation(MotionEvent event) {
-        Log.d("ASDADS", "direction: " + getDirection(event.getRawX(), event.getRawY()));
-        Log.d("ASDASD", "rawX: " + event.getRawX());
-        Log.d("ASDASD", "viewOriginX: " + viewOriginX);
-        Log.d("ASDASD", "motionOrigin: " + motionOriginX);
-        float translationX = 0f;
+        float translationX = viewOriginX + event.getRawX() - motionOriginX;
+        if (getDirection(event.getRawX(), event.getRawY()) == Right) {
+            translationX -= getWidth();
+        }
 
-        translationX = viewOriginX + event.getRawX() - motionOriginX;
-        if (translationX > 0) translationX = viewOriginX - (getWidth() / 2) + (event.getRawX() - motionOriginX);
-
-        Log.d("ASDASD", "width: " + getWidth());
-        Log.d("ASDASD", "translationX: " + translationX);
         ViewCompat.setTranslationX(this, translationX);
         ViewCompat.setTranslationY(this, viewOriginY);
     }
@@ -218,7 +212,7 @@ public class CardContainerView extends FrameLayout {
         }
     }
 
-    private void moveToOrigin() {
+    public void moveToOrigin() {
         animate().translationX(viewOriginX)
                 .translationY(viewOriginY)
                 .setDuration(300L)
