@@ -233,14 +233,31 @@ public class CardContainerView extends FrameLayout {
         float percentX = getPercentX();
         float percentY = getPercentY();
 
-        if (Math.abs(percentX) > Math.abs(percentY)){
+        if (option.swipeDirection.equals(SwipeDirection.FREEDOM) ||
+                option.swipeDirection.equals(SwipeDirection.FREEDOM_NO_BOTTOM)) {
+            if (Math.abs(percentX) > Math.abs(percentY)){
+                if (percentX < 0) {
+                    showLeftOverlay();
+                } else {
+                    showRightOverlay();
+                }
+                setOverlayAlpha(Math.abs(percentX));
+            }else{
+                if (percentY < 0) {
+                    showTopOverlay();
+                } else {
+                    showBottomOverlay();
+                }
+                setOverlayAlpha(Math.abs(percentY));
+            }
+        } else if (option.swipeDirection.equals(SwipeDirection.HORIZONTAL)) {
             if (percentX < 0) {
                 showLeftOverlay();
             } else {
                 showRightOverlay();
             }
             setOverlayAlpha(Math.abs(percentX));
-        }else{
+        } else if (option.swipeDirection.equals(SwipeDirection.VERTICAL)) {
             if (percentY < 0) {
                 showTopOverlay();
             } else {

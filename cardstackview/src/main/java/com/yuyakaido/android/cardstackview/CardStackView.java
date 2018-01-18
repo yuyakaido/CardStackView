@@ -11,6 +11,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Point;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -506,9 +508,21 @@ public class CardStackView extends FrameLayout {
         });
     }
 
+    private boolean isReversing = false;
     public void reverse() {
+        if (isReversing) return;
         for (CardContainerView view : containers) {
-            if (view.isDragging() || view.isSwiping()) return;
+            if (view.isDragging() || view.isSwiping()) {
+                isReversing = true;
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        isReversing = false;
+                        reverse();
+                    }
+                }, 200);
+                return;
+            }
         }
         if (state.lastPoint != null) {
             Point lastPoint = state.lastPoint;

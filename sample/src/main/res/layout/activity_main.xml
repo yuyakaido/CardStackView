@@ -46,7 +46,7 @@
         app:stackFrom="top"
         app:elevationEnabled="true"
         app:swipeEnabled="true"
-        app:swipeDirection="freedom_no_bottom"
+        app:swipeDirection="vertical"
         app:leftOverlay="@layout/overlay_left"
         app:rightOverlay="@layout/overlay_right"
         app:topOverlay="@layout/overlay_top"/>
