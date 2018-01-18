@@ -2,6 +2,7 @@ package com.yuyakaido.android.cardstackview.internal;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.support.annotation.Nullable;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 
@@ -84,14 +86,14 @@ public class CardContainerView extends FrameLayout {
         switch (MotionEventCompat.getActionMasked(event)) {
             case MotionEvent.ACTION_DOWN:
                 handleActionDown(event);
-                getParent().getParent().requestDisallowInterceptTouchEvent(true);
+                requestDisallowInterceptTouchEventInt(true);
                 break;
             case MotionEvent.ACTION_UP:
                 handleActionUp(event);
-                getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                requestDisallowInterceptTouchEventInt(false);
                 break;
             case MotionEvent.ACTION_CANCEL:
-                getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                requestDisallowInterceptTouchEventInt(false);
                 break;
             case MotionEvent.ACTION_MOVE:
                 handleActionMove(event);
@@ -100,6 +102,26 @@ public class CardContainerView extends FrameLayout {
 
         return true;
     }
+
+    @Nullable
+    private ViewParent getParentIfExist() {
+        ViewParent parent = null;
+        if (getParent() != null) {
+            parent = getParent();
+            if (parent.getParent() != null) {
+                parent = parent.getParent();
+            }
+        }
+        return parent;
+    }
+
+    private void requestDisallowInterceptTouchEventInt(boolean b) {
+        ViewParent parent = getParentIfExist();
+        if (parent != null) {
+            parent.requestDisallowInterceptTouchEvent(b);
+        }
+    }
+
 
     private void handleActionDown(MotionEvent event) {
         motionOriginX = event.getRawX();
