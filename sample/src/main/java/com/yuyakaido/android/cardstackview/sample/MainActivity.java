@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_activity_main_reload:
-                reload();
+                cardStackView.resetStack();
                 break;
             case R.id.menu_activity_main_add_first:
                 addFirst();
@@ -108,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCardSwiped(SwipeDirection direction) {
+                // this is another option
+                /*if (cardStackView.getTopIndex() == adapter.getCount()) {
+                    cardStackView.resetStack();
+                }*/
                 Log.d("CardStackView", "onCardSwiped: " + direction.toString());
                 Log.d("CardStackView", "topIndex: " + cardStackView.getTopIndex());
                 if (cardStackView.getTopIndex() == adapter.getCount() - 5) {

@@ -498,6 +498,10 @@ public class CardStackView extends FrameLayout {
         }
     }
 
+    public void resetStack() {
+        initialize(true);
+    }
+
     public CardContainerView getTopView() {
         return containers.getFirst();
     }
