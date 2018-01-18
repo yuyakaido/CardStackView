@@ -565,6 +565,7 @@ public class CardStackView extends FrameLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        Log.d("ASDASD", "AYY LMAO");
         return !needsReorder && super.dispatchTouchEvent(ev);
     }
 
@@ -580,11 +581,10 @@ public class CardStackView extends FrameLayout {
             case MotionEvent.ACTION_CANCEL:
                 return false;
             case MotionEvent.ACTION_MOVE:
-                return getTopView().isSwipingBack(ev);
+                return getTopView().isSwipingBack(actionDownEvent, ev);
             default:
                 return false;
         }
-        // return super.onInterceptTouchEvent(ev);
     }
 
 
@@ -599,9 +599,9 @@ public class CardStackView extends FrameLayout {
             getTopView().onTouchEvent(actionDownEvent);
             actionDownEvent.recycle();
             actionDownEvent = null;
+            return true;
         } else {
-            getTopView().onTouchEvent(event);
+            return getTopView().onTouchEvent(event);
         }
-        return super.onTouchEvent(event);
     }
 }
