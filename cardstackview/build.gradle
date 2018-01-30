@@ -1,35 +1,36 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+//apply plugin: 'com.novoda.bintray-release'
 
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
-        classpath 'com.novoda:bintray-release:0.3.4'
+        classpath 'com.novoda:bintray-release:0.8.0'
     }
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 25
+        minSdkVersion 16
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0.0"
+        vectorDrawables.useSupportLibrary = false
     }
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:25.4.0'
+    implementation 'com.android.support:support-v4:27.0.2'
 }
 
-publish {
-    groupId = 'com.yuyakaido.android'
-    artifactId = 'card-stack-view'
-    publishVersion = '1.0.0-beta8'
-    uploadName = 'CardStackView'
-    website = 'https://github.com/yuyakaido/CardStackView'
-}
+//publish {
+//    groupId = 'com.yuyakaido.android'
+//    artifactId = 'card-stack-view'
+//    publishVersion = '1.0.0-beta8'
+//    uploadName = 'CardStackView'
+//    website = 'https://github.com/yuyakaido/CardStackView'
+//}

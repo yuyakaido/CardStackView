@@ -3,20 +3,21 @@ apply plugin: 'com.android.application'
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.1.0-alpha09'
     }
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "com.yuyakaido.android.cardstackview.sample"
-        minSdkVersion 14
-        targetSdkVersion 25
+        minSdkVersion 16
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0.0"
     }
@@ -24,13 +25,13 @@ android {
 }
 
 ext {
-    supportLibVersion = '25.4.0'
+    supportLibVersion = '27.0.2'
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:${supportLibVersion}"
-    compile "com.android.support:cardview-v7:${supportLibVersion}"
-    compile 'com.github.bumptech.glide:glide:4.0.0'
+    implementation "com.android.support:appcompat-v7:${supportLibVersion}"
+    implementation "com.android.support:cardview-v7:${supportLibVersion}"
+    implementation 'com.github.bumptech.glide:glide:4.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
-    compile project(':cardstackview')
+    implementation project(':cardstackview')
 }
