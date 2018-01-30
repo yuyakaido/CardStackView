@@ -6,6 +6,7 @@ import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -97,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setup() {
-        progressBar = (ProgressBar) findViewById(R.id.activity_main_progress_bar);
+        progressBar = findViewById(R.id.activity_main_progress_bar);
 
-        cardStackView = (CardStackView) findViewById(R.id.activity_main_card_stack_view);
+        cardStackView = findViewById(R.id.activity_main_card_stack_view);
         cardStackView.setCardEventListener(new CardStackView.CardEventListener() {
             @Override
             public void onCardDragging(float percentX, float percentY) {
@@ -129,6 +130,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCardClicked(int index) {
                 Log.d("CardStackView", "onCardClicked: " + index);
+            }
+
+            @Override
+            public void onCardDragging(SwipeDirection direction) {
+                Log.d("CardStackView", direction.name());
             }
         });
     }
@@ -206,23 +212,7 @@ public class MainActivity extends AppCompatActivity {
         if (spots.isEmpty()) {
             return;
         }
-
-        View target = cardStackView.getTopView();
-
-        ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("rotation", -10f));
-        rotation.setDuration(200);
-        ValueAnimator translateX = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("translationX", 0f, -2000f));
-        ValueAnimator translateY = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("translationY", 0f, 500f));
-        translateX.setStartDelay(100);
-        translateY.setStartDelay(100);
-        translateX.setDuration(500);
-        translateY.setDuration(500);
-        AnimatorSet set = new AnimatorSet();
-        set.playTogether(rotation, translateX, translateY);
-
+        AnimatorSet set = getAnimatorSet(-10f, -2000f, 500f);
         cardStackView.swipe(SwipeDirection.Left, set);
     }
 
@@ -231,24 +221,28 @@ public class MainActivity extends AppCompatActivity {
         if (spots.isEmpty()) {
             return;
         }
+        AnimatorSet set = getAnimatorSet(10f, 2000f, 500f);
+        cardStackView.swipe(SwipeDirection.Right, set);
+    }
 
+    @NonNull
+    private AnimatorSet getAnimatorSet(float rotation, float translationX, float translationY) {
         View target = cardStackView.getTopView();
 
-        ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("rotation", 10f));
-        rotation.setDuration(200);
+        ValueAnimator rotationAnimator = ObjectAnimator.ofPropertyValuesHolder(
+                target, PropertyValuesHolder.ofFloat("rotation", rotation));
+        rotationAnimator.setDuration(200);
         ValueAnimator translateX = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("translationX", 0f, 2000f));
+                target, PropertyValuesHolder.ofFloat("translationX", 0f, translationX));
         ValueAnimator translateY = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("translationY", 0f, 500f));
+                target, PropertyValuesHolder.ofFloat("translationY", 0f, translationY));
         translateX.setStartDelay(100);
         translateY.setStartDelay(100);
         translateX.setDuration(500);
         translateY.setDuration(500);
         AnimatorSet set = new AnimatorSet();
-        set.playTogether(rotation, translateX, translateY);
-
-        cardStackView.swipe(SwipeDirection.Right, set);
+        set.playTogether(rotationAnimator, translateX, translateY);
+        return set;
     }
 
     private void reverse() {

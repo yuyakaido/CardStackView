@@ -48,6 +48,7 @@ public class CardContainerView extends FrameLayout {
 
     public interface ContainerEventListener {
         void onContainerDragging(float percentX, float percentY);
+        void onContainerDragging(SwipeDirection direction);
         void onContainerSwiped(Point point, SwipeDirection direction);
         void onContainerMovedToOrigin();
         void onContainerClicked();
@@ -218,15 +219,19 @@ public class CardContainerView extends FrameLayout {
         if (Math.abs(percentX) > Math.abs(percentY)){
             if (percentX < 0) {
                 showLeftOverlay();
+                containerEventListener.onContainerDragging(SwipeDirection.Left);
             } else {
                 showRightOverlay();
+                containerEventListener.onContainerDragging(SwipeDirection.Right);
             }
             setOverlayAlpha(Math.abs(percentX));
         }else{
             if (percentY < 0) {
                 showTopOverlay();
+                containerEventListener.onContainerDragging(SwipeDirection.Top);
             } else {
                 showBottomOverlay();
+                containerEventListener.onContainerDragging(SwipeDirection.Bottom);
             }
             setOverlayAlpha(Math.abs(percentY));
         }

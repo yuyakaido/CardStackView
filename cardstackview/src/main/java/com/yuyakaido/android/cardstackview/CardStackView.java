@@ -32,6 +32,7 @@ public class CardStackView extends FrameLayout {
         void onCardReversed();
         void onCardMovedToOrigin();
         void onCardClicked(int index);
+        void onCardDragging(SwipeDirection direction);
     }
 
     private CardStackOption option = new CardStackOption();
@@ -59,6 +60,14 @@ public class CardStackView extends FrameLayout {
         public void onContainerDragging(float percentX, float percentY) {
             update(percentX, percentY);
         }
+
+        @Override
+        public void onContainerDragging(SwipeDirection direction) {
+            if(cardEventListener != null) {
+                cardEventListener.onCardDragging(direction);
+            }
+        }
+
         @Override
         public void onContainerSwiped(Point point, SwipeDirection direction) {
             swipe(point, direction);
