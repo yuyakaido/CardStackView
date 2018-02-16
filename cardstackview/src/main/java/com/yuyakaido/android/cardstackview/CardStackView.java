@@ -31,6 +31,7 @@ public class CardStackView extends FrameLayout {
         void onCardSwiped(SwipeDirection direction);
         void onCardReversed();
         void onCardMovedToOrigin();
+        void onSwipeNotAllowed(SwipeDirection swipeDirection);
         void onCardClicked(int index);
     }
 
@@ -70,6 +71,15 @@ public class CardStackView extends FrameLayout {
                 cardEventListener.onCardMovedToOrigin();
             }
         }
+
+        @Override
+        public void onSwipeNotAllowed(SwipeDirection swipeDirection) {
+            initializeCardStackPosition();
+            if (cardEventListener != null) {
+                cardEventListener.onSwipeNotAllowed(swipeDirection);
+            }
+        }
+
         @Override
         public void onContainerClicked() {
             if (cardEventListener != null) {
@@ -268,10 +278,10 @@ public class CardStackView extends FrameLayout {
         } else if (direction == SwipeDirection.Right) {
             getTopView().showRightOverlay();
             getTopView().setOverlayAlpha(1f);
-        } else if (direction == SwipeDirection.Bottom){
+        } else if (direction == SwipeDirection.Bottom) {
             getTopView().showBottomOverlay();
             getTopView().setOverlayAlpha(1f);
-        } else if (direction == SwipeDirection.Top){
+        } else if (direction == SwipeDirection.Top) {
             getTopView().showTopOverlay();
             getTopView().setOverlayAlpha(1f);
         }
@@ -496,6 +506,17 @@ public class CardStackView extends FrameLayout {
                 }
             });
         }
+    }
+
+    public void reverseFromTop() {
+        ViewGroup parent = containers.getLast();
+        View prevView = adapter.getView(state.topIndex - 1, null, parent);
+        performReverse(new Point(0,0 + parent.getHeight()), prevView, new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                executePostReverseTask();
+            }
+        });
     }
 
     public CardContainerView getTopView() {

@@ -50,6 +50,7 @@ public class CardContainerView extends FrameLayout {
         void onContainerDragging(float percentX, float percentY);
         void onContainerSwiped(Point point, SwipeDirection direction);
         void onContainerMovedToOrigin();
+        void onSwipeNotAllowed(SwipeDirection swipeDirection);
         void onContainerClicked();
     }
 
@@ -175,7 +176,7 @@ public class CardContainerView extends FrameLayout {
                 } else {
                     moveToOrigin();
                     if (containerEventListener != null) {
-                        containerEventListener.onContainerMovedToOrigin();
+                        containerEventListener.onSwipeNotAllowed(direction);
                     }
                 }
             } else {
