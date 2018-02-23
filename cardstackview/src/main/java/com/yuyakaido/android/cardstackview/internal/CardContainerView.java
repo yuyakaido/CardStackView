@@ -48,8 +48,11 @@ public class CardContainerView extends FrameLayout {
 
     public interface ContainerEventListener {
         void onContainerDragging(float percentX, float percentY);
+
         void onContainerSwiped(Point point, SwipeDirection direction);
+
         void onContainerMovedToOrigin();
+
         void onContainerClicked();
     }
 
@@ -73,6 +76,20 @@ public class CardContainerView extends FrameLayout {
         overlayContainer = (ViewGroup) findViewById(R.id.card_frame_overlay_container);
     }
 
+    /**
+     * Spy or monitor all the events include those been sent to child views
+     * ref: https://stackoverflow.com/a/35113182/2100084
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        // here you get all events include move & up
+        onTouchEvent(event);
+
+        super.dispatchTouchEvent(event);
+
+        // to keep receive event that follow down event
+        return true;
+    }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         gestureDetector.onTouchEvent(event);
@@ -154,7 +171,7 @@ public class CardContainerView extends FrameLayout {
                     radian = Math.toRadians(degree);
                     if (Math.cos(radian) < 0.5) {
                         direction = SwipeDirection.Bottom;
-                    }else{
+                    } else {
                         direction = SwipeDirection.Right;
                     }
                     break;
@@ -215,14 +232,14 @@ public class CardContainerView extends FrameLayout {
         float percentX = getPercentX();
         float percentY = getPercentY();
 
-        if (Math.abs(percentX) > Math.abs(percentY)){
+        if (Math.abs(percentX) > Math.abs(percentY)) {
             if (percentX < 0) {
                 showLeftOverlay();
             } else {
                 showRightOverlay();
             }
             setOverlayAlpha(Math.abs(percentX));
-        }else{
+        } else {
             if (percentY < 0) {
                 showTopOverlay();
             } else {
