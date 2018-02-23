@@ -84,8 +84,9 @@ public class CardContainerView extends FrameLayout {
     public boolean dispatchTouchEvent(MotionEvent event) {
         super.dispatchTouchEvent(event);
 
-        // here you get all events include move & up
-        onTouchEvent(event);
+        // handle the motion event even if a child returns true in OnTouchEvent
+        // the MotionEvent may have been canceled by the child view
+        handleTouchEvent(event);
 
         // to keep receive event that follow down event
         return true;
@@ -93,6 +94,12 @@ public class CardContainerView extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        // OnTouchEvent is called manually, if OnTouchEvent propagates back to this layout do
+        // nothing as it was already handled.
+        return true;
+    }
+
+    private boolean handleTouchEvent(MotionEvent event) {
         gestureDetector.onTouchEvent(event);
 
         if (!option.isSwipeEnabled || !isDraggable) {
