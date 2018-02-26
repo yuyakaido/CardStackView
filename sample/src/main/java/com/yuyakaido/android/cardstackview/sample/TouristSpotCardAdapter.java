@@ -1,16 +1,19 @@
 package com.yuyakaido.android.cardstackview.sample;
 
 import android.content.Context;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import java.util.ArrayList;
+import java.util.List;
+
+import me.relex.circleindicator.CircleIndicator;
 
 public class TouristSpotCardAdapter extends ArrayAdapter<TouristSpot> {
 
@@ -35,7 +38,19 @@ public class TouristSpotCardAdapter extends ArrayAdapter<TouristSpot> {
 
         holder.name.setText(spot.name);
         holder.city.setText(spot.city);
-        Glide.with(getContext()).load(spot.url).into(holder.image);
+
+        List<String> posts = new ArrayList<>();
+        posts.add(spot.url);
+        posts.add(spot.url);
+        posts.add(spot.url);
+        posts.add(spot.url);
+
+        UserPhotoAdapter adapter = new UserPhotoAdapter(getContext(), posts);
+        holder.vpPhoto.setAdapter(adapter);
+        holder.ci.setViewPager(holder.vpPhoto);
+
+        MyCardContainerView container = (MyCardContainerView) parent.getParent();
+        container.setViewPager(holder.vpPhoto);
 
         holder.ivInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,14 +65,16 @@ public class TouristSpotCardAdapter extends ArrayAdapter<TouristSpot> {
     private static class ViewHolder {
         public TextView name;
         public TextView city;
-        public ImageView image;
         public ImageView ivInfo;
+        public ViewPager vpPhoto;
+        public CircleIndicator ci;
 
         public ViewHolder(View view) {
             this.name = (TextView) view.findViewById(R.id.item_tourist_spot_card_name);
             this.city = (TextView) view.findViewById(R.id.item_tourist_spot_card_city);
-            this.image = (ImageView) view.findViewById(R.id.item_tourist_spot_card_image);
             this.ivInfo = (ImageView) view.findViewById(R.id.iv_info);
+            this.vpPhoto = (ViewPager) view.findViewById(R.id.vp_card);
+            this.ci = (CircleIndicator) view.findViewById(R.id.vpi_photo);
         }
     }
 
