@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 
-import com.yuyakaido.android.cardstackview.R;
 import com.yuyakaido.android.cardstackview.SwipeDirection;
 
 public class CardContainerView extends FrameLayout {
@@ -61,9 +60,10 @@ public class CardContainerView extends FrameLayout {
     }
 
     private void initLayout() {
-        inflate(getContext(), R.layout.card_frame, this);
-        contentContainer = (ViewGroup) findViewById(R.id.card_frame_content_container);
-        overlayContainer = (ViewGroup) findViewById(R.id.card_frame_overlay_container);
+        contentContainer = new FrameLayout(getContext());
+        overlayContainer = new FrameLayout(getContext());
+        addView(contentContainer);
+        addView(overlayContainer);
     }
 
     @Override
@@ -81,14 +81,14 @@ public class CardContainerView extends FrameLayout {
         switch (MotionEventCompat.getActionMasked(event)) {
             case MotionEvent.ACTION_DOWN:
                 handleActionDown(event);
-                getParent().getParent().requestDisallowInterceptTouchEvent(true);
+                getParent().requestDisallowInterceptTouchEvent(true);
                 break;
             case MotionEvent.ACTION_UP:
                 handleActionUp(event);
-                getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                getParent().requestDisallowInterceptTouchEvent(false);
                 break;
             case MotionEvent.ACTION_CANCEL:
-                getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                getParent().requestDisallowInterceptTouchEvent(false);
                 break;
             case MotionEvent.ACTION_MOVE:
                 handleActionMove(event);
