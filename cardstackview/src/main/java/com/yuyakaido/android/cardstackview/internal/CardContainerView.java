@@ -57,48 +57,19 @@ public class CardContainerView extends FrameLayout {
     }
 
     public CardContainerView(Context context) {
-        this(context, null);
-    }
+        super(context);
 
-    public CardContainerView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public CardContainerView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
         inflate(getContext(), R.layout.card_frame, this);
         contentContainer = (ViewGroup) findViewById(R.id.card_frame_content_container);
         overlayContainer = (ViewGroup) findViewById(R.id.card_frame_overlay_container);
     }
 
-    /**
-     * Spy or monitor all the events include those been sent to child views
-     * ref: https://stackoverflow.com/a/35113182/2100084
-     */
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        // handle the motion event even if a child returns true in OnTouchEvent
-        // the MotionEvent may have been canceled by the child view
-        handleTouchEvent(event);
-
-        super.dispatchTouchEvent(event);
-
-        // to keep receive event that follow down event
-        return true;
-    }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        // OnTouchEvent is called manually, if OnTouchEvent propagates back to this layout do
-        // nothing as it was already handled.
-        return true;
+        return handleTouchEvent(event);
     }
 
-    private boolean handleTouchEvent(MotionEvent event) {
+    protected boolean handleTouchEvent(MotionEvent event) {
         gestureDetector.onTouchEvent(event);
 
         if (!option.isSwipeEnabled || !isDraggable) {

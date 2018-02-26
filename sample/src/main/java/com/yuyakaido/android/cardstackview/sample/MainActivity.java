@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.activity_main_progress_bar);
 
         cardStackView = (CardStackView) findViewById(R.id.activity_main_card_stack_view);
+        cardStackView.setCardContainerViewClass(MyCardContainerView.class);
         cardStackView.setCardEventListener(new CardStackView.CardEventListener() {
             @Override
             public void onCardDragging(float percentX, float percentY) {
