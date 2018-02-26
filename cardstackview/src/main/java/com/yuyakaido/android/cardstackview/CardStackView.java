@@ -519,7 +519,8 @@ public class CardStackView extends FrameLayout {
 
     public void reverse() {
         if (state.lastPoint != null) {
-            ViewGroup parent = getBottomView();
+            CardContainerView container = getBottomView();
+            ViewGroup parent = container.getContentContainer();
             View prevView = adapter.getView(state.topIndex - 1, null, parent);
             performReverse(state.lastPoint, prevView, new AnimatorListenerAdapter() {
                 @Override
