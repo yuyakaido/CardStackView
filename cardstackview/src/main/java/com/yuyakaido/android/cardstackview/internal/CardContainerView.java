@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Point;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
-import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 
-import com.yuyakaido.android.cardstackview.R;
 import com.yuyakaido.android.cardstackview.SwipeDirection;
 
 public class CardContainerView extends FrameLayout {
@@ -59,9 +57,14 @@ public class CardContainerView extends FrameLayout {
     public CardContainerView(Context context) {
         super(context);
 
-        inflate(getContext(), R.layout.card_frame, this);
-        contentContainer = (ViewGroup) findViewById(R.id.card_frame_content_container);
-        overlayContainer = (ViewGroup) findViewById(R.id.card_frame_overlay_container);
+        initLayout();
+    }
+
+    private void initLayout() {
+        contentContainer = new FrameLayout(getContext());
+        overlayContainer = new FrameLayout(getContext());
+        addView(contentContainer);
+        addView(overlayContainer);
     }
 
     @Override
@@ -79,14 +82,14 @@ public class CardContainerView extends FrameLayout {
         switch (MotionEventCompat.getActionMasked(event)) {
             case MotionEvent.ACTION_DOWN:
                 handleActionDown(event);
-                getParent().getParent().requestDisallowInterceptTouchEvent(true);
+                getParent().requestDisallowInterceptTouchEvent(true);
                 break;
             case MotionEvent.ACTION_UP:
                 handleActionUp(event);
-                getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                getParent().requestDisallowInterceptTouchEvent(false);
                 break;
             case MotionEvent.ACTION_CANCEL:
-                getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                getParent().requestDisallowInterceptTouchEvent(false);
                 break;
             case MotionEvent.ACTION_MOVE:
                 handleActionMove(event);
