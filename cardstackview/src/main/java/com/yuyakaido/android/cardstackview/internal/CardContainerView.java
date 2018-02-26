@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Point;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
-import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -57,49 +56,22 @@ public class CardContainerView extends FrameLayout {
     }
 
     public CardContainerView(Context context) {
-        this(context, null);
+        super(context);
+        initLayout();
     }
 
-    public CardContainerView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public CardContainerView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
+    private void initLayout() {
         inflate(getContext(), R.layout.card_frame, this);
         contentContainer = (ViewGroup) findViewById(R.id.card_frame_content_container);
         overlayContainer = (ViewGroup) findViewById(R.id.card_frame_overlay_container);
     }
 
-    /**
-     * Spy or monitor all the events include those been sent to child views
-     * ref: https://stackoverflow.com/a/35113182/2100084
-     */
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        super.dispatchTouchEvent(event);
-
-        // handle the motion event even if a child returns true in OnTouchEvent
-        // the MotionEvent may have been canceled by the child view
-        handleTouchEvent(event);
-
-        // to keep receive event that follow down event
-        return true;
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        // OnTouchEvent is called manually, if OnTouchEvent propagates back to this layout do
-        // nothing as it was already handled.
-        return true;
+        return handleTouchEvent(event);
     }
 
-    private boolean handleTouchEvent(MotionEvent event) {
+    protected boolean handleTouchEvent(MotionEvent event) {
         gestureDetector.onTouchEvent(event);
 
         if (!option.isSwipeEnabled || !isDraggable) {
