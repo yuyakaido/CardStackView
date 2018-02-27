@@ -45,7 +45,7 @@
 
         </LinearLayout>
 
-        <ImageView
+        <com.yuyakaido.android.cardstackview.sample.SwipeClickabilityImageView
             android:id="@+id/iv_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
