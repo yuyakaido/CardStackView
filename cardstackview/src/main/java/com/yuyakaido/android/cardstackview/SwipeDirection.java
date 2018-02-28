@@ -5,16 +5,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum SwipeDirection {
-    Left, Right, Top, Bottom;
+    LEFT, RIGHT, TOP, BOTTOM;
 
     public static final List<SwipeDirection> FREEDOM = Arrays
             .asList(SwipeDirection.values());
     public static final List<SwipeDirection> FREEDOM_NO_BOTTOM = Arrays
-            .asList(SwipeDirection.Top, SwipeDirection.Left, SwipeDirection.Right);
+            .asList(SwipeDirection.TOP, SwipeDirection.LEFT, SwipeDirection.RIGHT);
     public static final List<SwipeDirection> HORIZONTAL = Arrays
-            .asList(SwipeDirection.Left, SwipeDirection.Right);
+            .asList(SwipeDirection.LEFT, SwipeDirection.RIGHT);
     public static final List<SwipeDirection> VERTICAL = Arrays
-            .asList(SwipeDirection.Top, SwipeDirection.Bottom);
+            .asList(SwipeDirection.TOP, SwipeDirection.BOTTOM);
     public static final List<SwipeDirection> NONE = new ArrayList<>();
 
     public static List<SwipeDirection> from(int value) {

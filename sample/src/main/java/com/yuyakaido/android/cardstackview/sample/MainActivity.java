@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
         AnimatorSet set = new AnimatorSet();
         set.playTogether(rotation, translateX, translateY);
 
-        cardStackView.swipe(SwipeDirection.Left, set);
+        cardStackView.swipe(SwipeDirection.LEFT, set);
     }
 
     public void swipeRight() {
@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
         AnimatorSet set = new AnimatorSet();
         set.playTogether(rotation, translateX, translateY);
 
-        cardStackView.swipe(SwipeDirection.Right, set);
+        cardStackView.swipe(SwipeDirection.RIGHT, set);
     }
 
     private void reverse() {
