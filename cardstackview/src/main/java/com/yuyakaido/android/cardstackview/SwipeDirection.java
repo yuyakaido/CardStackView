@@ -1,5 +1,6 @@
 package com.yuyakaido.android.cardstackview;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,11 +10,12 @@ public enum SwipeDirection {
     public static final List<SwipeDirection> FREEDOM = Arrays
             .asList(SwipeDirection.values());
     public static final List<SwipeDirection> FREEDOM_NO_BOTTOM = Arrays
-            .asList(SwipeDirection.Top,SwipeDirection.Left, SwipeDirection.Right);
+            .asList(SwipeDirection.Top, SwipeDirection.Left, SwipeDirection.Right);
     public static final List<SwipeDirection> HORIZONTAL = Arrays
             .asList(SwipeDirection.Left, SwipeDirection.Right);
     public static final List<SwipeDirection> VERTICAL = Arrays
             .asList(SwipeDirection.Top, SwipeDirection.Bottom);
+    public static final List<SwipeDirection> NONE = new ArrayList<>();
 
     public static List<SwipeDirection> from(int value) {
         switch (value) {
@@ -25,6 +27,8 @@ public enum SwipeDirection {
                 return HORIZONTAL;
             case 3:
                 return VERTICAL;
+            case 4:
+                return NONE;
             default:
                 return FREEDOM;
         }
