@@ -330,10 +330,9 @@ public class CardStackView extends FrameLayout {
     private void executePostSwipeTask(Point point, SwipeDirection direction) {
         reorderForSwipe();
 
-        state.lastPoint = point;
-
         initializeCardStackPosition();
 
+        state.swipedItems.put(state.topIndex, point);
         state.topIndex++;
 
         if (cardEventListener != null) {
@@ -347,11 +346,10 @@ public class CardStackView extends FrameLayout {
     }
 
     private void executePostReverseTask() {
-        state.lastPoint = null;
-
         initializeCardStackPosition();
 
         state.topIndex--;
+        state.swipedItems.remove(state.topIndex);
 
         if (cardEventListener != null) {
             cardEventListener.onCardReversed();
@@ -486,10 +484,11 @@ public class CardStackView extends FrameLayout {
     }
 
     public void reverse() {
-        if (state.lastPoint != null) {
+        int reverseIndex = state.topIndex - 1;
+        if (isReversible() && reverseIndex >= 0) {
             ViewGroup parent = containers.getLast();
-            View prevView = adapter.getView(state.topIndex - 1, null, parent);
-            performReverse(state.lastPoint, prevView, new AnimatorListenerAdapter() {
+            View prevView = adapter.getView(reverseIndex, null, parent);
+            performReverse(state.swipedItems.get(reverseIndex), prevView, new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animator) {
                     executePostReverseTask();
@@ -510,4 +509,7 @@ public class CardStackView extends FrameLayout {
         return state.topIndex;
     }
 
+    public boolean isReversible() {
+        return state.swipedItems != null && state.swipedItems.size() > 0;
+    }
 }
