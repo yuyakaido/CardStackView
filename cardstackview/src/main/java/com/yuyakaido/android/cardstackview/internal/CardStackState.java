@@ -8,6 +8,7 @@ public class CardStackState {
     public int lastCount = 0;
     public boolean isPaginationReserved = false;
     public boolean isInitialized = false;
+    public boolean isReversing = false;
     public SparseArray<Point> swipedItems = new SparseArray<>();
 
     public void reset() {

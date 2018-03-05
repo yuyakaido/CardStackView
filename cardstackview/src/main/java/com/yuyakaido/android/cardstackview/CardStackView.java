@@ -350,6 +350,7 @@ public class CardStackView extends FrameLayout {
 
         state.topIndex--;
         state.swipedItems.remove(state.topIndex);
+        state.isReversing = false;
 
         if (cardEventListener != null) {
             cardEventListener.onCardReversed();
@@ -486,6 +487,7 @@ public class CardStackView extends FrameLayout {
     public void reverse() {
         int reverseIndex = state.topIndex - 1;
         if (isReversible() && reverseIndex >= 0) {
+            state.isReversing = true;
             ViewGroup parent = containers.getLast();
             View prevView = adapter.getView(reverseIndex, null, parent);
             performReverse(state.swipedItems.get(reverseIndex), prevView, new AnimatorListenerAdapter() {
@@ -510,6 +512,6 @@ public class CardStackView extends FrameLayout {
     }
 
     public boolean isReversible() {
-        return state.swipedItems != null && state.swipedItems.size() > 0;
+        return !state.isReversing && state.swipedItems != null && state.swipedItems.size() > 0;
     }
 }
