@@ -240,6 +240,9 @@ public class CardStackView extends FrameLayout {
     }
 
     public void performReverse(Point point, View prevView, final Animator.AnimatorListener listener) {
+        // disable draggable the top card will be reordered to the second
+        getTopView().setDraggable(false);
+
         reorderForReverse(prevView);
         CardContainerView topView = getTopView();
         ViewCompat.setTranslationX(topView, point.x);
