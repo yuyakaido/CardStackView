@@ -12,6 +12,7 @@
         </attr>
         <attr name="elevationEnabled" format="boolean"/>
         <attr name="swipeEnabled" format="boolean"/>
+        <attr name="multipleReverseEnabled" format="boolean"/>
         <attr name="swipeDirection" format="enum">
             <enum name="freedom" value="0"/>
             <enum name="freedom_no_bottom" value="1"/>

@@ -97,6 +97,7 @@ public class CardStackView extends FrameLayout {
         setStackFrom(StackFrom.values()[array.getInt(R.styleable.CardStackView_stackFrom, option.stackFrom.ordinal())]);
         setElevationEnabled(array.getBoolean(R.styleable.CardStackView_elevationEnabled, option.isElevationEnabled));
         setSwipeEnabled(array.getBoolean(R.styleable.CardStackView_swipeEnabled, option.isSwipeEnabled));
+        setMultipleReverseEnabled(array.getBoolean(R.styleable.CardStackView_multipleReverseEnabled, option.isMultipleReverseEnabled));
         setSwipeDirection(SwipeDirection.from(array.getInt(R.styleable.CardStackView_swipeDirection, 0)));
         setLeftOverlay(array.getResourceId(R.styleable.CardStackView_leftOverlay, 0));
         setRightOverlay(array.getResourceId(R.styleable.CardStackView_rightOverlay, 0));
@@ -332,6 +333,9 @@ public class CardStackView extends FrameLayout {
 
         initializeCardStackPosition();
 
+        if (!option.isMultipleReverseEnabled) {
+            state.swipedItems.clear();
+        }
         state.swipedItems.put(state.topIndex, point);
         state.topIndex++;
 
@@ -423,6 +427,10 @@ public class CardStackView extends FrameLayout {
         if (adapter != null) {
             initialize(false);
         }
+    }
+
+    public void setMultipleReverseEnabled(boolean isMultipleReverseEnabled) {
+        option.isMultipleReverseEnabled = isMultipleReverseEnabled;
     }
 
     public void setSwipeDirection(List<SwipeDirection> swipeDirection) {
