@@ -261,19 +261,19 @@ public class CardStackView extends FrameLayout {
                 .start();
     }
 
-    public void performSwipe(SwipeDirection direction, AnimatorSet set, final Animator.AnimatorListener listener) {
+    public void performSwipe(SwipeDirection direction, AnimatorSet set, AnimatorSet overlayAnimatorSet, final Animator.AnimatorListener listener) {
         if (direction == SwipeDirection.Left) {
             getTopView().showLeftOverlay();
-            getTopView().setOverlayAlpha(1f);
+            getTopView().setOverlayAlpha(overlayAnimatorSet);
         } else if (direction == SwipeDirection.Right) {
             getTopView().showRightOverlay();
-            getTopView().setOverlayAlpha(1f);
+            getTopView().setOverlayAlpha(overlayAnimatorSet);
         } else if (direction == SwipeDirection.Bottom){
             getTopView().showBottomOverlay();
-            getTopView().setOverlayAlpha(1f);
+            getTopView().setOverlayAlpha(overlayAnimatorSet);
         } else if (direction == SwipeDirection.Top){
             getTopView().showTopOverlay();
-            getTopView().setOverlayAlpha(1f);
+            getTopView().setOverlayAlpha(overlayAnimatorSet);
         }
         set.addListener(listener);
         set.setInterpolator(new TimeInterpolator() {
@@ -476,8 +476,12 @@ public class CardStackView extends FrameLayout {
     }
 
     public void swipe(final SwipeDirection direction, AnimatorSet set) {
+        swipe(direction, set, null);
+    }
+
+    public void swipe(final SwipeDirection direction, AnimatorSet cardAnimatorSet, AnimatorSet overlayAnimatorSet) {
         executePreSwipeTask();
-        performSwipe(direction, set, new AnimatorListenerAdapter() {
+        performSwipe(direction, cardAnimatorSet, overlayAnimatorSet, new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 executePostSwipeTask(new Point(0, -2000), direction);
