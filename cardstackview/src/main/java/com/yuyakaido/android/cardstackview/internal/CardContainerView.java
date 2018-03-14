@@ -1,5 +1,6 @@
 package com.yuyakaido.android.cardstackview.internal;
 
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.graphics.Point;
 import android.support.v4.view.MotionEventCompat;
@@ -303,6 +304,12 @@ public class CardContainerView extends FrameLayout {
             topOverlayView = LayoutInflater.from(getContext()).inflate(top, overlayContainer, false);
             overlayContainer.addView(topOverlayView);
             ViewCompat.setAlpha(topOverlayView, 0f);
+        }
+    }
+
+    public void setOverlayAlpha(AnimatorSet overlayAnimatorSet) {
+        if(overlayAnimatorSet != null) {
+            overlayAnimatorSet.start();
         }
     }
 
