@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         View targetOverlay = cardStackView.getTopView().getOverlayContainer();
 
         ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("rotation", 10f));
+                target, PropertyValuesHolder.ofFloat("rotation", -10f));
         rotation.setDuration(200);
         ValueAnimator translateX = ObjectAnimator.ofPropertyValuesHolder(
                 target, PropertyValuesHolder.ofFloat("translationX", 0f, -2000f));
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         View targetOverlay = cardStackView.getTopView().getOverlayContainer();
 
         ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
-                target, PropertyValuesHolder.ofFloat("rotation", -10f));
+                target, PropertyValuesHolder.ofFloat("rotation", 10f));
         rotation.setDuration(200);
         ValueAnimator translateX = ObjectAnimator.ofPropertyValuesHolder(
                 target, PropertyValuesHolder.ofFloat("translationX", 0f, 2000f));
