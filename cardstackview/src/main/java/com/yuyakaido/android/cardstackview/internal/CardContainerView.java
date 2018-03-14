@@ -233,6 +233,22 @@ public class CardContainerView extends FrameLayout {
             } else {
                 showVerticalOverlay(percentY);
             }
+        } else {
+            if (Math.abs(percentX) > Math.abs(percentY)){
+                if (percentX < 0) {
+                    showLeftOverlay();
+                } else {
+                    showRightOverlay();
+                }
+                setOverlayAlpha(Math.abs(percentX));
+            } else {
+                if (percentY < 0) {
+                    showTopOverlay();
+                } else {
+                    showBottomOverlay();
+                }
+                setOverlayAlpha(Math.abs(percentY));
+            }
         }
     }
 
