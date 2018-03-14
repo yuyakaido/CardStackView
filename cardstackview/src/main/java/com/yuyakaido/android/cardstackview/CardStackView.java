@@ -262,19 +262,26 @@ public class CardStackView extends FrameLayout {
     }
 
     public void performSwipe(SwipeDirection direction, AnimatorSet set, AnimatorSet overlayAnimatorSet, final Animator.AnimatorListener listener) {
-        if (direction == SwipeDirection.Left) {
+        boolean showOverlay;
+        if (showOverlay = direction == SwipeDirection.Left) {
             getTopView().showLeftOverlay();
-            getTopView().setOverlayAlpha(overlayAnimatorSet);
-        } else if (direction == SwipeDirection.Right) {
+        } else if (showOverlay = direction == SwipeDirection.Right) {
             getTopView().showRightOverlay();
-            getTopView().setOverlayAlpha(overlayAnimatorSet);
-        } else if (direction == SwipeDirection.Bottom){
+        } else if (showOverlay = direction == SwipeDirection.Bottom){
             getTopView().showBottomOverlay();
-            getTopView().setOverlayAlpha(overlayAnimatorSet);
-        } else if (direction == SwipeDirection.Top){
+        } else if (showOverlay = direction == SwipeDirection.Top){
             getTopView().showTopOverlay();
-            getTopView().setOverlayAlpha(overlayAnimatorSet);
+        } else {
+            showOverlay = false;
         }
+        if(showOverlay) {
+            if(overlayAnimatorSet != null) {
+                getTopView().setOverlayAlpha(overlayAnimatorSet);
+            } else {
+                getTopView().setOverlayAlpha(1f);
+            }
+        }
+
         set.addListener(listener);
         set.setInterpolator(new TimeInterpolator() {
             @Override
