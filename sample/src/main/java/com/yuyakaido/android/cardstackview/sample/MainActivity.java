@@ -208,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         View target = cardStackView.getTopView();
+        View targetOverlay = cardStackView.getTopView().getOverlayContainer();
 
         ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
                 target, PropertyValuesHolder.ofFloat("rotation", -10f));
@@ -220,10 +221,15 @@ public class MainActivity extends AppCompatActivity {
         translateY.setStartDelay(100);
         translateX.setDuration(500);
         translateY.setDuration(500);
-        AnimatorSet set = new AnimatorSet();
-        set.playTogether(rotation, translateX, translateY);
+        AnimatorSet cardAnimationSet = new AnimatorSet();
+        cardAnimationSet.playTogether(rotation, translateX, translateY);
 
-        cardStackView.swipe(SwipeDirection.LEFT, set);
+        ObjectAnimator overlayAnimator = ObjectAnimator.ofFloat(targetOverlay, "alpha", 0f, 1f);
+        overlayAnimator.setDuration(200);
+        AnimatorSet overlayAnimationSet = new AnimatorSet();
+        overlayAnimationSet.playTogether(overlayAnimator);
+
+        cardStackView.swipe(SwipeDirection.LEFT, cardAnimationSet, overlayAnimationSet);
     }
 
     public void swipeRight() {
@@ -233,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         View target = cardStackView.getTopView();
+        View targetOverlay = cardStackView.getTopView().getOverlayContainer();
 
         ValueAnimator rotation = ObjectAnimator.ofPropertyValuesHolder(
                 target, PropertyValuesHolder.ofFloat("rotation", 10f));
@@ -245,10 +252,15 @@ public class MainActivity extends AppCompatActivity {
         translateY.setStartDelay(100);
         translateX.setDuration(500);
         translateY.setDuration(500);
-        AnimatorSet set = new AnimatorSet();
-        set.playTogether(rotation, translateX, translateY);
+        AnimatorSet cardAnimationSet = new AnimatorSet();
+        cardAnimationSet.playTogether(rotation, translateX, translateY);
 
-        cardStackView.swipe(SwipeDirection.RIGHT, set);
+        ObjectAnimator overlayAnimator = ObjectAnimator.ofFloat(targetOverlay, "alpha", 0f, 1f);
+        overlayAnimator.setDuration(200);
+        AnimatorSet overlayAnimationSet = new AnimatorSet();
+        overlayAnimationSet.playTogether(overlayAnimator);
+
+        cardStackView.swipe(SwipeDirection.RIGHT, cardAnimationSet, overlayAnimationSet);
     }
 
     private void reverse() {

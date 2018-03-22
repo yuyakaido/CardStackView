@@ -1,5 +1,6 @@
 package com.yuyakaido.android.cardstackview.internal;
 
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.graphics.Point;
 import android.support.v4.view.MotionEventCompat;
@@ -215,21 +216,58 @@ public class CardContainerView extends FrameLayout {
         float percentX = getPercentX();
         float percentY = getPercentY();
 
-        if (Math.abs(percentX) > Math.abs(percentY)){
-            if (percentX < 0) {
-                showLeftOverlay();
-            } else {
-                showRightOverlay();
-            }
-            setOverlayAlpha(Math.abs(percentX));
-        }else{
-            if (percentY < 0) {
+        if (option.swipeDirection == SwipeDirection.HORIZONTAL) {
+            showHorizontalOverlay(percentX);
+        } else if (option.swipeDirection == SwipeDirection.VERTICAL) {
+            showVerticalOverlay(percentY);
+        } else if (option.swipeDirection == SwipeDirection.FREEDOM_NO_BOTTOM) {
+            if (Math.abs(percentX) < Math.abs(percentY) && percentY < 0) {
                 showTopOverlay();
+                setOverlayAlpha(Math.abs(percentY));
             } else {
-                showBottomOverlay();
+                showHorizontalOverlay(percentX);
             }
-            setOverlayAlpha(Math.abs(percentY));
+        } else if (option.swipeDirection == SwipeDirection.FREEDOM) {
+            if (Math.abs(percentX) > Math.abs(percentY)) {
+                showHorizontalOverlay(percentX);
+            } else {
+                showVerticalOverlay(percentY);
+            }
+        } else {
+            if (Math.abs(percentX) > Math.abs(percentY)){
+                if (percentX < 0) {
+                    showLeftOverlay();
+                } else {
+                    showRightOverlay();
+                }
+                setOverlayAlpha(Math.abs(percentX));
+            } else {
+                if (percentY < 0) {
+                    showTopOverlay();
+                } else {
+                    showBottomOverlay();
+                }
+                setOverlayAlpha(Math.abs(percentY));
+            }
         }
+    }
+
+    private void showHorizontalOverlay(float percentX) {
+        if (percentX < 0) {
+            showLeftOverlay();
+        } else {
+            showRightOverlay();
+        }
+        setOverlayAlpha(Math.abs(percentX));
+    }
+
+    private void showVerticalOverlay(float percentY) {
+        if (percentY < 0) {
+            showTopOverlay();
+        } else {
+            showBottomOverlay();
+        }
+        setOverlayAlpha(Math.abs(percentY));
     }
 
     private void moveToOrigin() {
@@ -303,6 +341,12 @@ public class CardContainerView extends FrameLayout {
             topOverlayView = LayoutInflater.from(getContext()).inflate(top, overlayContainer, false);
             overlayContainer.addView(topOverlayView);
             ViewCompat.setAlpha(topOverlayView, 0f);
+        }
+    }
+
+    public void setOverlayAlpha(AnimatorSet overlayAnimatorSet) {
+        if(overlayAnimatorSet != null) {
+            overlayAnimatorSet.start();
         }
     }
 
