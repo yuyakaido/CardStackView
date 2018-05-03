@@ -336,7 +336,7 @@ public class CardStackView extends FrameLayout {
 
     private void executePostSwipeTask(Point point, SwipeDirection direction) {
         // don't swipe card if swipeDirection is updated to lock this direction when the card is moving
-        if (!option.swipeDirection.contains(direction)) {
+        if (option.swipeDirection.isEmpty()) {
             return;
         }
 
