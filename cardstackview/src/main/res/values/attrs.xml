@@ -22,5 +22,7 @@
         <attr name="rightOverlay" format="reference"/>
         <attr name="bottomOverlay" format="reference"/>
         <attr name="topOverlay" format="reference"/>
+        <attr name="cardAlpha" format="float" />
+        <attr name="cardRotation" format="integer" />
     </declare-styleable>
 </resources>

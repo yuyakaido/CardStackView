@@ -209,7 +209,7 @@ public class CardContainerView extends FrameLayout {
     }
 
     private void updateRotation() {
-        ViewCompat.setRotation(this, getPercentX() * 20);
+        ViewCompat.setRotation(this, getPercentX() * option.rotation);
     }
 
     private void updateAlpha() {

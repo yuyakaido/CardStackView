@@ -102,6 +102,8 @@ public class CardStackView extends FrameLayout {
         setRightOverlay(array.getResourceId(R.styleable.CardStackView_rightOverlay, 0));
         setBottomOverlay(array.getResourceId(R.styleable.CardStackView_bottomOverlay, 0));
         setTopOverlay(array.getResourceId(R.styleable.CardStackView_topOverlay, 0));
+        setCardAlpha(array.getFloat(R.styleable.CardStackView_cardAlpha, option.alpha));
+        setCardRotation(array.getInt(R.styleable.CardStackView_cardRotation, option.rotation));
         array.recycle();
     }
 
@@ -215,6 +217,9 @@ public class CardStackView extends FrameLayout {
             return;
         }
 
+        if (option.alpha < 1) {
+            ViewCompat.setAlpha(containers.get(0), 1.0f - (1.0f * Math.abs(percentX)));
+        }
         for (int i = 1; i < option.visibleCount; i++) {
             CardContainerView view = containers.get(i);
 
@@ -236,6 +241,14 @@ public class CardStackView extends FrameLayout {
 
             float translationY = currentTranslationY - Math.abs(percentX) * (currentTranslationY - nextTranslationY);
             ViewCompat.setTranslationY(view, translationY);
+
+            if (option.alpha < 1) {
+                float alpha = option.alpha;
+                if (i == 1) {
+                    alpha = option.alpha + ((1.f - option.alpha) * Math.abs(percentX));
+                }
+                ViewCompat.setAlpha(view, alpha);
+            }
         }
     }
 
@@ -463,6 +476,20 @@ public class CardStackView extends FrameLayout {
 
     public void setTopOverlay(int topOverlay) {
         option.topOverlay = topOverlay;
+        if (adapter != null) {
+            initialize(false);
+        }
+    }
+
+    public void setCardAlpha(float alpha) {
+        option.alpha = alpha;
+        if (adapter != null) {
+            initialize(false);
+        }
+    }
+
+    public void setCardRotation(int rotation) {
+        option.rotation = rotation;
         if (adapter != null) {
             initialize(false);
         }
