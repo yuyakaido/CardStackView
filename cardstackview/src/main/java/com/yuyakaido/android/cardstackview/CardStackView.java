@@ -168,7 +168,7 @@ public class CardStackView extends FrameLayout {
                 ViewGroup parent = container.getContentContainer();
                 View child = adapter.getView(adapterIndex, parent.getChildAt(0), parent);
                 if (option.isOpacityEnabled && i > 0) {
-                    child.setAlpha(0.5f);
+                    container.setCardOpacity(0.5f);
                 }
                 if (parent.getChildCount() == 0) {
                     parent.addView(child);
@@ -192,7 +192,7 @@ public class CardStackView extends FrameLayout {
             ViewGroup parent = container.getContentContainer();
             View child = adapter.getView(lastIndex, parent.getChildAt(0), parent);
             if (option.isOpacityEnabled) {
-                child.setAlpha(0.5f);
+                container.setCardOpacity(0.5f);
             }
             if (parent.getChildCount() == 0) {
                 parent.addView(child);
@@ -212,7 +212,10 @@ public class CardStackView extends FrameLayout {
     private void clear() {
         for (int i = 0; i < option.visibleCount; i++) {
             CardContainerView view = containers.get(i);
-            view.reset();
+            if (!option.isOpacityEnabled || i == 0) {
+                view.setCardOpacity(1f);
+            }
+            view.setOverlayAlpha(0.0f);
             ViewCompat.setTranslationX(view, 0f);
             ViewCompat.setTranslationY(view, 0f);
             ViewCompat.setScaleX(view, 1f);
@@ -371,7 +374,7 @@ public class CardStackView extends FrameLayout {
 
         containers.getLast().setContainerEventListener(null);
         containers.getFirst().setContainerEventListener(containerEventListener);
-        if (option.isOpacityEnabled) {
+        if (option.isOpacityEnabled && getTopView() != null) {
             getTopView().setCardOpacity(1f);
         }
     }
@@ -380,8 +383,8 @@ public class CardStackView extends FrameLayout {
         state.lastPoint = null;
 
         initializeCardStackPosition();
-        if (containers.size() > 1) {
-            containers.get(1).getContentContainer().getChildAt(0).setAlpha(0.5f);
+        if (option.isOpacityEnabled && containers.size() > 1) {
+            containers.get(1).setCardOpacity(0.5f);
         }
 
         state.topIndex--;
@@ -394,7 +397,7 @@ public class CardStackView extends FrameLayout {
 
         containers.getLast().setContainerEventListener(null);
         containers.getFirst().setContainerEventListener(containerEventListener);
-        if (option.isOpacityEnabled) {
+        if (option.isOpacityEnabled && getTopView() != null) {
             getTopView().setCardOpacity(1f);
         }
 

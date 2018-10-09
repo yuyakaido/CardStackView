@@ -348,7 +348,7 @@ public class CardContainerView extends FrameLayout {
     }
 
     public void setCardOpacity(float opacity) {
-        contentContainer.getChildAt(0).setAlpha(opacity);
+        ViewCompat.setAlpha(contentContainer, opacity);
     }
 
     public void setOverlayAlpha(AnimatorSet overlayAnimatorSet) {
