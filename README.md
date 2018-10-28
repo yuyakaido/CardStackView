@@ -204,12 +204,15 @@ CardStackView#setSwipeEnabled(false);
 | Default | Value | Sample |
 | :----: | :----: | :----: |
 | ✅ | Freedom | ![SwipeDirection-Freedom](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-direction-freedom.gif) |
+| | Freedom No Bottom |  |
 | | Horizontal | ![SwipeDirection-Horizontal](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-direction-horizontal.gif) |
 | | Vertical | ![SwipeDirection-Vertical](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-direction-vertical.gif) |
 
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
     app:swipeDirection="freedom"
+    or
+    app:swipeDirection="freedom_no_bottom"
     or
     app:swipeDirection="horizontal"
     or
@@ -218,6 +221,8 @@ CardStackView#setSwipeEnabled(false);
 
 ```java
 CardStackView#setSwipeDirection(SwipeDirection.FREEDOM);
+or
+CardStackView#setSwipeDirection(SwipeDirection.FREEDOM_NO_BOTTOM);
 or
 CardStackView#setSwipeDirection(SwipeDirection.HORIZONTAL);
 or
