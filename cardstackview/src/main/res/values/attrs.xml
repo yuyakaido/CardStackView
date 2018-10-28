@@ -17,6 +17,7 @@
             <enum name="freedom_no_bottom" value="1"/>
             <enum name="horizontal" value="2"/>
             <enum name="vertical" value="3"/>
+            <enum name="freedom_no_top" value="4"/>
         </attr>
         <attr name="leftOverlay" format="reference"/>
         <attr name="rightOverlay" format="reference"/>
