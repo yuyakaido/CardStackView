@@ -2,4 +2,5 @@
 
 <resources>
     <string name="app_name">CardStackView</string>
+    <string name="refresh">Refresh</string>
 </resources>
