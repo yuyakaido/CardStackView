@@ -61,7 +61,7 @@ public class CardStackLayoutManager
 
     @Override
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State s) {
-        if (state.state != CardStackState.State.SwipeAnimating) {
+        if (state.status != CardStackState.Status.SwipeAnimating) {
             state.dx -= dx;
             update(recycler);
             return dx;
@@ -71,7 +71,7 @@ public class CardStackLayoutManager
 
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State s) {
-        if (state.state != CardStackState.State.SwipeAnimating) {
+        if (state.status != CardStackState.Status.SwipeAnimating) {
             state.dy -= dy;
             update(recycler);
             return dy;
@@ -83,33 +83,33 @@ public class CardStackLayoutManager
     public void onScrollStateChanged(int s) {
         switch (s) {
             case RecyclerView.SCROLL_STATE_IDLE:
-                if (state.state != CardStackState.State.PrepareSwipeAnimation) {
+                if (state.status != CardStackState.Status.PrepareSwipeAnimation) {
                     if (state.targetPosition == RecyclerView.NO_POSITION) {
-                        state.next(CardStackState.State.Idle);
+                        state.next(CardStackState.Status.Idle);
                     } else {
                         if (state.topPosition < state.targetPosition) {
                             smoothScrollToNext(state.targetPosition);
                         } else if (state.targetPosition < state.topPosition) {
                             smoothScrollToPrevious(state.targetPosition);
                         } else {
-                            state.next(CardStackState.State.Idle);
+                            state.next(CardStackState.Status.Idle);
                             state.targetPosition = RecyclerView.NO_POSITION;
                         }
                     }
                 }
                 break;
             case RecyclerView.SCROLL_STATE_DRAGGING:
-                state.next(CardStackState.State.Dragging);
+                state.next(CardStackState.Status.Dragging);
                 break;
             case RecyclerView.SCROLL_STATE_SETTLING:
-                if (state.state != CardStackState.State.PrepareSwipeAnimation) {
+                if (state.status != CardStackState.Status.PrepareSwipeAnimation) {
                     if (state.targetPosition == RecyclerView.NO_POSITION) {
-                        state.next(CardStackState.State.Idle);
+                        state.next(CardStackState.Status.Idle);
                     } else {
                         if (state.topPosition < state.targetPosition) {
-                            state.next(CardStackState.State.PrepareSwipeAnimation);
+                            state.next(CardStackState.Status.PrepareSwipeAnimation);
                         } else if (state.targetPosition < state.topPosition) {
-                            state.next(CardStackState.State.RewindAnimating);
+                            state.next(CardStackState.Status.RewindAnimating);
                         }
                     }
                 }
@@ -125,9 +125,9 @@ public class CardStackLayoutManager
     @Override
     public void scrollToPosition(int position) {
         if (position == state.topPosition || position < 0 || getItemCount() < position) {
-            state.next(CardStackState.State.Idle);
+            state.next(CardStackState.Status.Idle);
             state.targetPosition = RecyclerView.NO_POSITION;
-        } else if (state.state == CardStackState.State.Idle) {
+        } else if (state.status == CardStackState.Status.Idle) {
             state.topPosition = position;
             requestLayout();
         }
@@ -136,9 +136,9 @@ public class CardStackLayoutManager
     @Override
     public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State s, int position) {
         if (position == state.topPosition || position < 0 || getItemCount() < position) {
-            state.next(CardStackState.State.Idle);
+            state.next(CardStackState.Status.Idle);
             state.targetPosition = RecyclerView.NO_POSITION;
-        } else if (state.state == CardStackState.State.Idle) {
+        } else if (state.status == CardStackState.Status.Idle) {
             smoothScrollToPosition(position);
         }
     }
@@ -170,9 +170,9 @@ public class CardStackLayoutManager
         state.width = getWidth();
         state.height = getHeight();
 
-        if (state.state == CardStackState.State.PrepareSwipeAnimation && (state.targetPosition == RecyclerView.NO_POSITION || state.topPosition < state.targetPosition)) {
+        if (state.status == CardStackState.Status.PrepareSwipeAnimation && (state.targetPosition == RecyclerView.NO_POSITION || state.topPosition < state.targetPosition)) {
             if (Math.abs(state.dx) > getWidth() || Math.abs(state.dy) > getHeight()) {
-                state.next(CardStackState.State.SwipeAnimating);
+                state.next(CardStackState.Status.SwipeAnimating);
                 state.topPosition++;
                 final Direction direction = state.getDirection();
                 new Handler().post(new Runnable() {
@@ -236,7 +236,7 @@ public class CardStackLayoutManager
         }
         state.cache.clear();
 
-        if (state.state == CardStackState.State.Dragging) {
+        if (state.status == CardStackState.Status.Dragging) {
             listener.onCardDragging(state.getDirection(), state.getRatio());
         }
     }

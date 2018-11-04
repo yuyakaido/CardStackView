@@ -8,7 +8,7 @@ import com.yuyakaido.android.cardstackview.Direction;
 
 public class CardStackState {
     public SparseArray<View> cache = new SparseArray<>();
-    public State state = State.Idle;
+    public Status status = Status.Idle;
     public int width = 0;
     public int height = 0;
     public int dx = 0;
@@ -17,12 +17,12 @@ public class CardStackState {
     public int targetPosition = RecyclerView.NO_POSITION;
     public float proportion = 0.0f;
 
-    public enum State {
+    public enum Status {
         Idle, Dragging, RewindAnimating, PrepareSwipeAnimation, SwipeAnimating
     }
 
-    public void next(State state) {
-        this.state = state;
+    public void next(Status state) {
+        this.status = state;
     }
 
     public Direction getDirection() {

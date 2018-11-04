@@ -92,16 +92,16 @@ public class CardStackSmoothScroller extends RecyclerView.SmoothScroller {
         CardStackState state = manager.getCardStackState();
         switch (type) {
             case AutomaticSwipe:
-                state.next(CardStackState.State.PrepareSwipeAnimation);
+                state.next(CardStackState.Status.PrepareSwipeAnimation);
                 break;
             case AutomaticRewind:
-                state.next(CardStackState.State.RewindAnimating);
+                state.next(CardStackState.Status.RewindAnimating);
                 break;
             case ManualSwipe:
-                state.next(CardStackState.State.PrepareSwipeAnimation);
+                state.next(CardStackState.Status.PrepareSwipeAnimation);
                 break;
             case ManualCancel:
-                state.next(CardStackState.State.RewindAnimating);
+                state.next(CardStackState.Status.RewindAnimating);
                 break;
         }
     }
