@@ -460,12 +460,12 @@ public class CardStackLayoutManager
         setting.canScrollVertical = canScrollVertical;
     }
 
-    public void setSwipeAnimationSetting(@NonNull SwipeAnimationSetting nextAnimationSetting) {
-        setting.swipeAnimationSetting = nextAnimationSetting;
+    public void setSwipeAnimationSetting(@NonNull SwipeAnimationSetting swipeAnimationSetting) {
+        setting.swipeAnimationSetting = swipeAnimationSetting;
     }
 
-    public void setRewindAnimationSetting(@NonNull RewindAnimationSetting previousAnimationSetting) {
-        setting.rewindAnimationSetting = previousAnimationSetting;
+    public void setRewindAnimationSetting(@NonNull RewindAnimationSetting rewindAnimationSetting) {
+        setting.rewindAnimationSetting = rewindAnimationSetting;
     }
 
 }
