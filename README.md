@@ -31,7 +31,7 @@
     - [Swipe Direction](#swipe-direction)
     - [Swipe Restriction](#swipe-restriction)
 - [Callbacks](#callbacks)
-- [Migratoin Guide](#migration-guide)
+- [Migration Guide](#migration-guide)
 - [Installation](#installation)
 - [License](#license)
 
