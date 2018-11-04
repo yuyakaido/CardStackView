@@ -27,7 +27,7 @@ public class CardStackSnapHelper extends SnapHelper {
                     float vertical = Math.abs(y) / (float) targetView.getHeight();
                     if (setting.swipeThreshold < horizontal || setting.swipeThreshold < vertical) {
                         CardStackState state = manager.getCardStackState();
-                        if (setting.directions.contains(state.getSwipeDirection())) {
+                        if (setting.directions.contains(state.getDirection())) {
                             CardStackSmoothScroller scroller = new CardStackSmoothScroller(CardStackSmoothScroller.ScrollType.ManualSwipe, manager);
                             scroller.setTargetPosition(manager.getTopPosition());
                             manager.startSmoothScroll(scroller);

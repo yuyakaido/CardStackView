@@ -25,7 +25,7 @@ public class CardStackState {
         this.state = state;
     }
 
-    public Direction getSwipeDirection() {
+    public Direction getDirection() {
         if (Math.abs(dy) < Math.abs(dx)) {
             if (dx < 0.0f) {
                 return Direction.Left;

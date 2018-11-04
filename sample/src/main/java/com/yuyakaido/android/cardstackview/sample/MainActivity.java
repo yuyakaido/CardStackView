@@ -51,8 +51,13 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
     }
 
     @Override
+    public void onCardDragging(Direction direction, float ratio) {
+        Log.d("CardStackView", "onCardDragging: d = " + direction.name() + ", r = " + ratio);
+    }
+
+    @Override
     public void onCardSwiped(Direction direction) {
-        Log.d("CardView", "onCardSwiped: p = " + manager.getTopPosition() + ", d = " + direction);
+        Log.d("CardStackView", "onCardSwiped: p = " + manager.getTopPosition() + ", d = " + direction);
         if (manager.getTopPosition() == adapter.getItemCount() - 5) {
             adapter.addSpots(createSpots());
             adapter.notifyDataSetChanged();
@@ -61,12 +66,12 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
 
     @Override
     public void onCardRewound() {
-        Log.d("CardView", "onCardRewound: " + manager.getTopPosition());
+        Log.d("CardStackView", "onCardRewound: " + manager.getTopPosition());
     }
 
     @Override
     public void onCardCanceled() {
-        Log.d("CardView", "onCardCanceled:" + manager.getTopPosition());
+        Log.d("CardStackView", "onCardCanceled:" + manager.getTopPosition());
     }
 
     private void setupCardStackView() {

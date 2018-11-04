@@ -174,7 +174,7 @@ public class CardStackLayoutManager
             if (Math.abs(state.dx) > getWidth() || Math.abs(state.dy) > getHeight()) {
                 state.next(CardStackState.State.SwipeAnimating);
                 state.topPosition++;
-                final Direction direction = state.getSwipeDirection();
+                final Direction direction = state.getDirection();
                 new Handler().post(new Runnable() {
                     @Override
                     public void run() {
@@ -235,6 +235,10 @@ public class CardStackLayoutManager
             removeAndRecycleView(state.cache.valueAt(i), recycler);
         }
         state.cache.clear();
+
+        if (state.state == CardStackState.State.Dragging) {
+            listener.onCardDragging(state.getDirection(), state.getRatio());
+        }
     }
 
     private void updateTranslation(View view) {
@@ -332,7 +336,7 @@ public class CardStackLayoutManager
         if (bottomOverlay != null) {
             bottomOverlay.setAlpha(0.0f);
         }
-        Direction direction = state.getSwipeDirection();
+        Direction direction = state.getDirection();
         switch (direction) {
             case Left:
                 if (leftOverlay != null) {
