@@ -427,9 +427,9 @@ public class CardStackLayoutManager
         setting.translationInterval = translationInterval;
     }
 
-    public void setScaleInterval(@FloatRange(from = 0.0f, to = 1.0f) float scaleInterval) {
-        if (scaleInterval < 0.0f || 1.0f < scaleInterval) {
-            throw new IllegalArgumentException("ScaleInterval must be 0.0f to 1.0f.");
+    public void setScaleInterval(@FloatRange(from = 0.0f) float scaleInterval) {
+        if (scaleInterval < 0.0f) {
+            throw new IllegalArgumentException("ScaleInterval must be greater than or equal 0.0f.");
         }
         setting.scaleInterval = scaleInterval;
     }
