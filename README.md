@@ -225,12 +225,12 @@ CardStackLayoutManager.setCanScrollVertical(true);
 ## Features
 | 1.x | 2.x |
 | :---- | :---- |
-| Move to Origin | Cancel |
-| Reverse | Rewind |
-| ElevationEnabled | Stack From |
-| TranslationDiff | Translation Interval |
-| ScaleDiff | Scale Interval |
-| SwipeEnabled | Swipe Restriction |
+| Move to Origin | [Cancel](#cancel) |
+| Reverse | Rewind[Rewind](#rewind) |
+| ElevationEnabled | [Stack From](#stack-from) |
+| TranslationDiff | [Translation Interval](#translation-interval) |
+| ScaleDiff | [Scale Interval](#scale-interval) |
+| SwipeEnabled | [Swipe Restriction](#swipe-restriction) |
 
 ## Callbacks
 | 1.x | 2.x |
