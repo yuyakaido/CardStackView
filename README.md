@@ -235,7 +235,7 @@ CardStackLayoutManager.setCanScrollVertical(true);
 | 1.x | 2.x |
 | :---- | :---- |
 | Move to Origin | [Cancel](#cancel) |
-| Reverse | Rewind[Rewind](#rewind) |
+| Reverse | [Rewind](#rewind) |
 | ElevationEnabled | [Stack From](#stack-from) |
 | TranslationDiff | [Translation Interval](#translation-interval) |
 | ScaleDiff | [Scale Interval](#scale-interval) |
@@ -257,7 +257,7 @@ LatestVersion is ![LatestVersion](https://api.bintray.com/packages/yuyakaido/mav
 
 ```groovy
 dependencies {
-    compile "com.yuyakaido.android:card-stack-view:${LatestVersion}"
+    implementation "com.yuyakaido.android:card-stack-view:${LatestVersion}"
 }
 ```
 
