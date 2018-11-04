@@ -30,6 +30,7 @@
     - [Max Degree](#max-degree)
     - [Swipe Direction](#swipe-direction)
     - [Swipe Restriction](#swipe-restriction)
+- [Migratoin Guide](#migration-guide)
 - [Installation](#installation)
 - [License](#license)
 
@@ -218,6 +219,28 @@ CardStackLayoutManager.setSwipeThreshold(0.3f);
 CardStackLayoutManager.setCanScrollHorizontal(true);
 CardStackLayoutManager.setCanScrollVertical(true);
 ```
+
+# Migration Guide
+
+## Features
+| 1.x | 2.x |
+| :---- | :---- |
+| Move to Origin | Cancel |
+| Reverse | Rewind |
+| ElevationEnabled | Stack From |
+| TranslationDiff | Translation Interval |
+| ScaleDiff | Scale Interval |
+| SwipeEnabled | Swipe Restriction |
+
+## Callbacks
+| 1.x | 2.x |
+| :---- | :---- |
+| CardStackView.CardEventListener | CardStackListener |
+| onCardDragging(float percentX, float percentY) | onCardDragging(Direction direction, float ratio) |
+| onCardSwiped(SwipeDirection direction) | onCardSwiped(Direction direction) |
+| onCardReversed() | onCardRewound() |
+| onCardMovedToOrigin() | onCardCanceled() |
+| onCardClicked(int index) | This method is no longer provided. Please implement in your item of RecyclerView. |
 
 # Installation
 
