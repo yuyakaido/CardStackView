@@ -12,6 +12,7 @@ buildscript {
 
 publish {
     userOrg = 'yuyakaido'
+    uploadName = 'CardStackView'
     groupId = 'com.yuyakaido.android'
     artifactId = 'card-stack-view'
     publishVersion = '1.0.0-beta9'
