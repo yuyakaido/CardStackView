@@ -11,236 +11,276 @@
 
 # Overview
 
-![Overview](https://github.com/yuyakaido/CardStackView/blob/master/images/overview-github.gif)
+![Overview](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-overview.gif)
 
 # Contents
 
+- [Setup](#setup)
 - [Features](#features)
     - [Manual Swipe](#manual-swipe)
     - [Automatic Swipe](#automatic-swipe)
-    - [Move to Origin](#move-to-origin)
-    - [Reverse](#reverse)
-    - [StackFrom](#stackfrom)
-    - [VisibleCount](#visiblecount)
-    - [ElevationEnabled](#elevationenabled)
-    - [TranslationDiff](#translationdiff)
-    - [ScaleDiff](#scalediff)
+    - [Cancel](#cancel)
+    - [Rewind](#rewind)
     - [Overlay](#overlay)
-    - [SwipeEnabled](#swipeenabled)
-    - [SwipeDirection](#swipedirection)
-    - [SwipeThreshold](#swipethreshold)
+    - [Stack From](#stack-from)
+    - [Visible Count](#visible-count)
+    - [Translation Interval](#translation-interval)
+    - [Scale Interval](#scale-interval)
+    - [Swipe Threshold](#swipe-threshold)
+    - [Max Degree](#max-degree)
+    - [Swipe Direction](#swipe-direction)
+    - [Swipe Restriction](#swipe-restriction)
+- [Public Interfaces](#public-interfaces)
+- [Callbacks](#callbacks)
+- [Migration Guide](#migration-guide)
 - [Installation](#installation)
 - [License](#license)
+
+# Setup
+
+```java
+CardStackLayoutManager manager = new CardStackLayoutManager();
+CardStackAdapter adapter = new CardStackAdapter();
+CardStackView cardStackView = findViewById(R.id.card_stack_view);
+cardStackView.setLayoutManager(manager);
+cardStackView.setAdapter(adapter);
+```
 
 # Features
 
 ## Manual Swipe
 
-![ManualSwipe](https://github.com/yuyakaido/CardStackView/blob/master/images/manual-swipe.gif)
+![ManualSwipe](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-manual-swipe.gif)
 
 ## Automatic Swipe
 
-![AutomaticSwipe](https://github.com/yuyakaido/CardStackView/blob/master/images/automatic-swipe.gif)
-
-Custom animation is available when automatic swiping!
+![AutomaticSwipe](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-automatic-swipe.gif)
 
 ```java
-CardStackView#swipe(SwipeDirection, AnimatorSet)
+CardStackView.swipe();
 ```
 
-## Move to Origin
+You can set custom swipe animation.
 
-![MoveToOrigin](https://github.com/yuyakaido/CardStackView/blob/master/images/move-to-origin.gif)
+```
+SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
+    .setDirection(Direction.Right)
+    .setDuration(200)
+    .setInterpolator(new AccelerateInterpolator())
+    .build();
+CardStackLayoutManager.setSwipeAnimationSetting(setting);
+CardStackView.swipe();
+```
 
-## Reverse
+## Cancel
 
-![Reverse](https://github.com/yuyakaido/CardStackView/blob/master/images/reverse.gif)
+Manual swipe is canceled when the card is dragged less than threshold.
+
+![Cancel](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-cancel.gif)
+
+## Rewind
+
+![Rewind](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-rewind.gif)
 
 ```java
-CardStackView#reverse();
+CardStackView.rewind();
 ```
 
-## StackFrom
-
-| Default | Value | Sample |
-| :----: | :----: | :----: |
-| ✅ | Top | ![StackFrom-Top](https://github.com/yuyakaido/CardStackView/blob/master/images/stack-from-top.png) |
-| | Bottom | ![StackFrom-Bottom](https://github.com/yuyakaido/CardStackView/blob/master/images/stack-from-bottom.png) |
-
-```xml
-<com.yuyakaido.android.cardstackview.CardStackView
-    app:stackFrom="top"
-    or
-    app:stackFrom="bottom"/>
-```
+You can set custom rewind animation.
 
 ```java
-CardStackView#setStackFrom(StackFrom.Top);
-or
-CardStackView#setStackFrom(StackFrom.Bottom);
-```
-
-## VisibleCount
-
-This value must be greater than 0.
-
-| Default | Value | Sample |
-| :----: | :----: | :----: |
-| ✅ | 3 | ![VisibleCount-3](https://github.com/yuyakaido/CardStackView/blob/master/images/visible-count-3.png) |
-| | 4 | ![VisibleCount-4](https://github.com/yuyakaido/CardStackView/blob/master/images/visible-count-4.png) |
-
-```xml
-<com.yuyakaido.android.cardstackview.CardStackView
-    app:visibleCount="3"
-    or
-    app:visibleCount="4"/>
-```
-
-```java
-CardStackView#setVisibleCount(3);
-or
-CardStackView#setVisibleCount(4);
-```
-
-## ElevationEnabled
-
-| Default | Value | Sample |
-| :----: | :----: | :----: |
-| ✅ | true | ![ElevationEnabled](https://github.com/yuyakaido/CardStackView/blob/master/images/elevation-enabled.png) |
-| | false | ![ElevationDisabled](https://github.com/yuyakaido/CardStackView/blob/master/images/elevation-disabled.png) |
-
-```xml
-<com.yuyakaido.android.cardstackview.CardStackView
-    app:elevationEnabled="true"
-    or
-    app:elevationEnabled="false"/>
-```
-
-```java
-CardStackView#setElevationEnabled(true);
-or
-CardStackView#setElevationEnabled(false);
-```
-
-## TranslationDiff
-
-The unit of TranslationDiff is **dp**.
-
-| Default | Value | Sample |
-| :----: | :----: | :----: |
-| | 8dp | ![TranslationDiff-18](https://github.com/yuyakaido/CardStackView/blob/master/images/translation-diff-8.png) |
-| ✅ | 12dp | ![TranslationDiff-12](https://github.com/yuyakaido/CardStackView/blob/master/images/translation-diff-12.png) |
-| | 16dp | ![TranslationDiff-16](https://github.com/yuyakaido/CardStackView/blob/master/images/translation-diff-16.png) |
-
-```xml
-<com.yuyakaido.android.cardstackview.CardStackView
-    app:translationDiff="12"/>
-```
-
-```java
-CardStackView#setTranslationDiff(12f);
-```
-
-## ScaleDiff
-
-The range of ScaleDiff is 0.0 - 1.0.
-
-| Default | Value | Sample |
-| :----: | :----: | :----: |
-| ✅ | 0.02 | ![ScaleDiff-2](https://github.com/yuyakaido/CardStackView/blob/master/images/scale-diff-2.png) |
-| | 0.1 | ![ScaleDiff-10](https://github.com/yuyakaido/CardStackView/blob/master/images/scale-diff-10.png) |
-
-```xml
-<com.yuyakaido.android.cardstackview.CardStackView
-    app:scaleDiff="0.02"/>
-```
-
-```java
-CardStackView#setScaleDiff(0.02f);
+RewindAnimationSetting setting = new RewindAnimationSetting.Builder()
+    .setDirection(Direction.Bottom)
+    .setDuration(200)
+    .setInterpolator(new DecelerateInterpolator())
+    .build();
+CardStackLayoutManager.setRewindAnimationSetting(setting);
+CardStackView.rewind();
 ```
 
 ## Overlay
 
 | Value | Sample |
 | :----: | :----: |
-| Left | ![Overlay-Left](https://github.com/yuyakaido/CardStackView/blob/master/images/overlay-left.png) |
-| Right | ![Overlay-Right](https://github.com/yuyakaido/CardStackView/blob/master/images/overlay-right.png) |
+| Left | ![Overlay-Left](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-overlay-left.png) |
+| Right | ![Overlay-Right](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-overlay-right.png) |
+
+Put overlay view in your item layout of RecyclerView.
 
 ```xml
-<com.yuyakaido.android.cardstackview.CardStackView
-    app:leftOverlay="@layout/overlay_left"
-    or
-    app:rightOverlay="@layout/overlay_right"/>
+<FrameLayout
+    android:id="@+id/left_overlay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Set your left overlay -->
+
+</FrameLayout>
 ```
 
-```java
-CardStackView#setLeftOverlay(R.layout.overlay_left);
-or
-CardStackView#setRightOverlay(R.layout.overlay_right);
-```
+| Value | Layout ID |
+| :----: | :----: |
+| Left | left_overlay |
+| Right | right_overlay |
+| Top | top_overlay |
+| Bottom | bottom_overlay |
 
-## SwipeEnabled
+## Stack From
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | true | ![SwipeEnabled](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-enabled.gif) |
-| | false | ![SwipeDisabled](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-disabled.gif) |
-
-```xml
-<com.yuyakaido.android.cardstackview.CardStackView
-    app:swipeEnabled="true"
-    or
-    app:swipeEnabled="false"/>
-```
+| ✅ | None | ![StackFrom-None](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-stack-from-none.png) |
+|  | Top | ![StackFrom-Top](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-stack-from-top.png) |
+| | Bottom | ![StackFrom-Bottom](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-stack-from-bottom.png) |
+| | Left | ![StackFrom-Left](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-stack-from-left.png) |
+| | Right | ![StackFrom-Right](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-stack-from-right.png) |
 
 ```java
-CardStackView#setSwipeEnabled(true);
-or
-CardStackView#setSwipeEnabled(false);
+CardStackLayoutManager.setStackFrom(StackFrom.None);
 ```
 
-## SwipeDirection
+## Visible Count
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | Freedom | ![SwipeDirection-Freedom](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-direction-freedom.gif) |
-| | Horizontal | ![SwipeDirection-Horizontal](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-direction-horizontal.gif) |
-| | Vertical | ![SwipeDirection-Vertical](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-direction-vertical.gif) |
-
-```xml
-<com.yuyakaido.android.cardstackview.CardStackView
-    app:swipeDirection="freedom"
-    or
-    app:swipeDirection="horizontal"
-    or
-    app:swipeDirection="vertical"/>
-```
+| | 2 | ![VisibleCount-2](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-visible-count-2.png) |
+| ✅ | 3 | ![VisibleCount-3](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-visible-count-3.png) |
+| | 4 | ![VisibleCount-4](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-visible-count-4.png) |
 
 ```java
-CardStackView#setSwipeDirection(SwipeDirection.FREEDOM);
-or
-CardStackView#setSwipeDirection(SwipeDirection.HORIZONTAL);
-or
-CardStackView#setSwipeDirection(SwipeDirection.VERTICAL);
+CardStackLayoutManager.setVisibleCount(3);
 ```
 
-## SwipeThreshold
-
-The range of SwipeThreshold is 0.0 - 1.0.
+## Translation Interval
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | 0.75 | ![SwipeThreshold-75%](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-threshold-75.gif) |
-| | 0.1 | ![SwipeThreshold-10%](https://github.com/yuyakaido/CardStackView/blob/master/images/swipe-threshold-10.gif) |
-
-```xml
-<com.yuyakaido.android.cardstackview.CardStackView
-    app:swipeThreshold="0.75"/>
-```
+| | 4dp | ![TranslationInterval-4dp](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-translation-interval-4dp.png) |
+| ✅ | 8dp | ![TranslationInterval-8dp](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-translation-interval-8dp.png) |
+| | 12dp | ![TranslationInterval-12dp](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-translation-interval-12dp.png) |
 
 ```java
-CardStackView#setSwipeThreshold(0.75f);
+CardStackLayoutManager.setTranslationInterval(8f);
 ```
+
+## Scale Interval
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | 95% | ![ScaleInterval-95%](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-scale-interval-95.png) |
+| | 90% | ![ScaleInterval-90%](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-scale-interval-90.png) |
+
+```java
+CardStackLayoutManager.setScaleInterval(0.95f);
+```
+
+## Max Degree
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | 20° | ![MaxDegree-20](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-max-degree-20.png) |
+| | 0° | ![MaxDegree-0](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-max-degree-0.png) |
+
+```java
+CardStackLayoutManager.setMaxDegree(20f);
+```
+
+## Swipe Direction
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | Horizontal | ![SwipeDirection-Horizontal](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-direction-horizontal.gif) |
+| | Vertical | ![SwipeDirection-Vertical](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-direction-vertical.gif) |
+| | Freedom | ![SwipeDirection-Freedom](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-direction-freedom.gif) |
+
+```java
+CardStackLayoutManager.setDirections(Direction.HORIZONTAL);
+```
+
+## Swipe Threshold
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | 30% | ![SwipeThreshold-30%](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-threshold-30.gif) |
+| | 10% | ![SwipeThreshold-10%](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-threshold-10.gif) |
+
+```java
+CardStackLayoutManager.setSwipeThreshold(0.3f);
+```
+
+## Swipe Restriction
+
+| CanScrollHorizontal | CanScrollVertical | Sample |
+| :----: | :----: | :----: |
+| true | true | ![SwipeRestriction-NoRestriction](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-restriction-no-restriction.gif) |
+| true | false | ![SwipeRestriction-CanScrollHorizontalOnly](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-restriction-can-scroll-horizontal-only.gif) |
+| false | true | ![SwipeRestriction-CanScrollVerticalOnly](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-restriction-can-scroll-vertical-only.gif) |
+| false | false | ![SwipeRestriction-CannotSwipe](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-restriction-cannot-swipe.gif) |
+
+```java
+CardStackLayoutManager.setCanScrollHorizontal(true);
+CardStackLayoutManager.setCanScrollVertical(true);
+```
+
+# Public Interfaces
+
+## Basic usages
+
+| Method | Description |
+| :---- | :---- |
+| CardStackView.swipe() | You can swipe once by calling this method. |
+| CardStackView.rewind() | You can rewind once by calling this method. |
+| CardStackLayoutManager.getTopPosition() | You can get position displayed on top. |
+| CardStackLayoutManager.setStackFrom(StackFrom stackFrom) | You can set StackFrom. |
+| CardStackLayoutManager.setTranslationInterval(float translationInterval) | You can set TranslationInterval. |
+| CardStackLayoutManager.setScaleInterval(float scaleInterval) | You can set ScaleInterval. |
+| CardStackLayoutManager.setSwipeThreshold(float swipeThreshold) | You can set SwipeThreshold. |
+| CardStackLayoutManager.setMaxDegree(float maxDegree) | You can set MaxDegree. |
+| CardStackLayoutManager.setDirections(List<Direction> directions) | You can set Direction. |
+| CardStackLayoutManager.setCanScrollHorizontal(boolean canScrollHorizontal) | You can set CanScrollHorizontal. |
+| CardStackLayoutManager.setCanScrollVertical(boolean canScrollVertical) | You can set CanScrollVertical. |
+| CardStackLayoutManager.setSwipeAnimationSetting(SwipeAnimationSetting swipeAnimationSetting) | You can set SwipeAnimationSetting. |
+| CardStackLayoutManager.setRewindAnimationSetting(RewindAnimationSetting rewindAnimationSetting) | You can set RewindAnimationSetting. |
+
+## Advanced usages
+
+| Method | Description |
+| :---- | :---- |
+| CardStackView.smoothScrollToPosition(int position) | You can scroll any position with animation. |
+| CardStackView.scrollToPosition(int position) | You can scroll any position without animation. |
+
+# Callbacks
+
+| Method | Description |
+| :---- | :---- |
+| CardStackListener.onCardDragging(Direction direction, float ratio) | This method is called while the card is dragging. |
+| CardStackListener.onCardSwiped(Direction direction) | This method is called when the card is swiped. |
+| CardStackListener.onCardRewound() | This method is called when the card is rewinded. |
+| CardStackListener.onCardCanceled() | This method is called when the card is dragged less than threshold. |
+
+# Migration Guide
+
+## Migration of Features
+
+| 1.x | 2.x |
+| :---- | :---- |
+| Move to Origin | [Cancel](#cancel) |
+| Reverse | [Rewind](#rewind) |
+| ElevationEnabled | [Stack From](#stack-from) |
+| TranslationDiff | [Translation Interval](#translation-interval) |
+| ScaleDiff | [Scale Interval](#scale-interval) |
+| SwipeEnabled | [Swipe Restriction](#swipe-restriction) |
+
+## Migration of Callbacks
+
+| 1.x | 2.x |
+| :---- | :---- |
+| CardStackView.CardEventListener | CardStackListener |
+| onCardDragging(float percentX, float percentY) | onCardDragging(Direction direction, float ratio) |
+| onCardSwiped(SwipeDirection direction) | onCardSwiped(Direction direction) |
+| onCardReversed() | onCardRewound() |
+| onCardMovedToOrigin() | onCardCanceled() |
+| onCardClicked(int index) | This method is no longer provided. Please implement in your item of RecyclerView. |
 
 # Installation
 
@@ -248,14 +288,14 @@ LatestVersion is ![LatestVersion](https://api.bintray.com/packages/yuyakaido/mav
 
 ```groovy
 dependencies {
-    compile "com.yuyakaido.android:card-stack-view:${LatestVersion}"
+    implementation "com.yuyakaido.android:card-stack-view:${LatestVersion}"
 }
 ```
 
 # License
 
 ```
-Copyright 2017 yuyakaido
+Copyright 2018 yuyakaido
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

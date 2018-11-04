@@ -4,33 +4,102 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipChildren="false">
 
-    <com.yuyakaido.android.cardstackview.CardStackView
-        android:id="@+id/activity_main_card_stack_view"
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="12dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:paddingRight="16dp"
+            android:paddingEnd="16dp"
+            android:clipToPadding="false">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/skip_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:hapticFeedbackEnabled="true"
+                android:src="@drawable/skip_red_24dp"
+                app:backgroundTint="@android:color/white"
+                app:fabSize="auto"
+                app:rippleColor="#22ED7563"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/rewind_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:hapticFeedbackEnabled="true"
+                android:src="@drawable/rewind_blue_24dp"
+                app:backgroundTint="@android:color/white"
+                app:fabSize="mini"
+                app:rippleColor="#225BC9FA"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:paddingLeft="16dp"
+            android:paddingStart="16dp"
+            android:clipToPadding="false">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/like_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:hapticFeedbackEnabled="true"
+                android:src="@drawable/like_green_24dp"
+                app:backgroundTint="@android:color/white"
+                app:fabSize="auto"
+                app:rippleColor="#226FE2B3"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="32dp"
-        android:paddingBottom="32dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:layout_above="@+id/button_container"
+        android:padding="20dp"
         android:clipToPadding="false"
-        app:visibleCount="3"
-        app:swipeThreshold="0.75"
-        app:translationDiff="12"
-        app:scaleDiff="0.02"
-        app:stackFrom="top"
-        app:elevationEnabled="true"
-        app:swipeEnabled="true"
-        app:swipeDirection="freedom_no_bottom"
-        app:leftOverlay="@layout/overlay_left"
-        app:rightOverlay="@layout/overlay_right"
-        app:topOverlay="@layout/overlay_top" />
+        android:clipChildren="false">
 
-    <ProgressBar
-        android:id="@+id/activity_main_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        <com.yuyakaido.android.cardstackview.CardStackView
+            android:id="@+id/card_stack_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.yuyakaido.android.cardstackview.CardStackView>
+
+    </RelativeLayout>
 
 </RelativeLayout>

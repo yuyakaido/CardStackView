@@ -6,13 +6,25 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/card_frame_content_container"
+        android:id="@+id/left_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/card_frame_overlay_container"
+        android:id="@+id/right_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/top_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/bottom_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </FrameLayout>
