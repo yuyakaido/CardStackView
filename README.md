@@ -30,6 +30,7 @@
     - [Max Degree](#max-degree)
     - [Swipe Direction](#swipe-direction)
     - [Swipe Restriction](#swipe-restriction)
+- [Public Interfaces](#public-interfaces)
 - [Callbacks](#callbacks)
 - [Migration Guide](#migration-guide)
 - [Installation](#installation)
@@ -73,7 +74,7 @@ CardStackView.swipe();
 
 ## Cancel
 
-Swipe will be canceled if the card is't drag less than threshold.
+Manual swipe is canceled when the card is dragged less than threshold.
 
 ![Cancel](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-cancel.gif)
 
@@ -221,7 +222,35 @@ CardStackLayoutManager.setCanScrollHorizontal(true);
 CardStackLayoutManager.setCanScrollVertical(true);
 ```
 
+# Public Interfaces
+
+## Basic usages
+
+| Method | Description |
+| :---- | :---- |
+| CardStackView.swipe() | You can swipe once by calling this method. |
+| CardStackView.rewind() | You can rewind once by calling this method. |
+| CardStackLayoutManager.getTopPosition() | You can get position displayed on top. |
+| CardStackLayoutManager.setStackFrom(StackFrom stackFrom) | You can set StackFrom. |
+| CardStackLayoutManager.setTranslationInterval(float translationInterval) | You can set TranslationInterval. |
+| CardStackLayoutManager.setScaleInterval(float scaleInterval) | You can set ScaleInterval. |
+| CardStackLayoutManager.setSwipeThreshold(float swipeThreshold) | You can set SwipeThreshold. |
+| CardStackLayoutManager.setMaxDegree(float maxDegree) | You can set MaxDegree. |
+| CardStackLayoutManager.setDirections(List<Direction> directions) | You can set Direction. |
+| CardStackLayoutManager.setCanScrollHorizontal(boolean canScrollHorizontal) | You can set CanScrollHorizontal. |
+| CardStackLayoutManager.setCanScrollVertical(boolean canScrollVertical) | You can set CanScrollVertical. |
+| CardStackLayoutManager.setSwipeAnimationSetting(SwipeAnimationSetting swipeAnimationSetting) | You can set SwipeAnimationSetting. |
+| CardStackLayoutManager.setRewindAnimationSetting(RewindAnimationSetting rewindAnimationSetting) | You can set RewindAnimationSetting. |
+
+## Advanced usages
+
+| Method | Description |
+| :---- | :---- |
+| CardStackView.smoothScrollToPosition(int position) | You can scroll any position with animation. |
+| CardStackView.scrollToPosition(int position) | You can scroll any position without animation. |
+
 # Callbacks
+
 | Method | Description |
 | :---- | :---- |
 | CardStackListener.onCardDragging(Direction direction, float ratio) | This method is called while the card is dragging. |
@@ -232,6 +261,7 @@ CardStackLayoutManager.setCanScrollVertical(true);
 # Migration Guide
 
 ## Migration of Features
+
 | 1.x | 2.x |
 | :---- | :---- |
 | Move to Origin | [Cancel](#cancel) |
@@ -242,6 +272,7 @@ CardStackLayoutManager.setCanScrollVertical(true);
 | SwipeEnabled | [Swipe Restriction](#swipe-restriction) |
 
 ## Migration of Callbacks
+
 | 1.x | 2.x |
 | :---- | :---- |
 | CardStackView.CardEventListener | CardStackListener |
