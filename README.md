@@ -165,8 +165,8 @@ CardStackLayoutManager.setTranslationInterval(8f);
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | 95% | ![ScaleInterval-95](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-scale-interval-95.png) |
-| | 90% | ![ScaleInterval-90](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-scale-interval-90.png) |
+| ✅ | 95% | ![ScaleInterval-95%](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-scale-interval-95.png) |
+| | 90% | ![ScaleInterval-90%](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-scale-interval-90.png) |
 
 ```java
 CardStackLayoutManager.setScaleInterval(0.95f);
