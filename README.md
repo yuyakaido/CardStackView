@@ -30,6 +30,7 @@
     - [Max Degree](#max-degree)
     - [Swipe Direction](#swipe-direction)
     - [Swipe Restriction](#swipe-restriction)
+- [Callbacks](#callbacks)
 - [Migratoin Guide](#migration-guide)
 - [Installation](#installation)
 - [License](#license)
@@ -220,9 +221,17 @@ CardStackLayoutManager.setCanScrollHorizontal(true);
 CardStackLayoutManager.setCanScrollVertical(true);
 ```
 
+# Callbacks
+| Method | Description |
+| :---- | :---- |
+| CardStackListener.onCardDragging(Direction direction, float ratio) | This method is called while the card is dragging. |
+| CardStackListener.onCardSwiped(Direction direction) | This method is called when the card is swiped. |
+| CardStackListener.onCardRewound() | This method is called when the card is rewinded. |
+| CardStackListener.onCardCanceled() | This method is called when the card is dragged less than threshold. |
+
 # Migration Guide
 
-## Features
+## Migration of Features
 | 1.x | 2.x |
 | :---- | :---- |
 | Move to Origin | [Cancel](#cancel) |
@@ -232,7 +241,7 @@ CardStackLayoutManager.setCanScrollVertical(true);
 | ScaleDiff | [Scale Interval](#scale-interval) |
 | SwipeEnabled | [Swipe Restriction](#swipe-restriction) |
 
-## Callbacks
+## Migration of Callbacks
 | 1.x | 2.x |
 | :---- | :---- |
 | CardStackView.CardEventListener | CardStackListener |
