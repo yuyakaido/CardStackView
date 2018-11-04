@@ -15,7 +15,7 @@ publish {
     uploadName = 'CardStackView'
     groupId = 'com.yuyakaido.android'
     artifactId = 'card-stack-view'
-    publishVersion = '1.0.0-beta9'
+    publishVersion = '2.0.0'
     desc = 'Tinder like swipeable card view for Android'
     website = 'https://github.com/yuyakaido/CardStackView'
 }
