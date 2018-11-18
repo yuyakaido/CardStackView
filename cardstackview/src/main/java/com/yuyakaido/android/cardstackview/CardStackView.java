@@ -43,10 +43,8 @@ public class CardStackView extends RecyclerView implements View.OnTouchListener 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
             CardStackLayoutManager manager = getCardStackLayoutManager();
-            if (positionStart + itemCount == manager.getItemCount()) {
+            if (positionStart == 0) {
                 manager.setTopPosition(0);
-            } else if (positionStart < manager.getTopPosition()) {
-                manager.setTopPosition(positionStart - 1);
             }
             manager.removeAllViews();
         }
