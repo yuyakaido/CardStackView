@@ -1,105 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipChildren="false">
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/button_container"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
-        android:paddingBottom="12dp"
-        android:clipChildren="false"
-        android:clipToPadding="false">
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
 
         <RelativeLayout
-            android:orientation="horizontal"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:paddingRight="16dp"
-            android:paddingEnd="16dp"
-            android:clipToPadding="false">
+            android:clipChildren="false">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/skip_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:hapticFeedbackEnabled="true"
-                android:src="@drawable/skip_red_24dp"
-                app:backgroundTint="@android:color/white"
-                app:fabSize="auto"
-                app:rippleColor="#22ED7563"/>
+            <LinearLayout
+                android:id="@+id/button_container"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="12dp"
+                android:clipChildren="false"
+                android:clipToPadding="false">
 
-        </RelativeLayout>
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:paddingRight="16dp"
+                    android:paddingEnd="16dp"
+                    android:clipToPadding="false">
 
-        <RelativeLayout
-            android:orientation="horizontal"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/skip_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:hapticFeedbackEnabled="true"
+                        android:src="@drawable/skip_red_24dp"
+                        app:backgroundTint="@android:color/white"
+                        app:fabSize="auto"
+                        app:rippleColor="#22ED7563"/>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/rewind_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:hapticFeedbackEnabled="true"
-                android:src="@drawable/rewind_blue_24dp"
-                app:backgroundTint="@android:color/white"
-                app:fabSize="mini"
-                app:rippleColor="#225BC9FA"/>
+                </RelativeLayout>
 
-        </RelativeLayout>
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
-        <RelativeLayout
-            android:orientation="horizontal"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:paddingLeft="16dp"
-            android:paddingStart="16dp"
-            android:clipToPadding="false">
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/rewind_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:hapticFeedbackEnabled="true"
+                        android:src="@drawable/rewind_blue_24dp"
+                        app:backgroundTint="@android:color/white"
+                        app:fabSize="mini"
+                        app:rippleColor="#225BC9FA"/>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/like_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:hapticFeedbackEnabled="true"
-                android:src="@drawable/like_green_24dp"
-                app:backgroundTint="@android:color/white"
-                app:fabSize="auto"
-                app:rippleColor="#226FE2B3"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:paddingLeft="16dp"
+                    android:paddingStart="16dp"
+                    android:clipToPadding="false">
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/like_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:hapticFeedbackEnabled="true"
+                        android:src="@drawable/like_green_24dp"
+                        app:backgroundTint="@android:color/white"
+                        app:fabSize="auto"
+                        app:rippleColor="#226FE2B3"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/button_container"
+                android:padding="20dp"
+                android:clipToPadding="false"
+                android:clipChildren="false">
+
+                <com.yuyakaido.android.cardstackview.CardStackView
+                    android:id="@+id/card_stack_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </com.yuyakaido.android.cardstackview.CardStackView>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_above="@+id/button_container"
-        android:padding="20dp"
-        android:clipToPadding="false"
-        android:clipChildren="false">
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/navigation_main_activity">
+    </android.support.design.widget.NavigationView>
 
-        <com.yuyakaido.android.cardstackview.CardStackView
-            android:id="@+id/card_stack_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </com.yuyakaido.android.cardstackview.CardStackView>
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</android.support.v4.widget.DrawerLayout>

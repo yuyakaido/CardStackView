@@ -11,6 +11,52 @@ import com.yuyakaido.android.cardstackview.internal.CardStackSnapHelper;
 
 public class CardStackView extends RecyclerView implements View.OnTouchListener {
 
+    private final AdapterDataObserver observer = new AdapterDataObserver() {
+        private CardStackLayoutManager getCardStackLayoutManager() {
+            LayoutManager manager = getLayoutManager();
+            if (manager instanceof CardStackLayoutManager) {
+                return (CardStackLayoutManager) manager;
+            }
+            throw new IllegalStateException("CardStackView must be set CardStackLayoutManager.");
+        }
+        @Override
+        public void onChanged() {
+            CardStackLayoutManager manager = getCardStackLayoutManager();
+            manager.setTopPosition(0);
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            // Do nothing
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
+            // Do nothing
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            // Do nothing
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            CardStackLayoutManager manager = getCardStackLayoutManager();
+            if (positionStart + itemCount == manager.getItemCount()) {
+                manager.setTopPosition(0);
+            } else if (positionStart < manager.getTopPosition()) {
+                manager.setTopPosition(positionStart - 1);
+            }
+            manager.removeAllViews();
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            // Do nothing
+        }
+    };
+
     public CardStackView(Context context) {
         this(context, null);
     }
@@ -39,6 +85,24 @@ public class CardStackView extends RecyclerView implements View.OnTouchListener 
             setLayoutManager(new CardStackLayoutManager(getContext()));
         }
         super.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        RecyclerView.Adapter adapter = getAdapter();
+        if (adapter != null) {
+            adapter.registerAdapterDataObserver(observer);
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        RecyclerView.Adapter adapter = getAdapter();
+        if (adapter != null) {
+            getAdapter().unregisterAdapterDataObserver(observer);
+        }
     }
 
     @Override
