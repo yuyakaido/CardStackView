@@ -1,9 +1,15 @@
 package com.yuyakaido.android.cardstackview.sample;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.util.DiffUtil;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -22,6 +28,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CardStackListener {
 
+    private DrawerLayout drawerLayout;
+
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
     private CardStackView cardStackView;
@@ -30,24 +38,18 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupNavigation();
         setupCardStackView();
         setupButton();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.refresh:
-                refresh();
-                break;
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.START)) {
+            drawerLayout.closeDrawers();
+        } else {
+            super.onBackPressed();
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -59,8 +61,7 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
     public void onCardSwiped(Direction direction) {
         Log.d("CardStackView", "onCardSwiped: p = " + manager.getTopPosition() + ", d = " + direction);
         if (manager.getTopPosition() == adapter.getItemCount() - 5) {
-            adapter.addSpots(createSpots());
-            adapter.notifyDataSetChanged();
+            paginate();
         }
     }
 
@@ -74,8 +75,59 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
         Log.d("CardStackView", "onCardCanceled:" + manager.getTopPosition());
     }
 
+    private void setupNavigation() {
+        // Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // DrawerLayout
+        drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
+        actionBarDrawerToggle.syncState();
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
+        // NavigationView
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.reload:
+                        reload();
+                        break;
+                    case R.id.add_one_spot_at_first:
+                        addFirst(1);
+                        break;
+                    case R.id.add_two_spots_at_first:
+                        addFirst(2);
+                        break;
+                    case R.id.add_one_spot_at_last:
+                        addLast(1);
+                        break;
+                    case R.id.add_two_spots_at_last:
+                        addLast(2);
+                        break;
+                    case R.id.remove_one_spot_at_first:
+                        removeFirst(1);
+                        break;
+                    case R.id.remove_two_spots_at_first:
+                        removeFirst(2);
+                        break;
+                    case R.id.remove_one_spot_at_last:
+                        removeLast(1);
+                        break;
+                    case R.id.remove_two_spots_at_last:
+                        removeLast(2);
+                        break;
+                }
+                drawerLayout.closeDrawers();
+                return true;
+            }
+        });
+    }
+
     private void setupCardStackView() {
-        refresh();
+        initialize();
     }
 
     private void setupButton() {
@@ -122,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
         });
     }
 
-    private void refresh() {
+    private void initialize() {
         manager = new CardStackLayoutManager(getApplicationContext(), this);
         manager.setStackFrom(StackFrom.None);
         manager.setVisibleCount(3);
@@ -137,6 +189,95 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
         cardStackView = findViewById(R.id.card_stack_view);
         cardStackView.setLayoutManager(manager);
         cardStackView.setAdapter(adapter);
+    }
+
+    private void paginate() {
+        List<Spot> oldList = adapter.getSpots();
+        List<Spot> newList = new ArrayList<Spot>() {{
+            addAll(adapter.getSpots());
+            addAll(createSpots());
+        }};
+        SpotDiffCallback callback = new SpotDiffCallback(oldList, newList);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+        adapter.setSpots(newList);
+        result.dispatchUpdatesTo(adapter);
+    }
+
+    private void reload() {
+        List<Spot> oldList = adapter.getSpots();
+        List<Spot> newList = createSpots();
+        SpotDiffCallback callback = new SpotDiffCallback(oldList, newList);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+        adapter.setSpots(newList);
+        result.dispatchUpdatesTo(adapter);
+    }
+
+    private void addFirst(final int size) {
+        List<Spot> oldList = adapter.getSpots();
+        List<Spot> newList = new ArrayList<Spot>() {{
+            addAll(adapter.getSpots());
+            for (int i = 0; i < size; i++) {
+                add(manager.getTopPosition(), createSpot());
+            }
+        }};
+        SpotDiffCallback callback = new SpotDiffCallback(oldList, newList);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+        adapter.setSpots(newList);
+        result.dispatchUpdatesTo(adapter);
+    }
+
+    private void addLast(final int size) {
+        List<Spot> oldList = adapter.getSpots();
+        List<Spot> newList = new ArrayList<Spot>() {{
+            addAll(adapter.getSpots());
+            for (int i = 0; i < size; i++) {
+                add(createSpot());
+            }
+        }};
+        SpotDiffCallback callback = new SpotDiffCallback(oldList, newList);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+        adapter.setSpots(newList);
+        result.dispatchUpdatesTo(adapter);
+    }
+
+    private void removeFirst(final int size) {
+        if (adapter.getSpots().isEmpty()) {
+            return;
+        }
+
+        List<Spot> oldList = adapter.getSpots();
+        List<Spot> newList = new ArrayList<Spot>() {{
+            addAll(adapter.getSpots());
+            for (int i = 0; i < size; i++) {
+                remove(manager.getTopPosition());
+            }
+        }};
+        SpotDiffCallback callback = new SpotDiffCallback(oldList, newList);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+        adapter.setSpots(newList);
+        result.dispatchUpdatesTo(adapter);
+    }
+
+    private void removeLast(final int size) {
+        if (adapter.getSpots().isEmpty()) {
+            return;
+        }
+
+        List<Spot> oldList = adapter.getSpots();
+        List<Spot> newList = new ArrayList<Spot>() {{
+            addAll(adapter.getSpots());
+            for (int i = 0; i < size; i++) {
+                remove(size() - 1);
+            }
+        }};
+        SpotDiffCallback callback = new SpotDiffCallback(oldList, newList);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+        adapter.setSpots(newList);
+        result.dispatchUpdatesTo(adapter);
+    }
+
+    private Spot createSpot() {
+        return new Spot("Yasaka Shrine", "Kyoto", "https://source.unsplash.com/Xq1ntWruZQI/600x800");
     }
 
     private List<Spot> createSpots() {

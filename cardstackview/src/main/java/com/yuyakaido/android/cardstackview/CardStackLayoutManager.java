@@ -409,6 +409,10 @@ public class CardStackLayoutManager
         return state.topPosition;
     }
 
+    public void setTopPosition(int topPosition) {
+        state.topPosition = topPosition;
+    }
+
     public void setStackFrom(@NonNull StackFrom stackFrom) {
         setting.stackFrom = stackFrom;
     }

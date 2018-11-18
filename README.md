@@ -22,6 +22,8 @@
     - [Cancel](#cancel)
     - [Rewind](#rewind)
     - [Overlay](#overlay)
+    - [Paging](#paging)
+    - [Reloading](#reloading)
     - [Stack From](#stack-from)
     - [Visible Count](#visible-count)
     - [Translation Interval](#translation-interval)
@@ -124,6 +126,21 @@ Put overlay view in your item layout of RecyclerView.
 | Right | right_overlay |
 | Top | top_overlay |
 | Bottom | bottom_overlay |
+
+## Paging
+
+You can implement paging by using following two ways.
+
+1. Use [DiffUtil](https://developer.android.com/reference/android/support/v7/util/DiffUtil).
+2. Call [RecyclerView.Adapter.notifyItemRangeInserted](https://developer.android.com/reference/android/support/v7/widget/RecyclerView.Adapter#notifyItemRangeInserted(int,%20int)) manually.
+
+**Caution**
+
+You should **not** call `RecyclerView.Adapter.notifyDataSetChanged` for paging because this method will reset top position and maybe occur a perfomance issue.
+
+## Reloading
+
+You can implement reloading by calling `RecyclerView.Adapter.notifyDataSetChanged`.
 
 ## Stack From
 

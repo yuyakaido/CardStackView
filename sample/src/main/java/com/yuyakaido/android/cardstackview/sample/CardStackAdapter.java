@@ -44,8 +44,12 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
         return spots.size();
     }
 
-    public void addSpots(List<Spot> spots) {
-        this.spots.addAll(spots);
+    public List<Spot> getSpots() {
+        return spots;
+    }
+
+    public void setSpots(List<Spot> spots) {
+        this.spots = spots;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

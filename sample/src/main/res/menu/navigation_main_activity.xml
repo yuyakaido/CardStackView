@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/reload"
+        android:title="@string/reload"/>
+
+    <item
+        android:id="@+id/add_one_spot_at_first"
+        android:title="@string/add_one_spot_at_first"/>
+
+    <item
+        android:id="@+id/add_two_spots_at_first"
+        android:title="@string/add_two_spots_at_first"/>
+
+    <item
+        android:id="@+id/add_one_spot_at_last"
+        android:title="@string/add_one_spot_at_last"/>
+
+    <item
+        android:id="@+id/add_two_spots_at_last"
+        android:title="@string/add_two_spots_at_last"/>
+
+    <item
+        android:id="@+id/remove_one_spot_at_first"
+        android:title="@string/remove_one_spot_at_first"/>
+
+    <item
+        android:id="@+id/remove_two_spots_at_first"
+        android:title="@string/remove_two_spots_at_first"/>
+
+    <item
+        android:id="@+id/remove_one_spot_at_last"
+        android:title="@string/remove_one_spot_at_last"/>
+
+    <item
+        android:id="@+id/remove_two_spots_at_last"
+        android:title="@string/remove_two_spots_at_last"/>
+
+</menu>
