@@ -92,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.refresh:
-                        refresh();
+                    case R.id.reload:
+                        reload();
                         break;
                     case R.id.add_one_spot_at_first:
                         addFirst(1);
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
         result.dispatchUpdatesTo(adapter);
     }
 
-    private void refresh() {
+    private void reload() {
         List<Spot> oldList = adapter.getSpots();
         List<Spot> newList = createSpots();
         SpotDiffCallback callback = new SpotDiffCallback(oldList, newList);

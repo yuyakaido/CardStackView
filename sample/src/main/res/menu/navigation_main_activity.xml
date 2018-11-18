@@ -3,8 +3,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/refresh"
-        android:title="@string/refresh"/>
+        android:id="@+id/reload"
+        android:title="@string/reload"/>
 
     <item
         android:id="@+id/add_one_spot_at_first"
