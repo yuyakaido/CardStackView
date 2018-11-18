@@ -99,7 +99,7 @@ public class CardStackView extends RecyclerView implements View.OnTouchListener 
         super.onDetachedFromWindow();
         RecyclerView.Adapter adapter = getAdapter();
         if (adapter != null) {
-            getAdapter().unregisterAdapterDataObserver(observer);
+            adapter.unregisterAdapterDataObserver(observer);
         }
     }
 
