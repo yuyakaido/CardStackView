@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
     }
 
     private void initialize() {
-        manager = new CardStackLayoutManager(getApplicationContext(), this);
+        manager = new CardStackLayoutManager(this, this);
         manager.setStackFrom(StackFrom.None);
         manager.setVisibleCount(3);
         manager.setTranslationInterval(8.0f);
