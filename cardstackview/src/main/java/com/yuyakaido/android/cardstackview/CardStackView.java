@@ -5,11 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 
 import com.yuyakaido.android.cardstackview.internal.CardStackSnapHelper;
 
-public class CardStackView extends RecyclerView implements View.OnTouchListener {
+public class CardStackView extends RecyclerView {
 
     private final AdapterDataObserver observer = new AdapterDataObserver() {
         private CardStackLayoutManager getCardStackLayoutManager() {
@@ -104,12 +103,12 @@ public class CardStackView extends RecyclerView implements View.OnTouchListener 
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
+    public boolean onInterceptTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             CardStackLayoutManager manager = (CardStackLayoutManager) getLayoutManager();
             manager.updateProportion(event.getX(), event.getY());
         }
-        return false;
+        return super.onInterceptTouchEvent(event);
     }
 
     public void swipe() {
@@ -128,7 +127,6 @@ public class CardStackView extends RecyclerView implements View.OnTouchListener 
 
     private void initialize() {
         new CardStackSnapHelper().attachToRecyclerView(this);
-        setOnTouchListener(this);
     }
 
 }
