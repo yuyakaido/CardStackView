@@ -46,6 +46,9 @@ public class CardStackLayoutManager
 
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+        if (state.didStructureChange()) {
+            listener.onCardDisplayed(this.state.topPosition);
+        }
         update(recycler);
     }
 
@@ -179,6 +182,7 @@ public class CardStackLayoutManager
                     @Override
                     public void run() {
                         listener.onCardSwiped(direction);
+                        listener.onCardDisplayed(state.topPosition);
                     }
                 });
                 state.dx = 0;

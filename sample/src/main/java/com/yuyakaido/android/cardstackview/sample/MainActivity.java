@@ -75,6 +75,11 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
         Log.d("CardStackView", "onCardCanceled:" + manager.getTopPosition());
     }
 
+    @Override
+    public void onCardDisplayed(int position) {
+        Log.d("CardStackView", "onCardDisplayed: " + position);
+    }
+
     private void setupNavigation() {
         // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);

@@ -5,6 +5,7 @@ public interface CardStackListener {
     void onCardSwiped(Direction direction);
     void onCardRewound();
     void onCardCanceled();
+    void onCardDisplayed(int position);
 
     CardStackListener DEFAULT = new CardStackListener() {
         @Override
@@ -15,5 +16,7 @@ public interface CardStackListener {
         public void onCardRewound() {}
         @Override
         public void onCardCanceled() {}
+        @Override
+        public void onCardDisplayed(int position) {}
     };
 }
