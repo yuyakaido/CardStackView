@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- https://qiita.com/ntsk/items/dac92596742e18470a55 -->
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/selectableItemBackground"
     android:foreground="?attr/selectableItemBackground"
     app:cardUseCompatPadding="true"
-    card_view:cardCornerRadius="8dp"
-    card_view:cardBackgroundColor="@android:color/white">
+    app:cardPreventCornerOverlap="false"
+    app:cardCornerRadius="8dp"
+    app:cardBackgroundColor="@android:color/white">
 
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/item_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="8dp"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -47,12 +49,8 @@
     <FrameLayout
         android:id="@+id/left_overlay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#88000000"/>
+        android:layout_height="match_parent"
+        android:background="@drawable/overlay_black">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -65,12 +63,8 @@
     <FrameLayout
         android:id="@+id/right_overlay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#88000000"/>
+        android:layout_height="match_parent"
+        android:background="@drawable/overlay_black">
 
         <ImageView
             android:layout_width="wrap_content"
