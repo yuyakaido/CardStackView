@@ -50,7 +50,7 @@ public class CardStackLayoutManager
         // 差分更新なし：didStructureChange = true
         // 差分更新あり：willRunSimpleAnimations = true
         if (state.didStructureChange() || state.willRunSimpleAnimations()) {
-            listener.onCardDisplayed(this.state.topPosition);
+            listener.onCardAppeared(this.state.topPosition);
         }
         update(recycler);
     }
@@ -185,7 +185,7 @@ public class CardStackLayoutManager
                     @Override
                     public void run() {
                         listener.onCardSwiped(direction);
-                        listener.onCardDisplayed(state.topPosition);
+                        listener.onCardAppeared(state.topPosition);
                     }
                 });
                 state.dx = 0;
@@ -404,6 +404,8 @@ public class CardStackLayoutManager
     }
 
     private void smoothScrollToPrevious(int position) {
+        listener.onCardDisappeared(state.topPosition);
+
         state.proportion = 0.0f;
         state.targetPosition = position;
         state.topPosition--;

@@ -76,8 +76,13 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
     }
 
     @Override
-    public void onCardDisplayed(int position) {
-        Log.d("CardStackView", "onCardDisplayed: " + position);
+    public void onCardAppeared(int position) {
+        Log.d("CardStackView", "onCardAppeared: " + position);
+    }
+
+    @Override
+    public void onCardDisappeared(int position) {
+        Log.d("CardStackView", "onCardDisappeared: " + position);
     }
 
     private void setupNavigation() {
