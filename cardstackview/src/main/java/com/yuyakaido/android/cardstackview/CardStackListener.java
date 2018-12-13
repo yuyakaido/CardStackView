@@ -1,12 +1,14 @@
 package com.yuyakaido.android.cardstackview;
 
+import android.view.View;
+
 public interface CardStackListener {
     void onCardDragging(Direction direction, float ratio);
     void onCardSwiped(Direction direction);
     void onCardRewound();
     void onCardCanceled();
-    void onCardAppeared(int position);
-    void onCardDisappeared(int position);
+    void onCardAppeared(View view, int position);
+    void onCardDisappeared(View view, int position);
 
     CardStackListener DEFAULT = new CardStackListener() {
         @Override
@@ -18,8 +20,8 @@ public interface CardStackListener {
         @Override
         public void onCardCanceled() {}
         @Override
-        public void onCardAppeared(int position) {}
+        public void onCardAppeared(View view, int position) {}
         @Override
-        public void onCardDisappeared(int position) {}
+        public void onCardDisappeared(View view, int position) {}
     };
 }
