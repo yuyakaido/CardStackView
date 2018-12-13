@@ -46,7 +46,10 @@ public class CardStackLayoutManager
 
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-        if (state.didStructureChange()) {
+        // 表示対象のデータが変更された場合
+        // 差分更新なし：didStructureChange = true
+        // 差分更新あり：willRunSimpleAnimations = true
+        if (state.didStructureChange() || state.willRunSimpleAnimations()) {
             listener.onCardDisplayed(this.state.topPosition);
         }
         update(recycler);
