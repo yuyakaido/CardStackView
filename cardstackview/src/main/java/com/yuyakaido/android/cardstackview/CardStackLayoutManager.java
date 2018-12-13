@@ -45,8 +45,11 @@ public class CardStackLayoutManager
     }
 
     @Override
-    public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+    public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State s) {
         update(recycler);
+        if (s.didStructureChange()) {
+            listener.onCardAppeared(getTopView(), state.topPosition);
+        }
     }
 
     @Override
@@ -179,6 +182,7 @@ public class CardStackLayoutManager
                     @Override
                     public void run() {
                         listener.onCardSwiped(direction);
+                        listener.onCardAppeared(getTopView(), state.topPosition);
                     }
                 });
                 state.dx = 0;
@@ -397,12 +401,18 @@ public class CardStackLayoutManager
     }
 
     private void smoothScrollToPrevious(int position) {
+        listener.onCardDisappeared(getTopView(), state.topPosition);
+
         state.proportion = 0.0f;
         state.targetPosition = position;
         state.topPosition--;
         CardStackSmoothScroller scroller = new CardStackSmoothScroller(CardStackSmoothScroller.ScrollType.AutomaticRewind, this);
         scroller.setTargetPosition(state.topPosition);
         startSmoothScroll(scroller);
+    }
+
+    public View getTopView() {
+        return findViewByPosition(state.topPosition);
     }
 
     public int getTopPosition() {

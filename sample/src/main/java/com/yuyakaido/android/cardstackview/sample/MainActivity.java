@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.TextView;
 
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
@@ -73,6 +74,18 @@ public class MainActivity extends AppCompatActivity implements CardStackListener
     @Override
     public void onCardCanceled() {
         Log.d("CardStackView", "onCardCanceled:" + manager.getTopPosition());
+    }
+
+    @Override
+    public void onCardAppeared(View view, int position) {
+        TextView textView = view.findViewById(R.id.item_name);
+        Log.d("CardStackView", "onCardAppeared: (" + position + ") " + textView.getText());
+    }
+
+    @Override
+    public void onCardDisappeared(View view, int position) {
+        TextView textView = view.findViewById(R.id.item_name);
+        Log.d("CardStackView", "onCardDisappeared: (" + position + ") " + textView.getText());
     }
 
     private void setupNavigation() {

@@ -274,6 +274,8 @@ CardStackLayoutManager.setCanScrollVertical(true);
 | CardStackListener.onCardSwiped(Direction direction) | This method is called when the card is swiped. |
 | CardStackListener.onCardRewound() | This method is called when the card is rewinded. |
 | CardStackListener.onCardCanceled() | This method is called when the card is dragged less than threshold. |
+| CardStackListener.onCardAppeared(View view, int position) | This method is called when the card appeared. |
+| CardStackListener.onCardDisappeared(View view, int position) | This method is called when the card disappeared. |
 
 # Migration Guide
 
