@@ -8,28 +8,33 @@
         />
 
     <item
-        android:id="@+id/add_spot_at_first"
-        android:title="@string/add_spot_at_first"
+        android:id="@+id/add_spot_to_first"
+        android:title="@string/add_spot_to_first"
         />
 
     <item
-        android:id="@+id/add_spot_at_last"
-        android:title="@string/add_spot_at_last"
+        android:id="@+id/add_spot_to_last"
+        android:title="@string/add_spot_to_last"
         />
 
     <item
-        android:id="@+id/remove_spot_at_first"
-        android:title="@string/remove_spot_at_first"
+        android:id="@+id/remove_spot_from_first"
+        android:title="@string/remove_spot_from_first"
         />
 
     <item
-        android:id="@+id/remove_spot_at_last"
-        android:title="@string/remove_spot_at_last"
+        android:id="@+id/remove_spot_from_last"
+        android:title="@string/remove_spot_from_last"
         />
 
     <item
-        android:id="@+id/replace_spot_at_first"
-        android:title="@string/replace_spot_at_first"
+        android:id="@+id/replace_first_spot"
+        android:title="@string/replace_first_spot"
+        />
+
+    <item
+        android:id="@+id/swap_first_for_last"
+        android:title="@string/swap_first_for_last"
         />
 
 </menu>

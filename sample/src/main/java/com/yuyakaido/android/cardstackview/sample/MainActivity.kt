@@ -84,11 +84,12 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.reload -> reload()
-                R.id.add_spot_at_first -> addFirst(1)
-                R.id.add_spot_at_last -> addLast(1)
-                R.id.remove_spot_at_first -> removeFirst(1)
-                R.id.remove_spot_at_last -> removeLast(1)
-                R.id.replace_spot_at_first -> replaceFirst()
+                R.id.add_spot_to_first -> addFirst(1)
+                R.id.add_spot_to_last -> addLast(1)
+                R.id.remove_spot_from_first -> removeFirst(1)
+                R.id.remove_spot_from_last -> removeLast(1)
+                R.id.replace_first_spot -> replace()
+                R.id.swap_first_for_last -> swap()
             }
             drawerLayout.closeDrawers()
             true
@@ -233,7 +234,7 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         result.dispatchUpdatesTo(adapter)
     }
 
-    private fun replaceFirst() {
+    private fun replace() {
         val old = adapter.getSpots()
         val new = mutableListOf<Spot>().apply {
             addAll(old)
@@ -242,6 +243,21 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         }
         adapter.setSpots(new)
         adapter.notifyItemChanged(manager.topPosition)
+    }
+
+    private fun swap() {
+        val old = adapter.getSpots()
+        val new = mutableListOf<Spot>().apply {
+            addAll(old)
+            val first = removeAt(manager.topPosition)
+            val last = removeAt(this.size - 1)
+            add(manager.topPosition, last)
+            add(first)
+        }
+        val callback = SpotDiffCallback(old, new)
+        val result = DiffUtil.calculateDiff(callback)
+        adapter.setSpots(new)
+        result.dispatchUpdatesTo(adapter)
     }
 
     private fun createSpot(): Spot {
