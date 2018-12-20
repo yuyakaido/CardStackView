@@ -152,12 +152,7 @@ class MainActivity : AppCompatActivity(), CardStackListener {
 
     private fun paginate() {
         val old = adapter.spots
-        val new = object : ArrayList<Spot>() {
-            init {
-                addAll(adapter.spots)
-                addAll(createSpots())
-            }
-        }
+        val new = old.plus(createSpots())
         val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
         adapter.spots = new
