@@ -174,34 +174,28 @@ class MainActivity : AppCompatActivity(), CardStackListener {
     }
 
     private fun addFirst(size: Int) {
-        val oldList = adapter.spots
-        val newList = object : ArrayList<Spot>() {
-            init {
-                addAll(adapter.spots)
-                for (i in 0 until size) {
-                    add(manager.topPosition, createSpot())
-                }
+        val old = adapter.spots
+        val new = mutableListOf<Spot>().apply {
+            addAll(old)
+            for (i in 0 until size) {
+                add(manager.topPosition, createSpot())
             }
         }
-        val callback = SpotDiffCallback(oldList, newList)
+        val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
-        adapter.spots = newList
+        adapter.spots = new
         result.dispatchUpdatesTo(adapter)
     }
 
     private fun addLast(size: Int) {
-        val oldList = adapter.spots
-        val newList = object : ArrayList<Spot>() {
-            init {
-                addAll(adapter.spots)
-                for (i in 0 until size) {
-                    add(createSpot())
-                }
-            }
+        val old = adapter.spots
+        val new = mutableListOf<Spot>().apply {
+            addAll(old)
+            addAll(List(size) { createSpot() })
         }
-        val callback = SpotDiffCallback(oldList, newList)
+        val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
-        adapter.spots = newList
+        adapter.spots = new
         result.dispatchUpdatesTo(adapter)
     }
 
@@ -210,18 +204,16 @@ class MainActivity : AppCompatActivity(), CardStackListener {
             return
         }
 
-        val oldList = adapter.spots
-        val newList = object : ArrayList<Spot>() {
-            init {
-                addAll(adapter.spots)
-                for (i in 0 until size) {
-                    removeAt(manager.topPosition)
-                }
+        val old = adapter.spots
+        val new = mutableListOf<Spot>().apply {
+            addAll(old)
+            for (i in 0 until size) {
+                removeAt(manager.topPosition)
             }
         }
-        val callback = SpotDiffCallback(oldList, newList)
+        val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
-        adapter.spots = newList
+        adapter.spots = new
         result.dispatchUpdatesTo(adapter)
     }
 
@@ -230,18 +222,16 @@ class MainActivity : AppCompatActivity(), CardStackListener {
             return
         }
 
-        val oldList = adapter.spots
-        val newList = object : ArrayList<Spot>() {
-            init {
-                addAll(adapter.spots)
-                for (i in 0 until size) {
-                    removeAt(size - 1)
-                }
+        val old = adapter.spots
+        val new = mutableListOf<Spot>().apply {
+            addAll(old)
+            for (i in 0 until 2) {
+                removeAt(this.size - 1)
             }
         }
-        val callback = SpotDiffCallback(oldList, newList)
+        val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
-        adapter.spots = newList
+        adapter.spots = new
         result.dispatchUpdatesTo(adapter)
     }
 
