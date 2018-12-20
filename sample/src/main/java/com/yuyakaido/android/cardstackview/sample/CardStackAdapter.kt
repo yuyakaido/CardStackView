@@ -10,7 +10,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 
 class CardStackAdapter(
-        var spots: List<Spot> = emptyList()
+        private var spots: List<Spot> = emptyList()
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,6 +32,14 @@ class CardStackAdapter(
 
     override fun getItemCount(): Int {
         return spots.size
+    }
+
+    fun setSpots(spots: List<Spot>) {
+        this.spots = spots
+    }
+
+    fun getSpots(): List<Spot> {
+        return spots
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
