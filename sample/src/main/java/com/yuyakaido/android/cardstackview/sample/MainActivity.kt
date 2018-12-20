@@ -225,7 +225,7 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         val old = adapter.spots
         val new = mutableListOf<Spot>().apply {
             addAll(old)
-            for (i in 0 until 2) {
+            for (i in 0 until size) {
                 removeAt(this.size - 1)
             }
         }
