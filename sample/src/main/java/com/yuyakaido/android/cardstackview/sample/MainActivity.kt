@@ -6,6 +6,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.util.DiffUtil
+import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Gravity
@@ -83,14 +84,11 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.reload -> reload()
-                R.id.add_one_spot_at_first -> addFirst(1)
-                R.id.add_two_spots_at_first -> addFirst(2)
-                R.id.add_one_spot_at_last -> addLast(1)
-                R.id.add_two_spots_at_last -> addLast(2)
-                R.id.remove_one_spot_at_first -> removeFirst(1)
-                R.id.remove_two_spots_at_first -> removeFirst(2)
-                R.id.remove_one_spot_at_last -> removeLast(1)
-                R.id.remove_two_spots_at_last -> removeLast(2)
+                R.id.add_spot_at_first -> addFirst(1)
+                R.id.add_spot_at_last -> addLast(1)
+                R.id.remove_spot_at_first -> removeFirst(1)
+                R.id.remove_spot_at_last -> removeLast(1)
+                R.id.replace_spot_at_first -> replaceFirst()
             }
             drawerLayout.closeDrawers()
             true
@@ -148,6 +146,11 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         manager.setCanScrollVertical(true)
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
+        cardStackView.itemAnimator.apply {
+            if (this is DefaultItemAnimator) {
+                supportsChangeAnimations = false
+            }
+        }
     }
 
     private fun paginate() {
@@ -228,6 +231,17 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         val result = DiffUtil.calculateDiff(callback)
         adapter.setSpots(new)
         result.dispatchUpdatesTo(adapter)
+    }
+
+    private fun replaceFirst() {
+        val old = adapter.getSpots()
+        val new = mutableListOf<Spot>().apply {
+            addAll(old)
+            removeAt(manager.topPosition)
+            add(manager.topPosition, createSpot())
+        }
+        adapter.setSpots(new)
+        adapter.notifyItemChanged(manager.topPosition)
     }
 
     private fun createSpot(): Spot {
