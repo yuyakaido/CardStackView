@@ -40,32 +40,32 @@ class MainActivity : AppCompatActivity(), CardStackListener {
     }
 
     override fun onCardDragging(direction: Direction, ratio: Float) {
-        Log.d("CardStackView", "onCardDragging: d = " + direction.name + ", r = " + ratio)
+        Log.d("CardStackView", "onCardDragging: d = ${direction.name}, r = $ratio")
     }
 
     override fun onCardSwiped(direction: Direction) {
-        Log.d("CardStackView", "onCardSwiped: p = " + manager.topPosition + ", d = " + direction)
+        Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
         if (manager.topPosition == adapter.itemCount - 5) {
             paginate()
         }
     }
 
     override fun onCardRewound() {
-        Log.d("CardStackView", "onCardRewound: " + manager.topPosition)
+        Log.d("CardStackView", "onCardRewound: ${manager.topPosition}")
     }
 
     override fun onCardCanceled() {
-        Log.d("CardStackView", "onCardCanceled:" + manager.topPosition)
+        Log.d("CardStackView", "onCardCanceled: ${manager.topPosition}")
     }
 
     override fun onCardAppeared(view: View, position: Int) {
         val textView = view.findViewById<TextView>(R.id.item_name)
-        Log.d("CardStackView", "onCardAppeared: (" + position + ") " + textView.text)
+        Log.d("CardStackView", "onCardAppeared: ($position) ${textView.text}")
     }
 
     override fun onCardDisappeared(view: View, position: Int) {
         val textView = view.findViewById<TextView>(R.id.item_name)
-        Log.d("CardStackView", "onCardDisappeared: (" + position + ") " + textView.text)
+        Log.d("CardStackView", "onCardDisappeared: ($position) ${textView.text}")
     }
 
     private fun setupNavigation() {
