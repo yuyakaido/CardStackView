@@ -20,7 +20,7 @@ class CardStackAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val spot = spots[position]
-        holder.name.text = spot.name
+        holder.name.text = "${spot.id}. ${spot.name}"
         holder.city.text = spot.city
         Glide.with(holder.image)
                 .load(spot.url)
