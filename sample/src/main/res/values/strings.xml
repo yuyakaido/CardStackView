@@ -8,12 +8,10 @@
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
     <string name="reload">Reload</string>
-    <string name="add_one_spot_at_first">Add one spot at first</string>
-    <string name="add_two_spots_at_first">Add two spots at first</string>
-    <string name="add_one_spot_at_last">Add one spot at last</string>
-    <string name="add_two_spots_at_last">Add two spots at last</string>
-    <string name="remove_one_spot_at_first">Remove one spot at first</string>
-    <string name="remove_two_spots_at_first">Remove two spots at first</string>
-    <string name="remove_one_spot_at_last">Remove one spot at last</string>
-    <string name="remove_two_spots_at_last">Remove two spots at last</string>
+    <string name="add_spot_to_first">Add spot to first</string>
+    <string name="add_spot_to_last">Add spot to last</string>
+    <string name="remove_spot_from_first">Remove spot from first</string>
+    <string name="remove_spot_from_last">Remove spot from last</string>
+    <string name="replace_first_spot">Replace first spot</string>
+    <string name="swap_first_for_last">Swap first for last</string>
 </resources>

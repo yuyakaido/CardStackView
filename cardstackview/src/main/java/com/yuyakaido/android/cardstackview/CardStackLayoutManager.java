@@ -190,31 +190,17 @@ public class CardStackLayoutManager
             }
         }
 
-        for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
-            int position = getPosition(child);
-            state.cache.put(position, child);
-        }
-
-        for (int i = 0; i < state.cache.size(); i++) {
-            detachView(state.cache.valueAt(i));
-        }
+        removeAndRecycleAllViews(recycler);
 
         final int parentTop = getPaddingTop();
         final int parentLeft = getPaddingLeft();
         final int parentRight = getWidth() - getPaddingLeft();
         final int parentBottom = getHeight() - getPaddingBottom();
         for (int i = state.topPosition; i < state.topPosition + setting.visibleCount && i < getItemCount(); i++) {
-            View child = state.cache.get(i);
-            if (child == null) {
-                child = recycler.getViewForPosition(i);
-                addView(child, 0);
-                measureChildWithMargins(child, 0, 0);
-                layoutDecoratedWithMargins(child, parentLeft, parentTop, parentRight, parentBottom);
-            } else {
-                attachView(child, 0);
-                state.cache.remove(i);
-            }
+            View child = recycler.getViewForPosition(i);
+            addView(child, 0);
+            measureChildWithMargins(child, 0, 0);
+            layoutDecoratedWithMargins(child, parentLeft, parentTop, parentRight, parentBottom);
 
             resetTranslation(child);
             resetScale(child);
@@ -234,11 +220,6 @@ public class CardStackLayoutManager
                 resetOverlay(child);
             }
         }
-
-        for (int i = 0; i < state.cache.size(); i++) {
-            removeAndRecycleView(state.cache.valueAt(i), recycler);
-        }
-        state.cache.clear();
 
         if (state.status == CardStackState.Status.Dragging) {
             listener.onCardDragging(state.getDirection(), state.getRatio());

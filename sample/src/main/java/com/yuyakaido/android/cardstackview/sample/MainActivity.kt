@@ -6,6 +6,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.util.DiffUtil
+import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Gravity
@@ -83,14 +84,12 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.reload -> reload()
-                R.id.add_one_spot_at_first -> addFirst(1)
-                R.id.add_two_spots_at_first -> addFirst(2)
-                R.id.add_one_spot_at_last -> addLast(1)
-                R.id.add_two_spots_at_last -> addLast(2)
-                R.id.remove_one_spot_at_first -> removeFirst(1)
-                R.id.remove_two_spots_at_first -> removeFirst(2)
-                R.id.remove_one_spot_at_last -> removeLast(1)
-                R.id.remove_two_spots_at_last -> removeLast(2)
+                R.id.add_spot_to_first -> addFirst(1)
+                R.id.add_spot_to_last -> addLast(1)
+                R.id.remove_spot_from_first -> removeFirst(1)
+                R.id.remove_spot_from_last -> removeLast(1)
+                R.id.replace_first_spot -> replace()
+                R.id.swap_first_for_last -> swap()
             }
             drawerLayout.closeDrawers()
             true
@@ -148,6 +147,11 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         manager.setCanScrollVertical(true)
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
+        cardStackView.itemAnimator.apply {
+            if (this is DefaultItemAnimator) {
+                supportsChangeAnimations = false
+            }
+        }
     }
 
     private fun paginate() {
@@ -223,6 +227,32 @@ class MainActivity : AppCompatActivity(), CardStackListener {
             for (i in 0 until size) {
                 removeAt(this.size - 1)
             }
+        }
+        val callback = SpotDiffCallback(old, new)
+        val result = DiffUtil.calculateDiff(callback)
+        adapter.setSpots(new)
+        result.dispatchUpdatesTo(adapter)
+    }
+
+    private fun replace() {
+        val old = adapter.getSpots()
+        val new = mutableListOf<Spot>().apply {
+            addAll(old)
+            removeAt(manager.topPosition)
+            add(manager.topPosition, createSpot())
+        }
+        adapter.setSpots(new)
+        adapter.notifyItemChanged(manager.topPosition)
+    }
+
+    private fun swap() {
+        val old = adapter.getSpots()
+        val new = mutableListOf<Spot>().apply {
+            addAll(old)
+            val first = removeAt(manager.topPosition)
+            val last = removeAt(this.size - 1)
+            add(manager.topPosition, last)
+            add(first)
         }
         val callback = SpotDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
