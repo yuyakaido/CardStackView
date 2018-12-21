@@ -40,29 +40,14 @@ public class CardStackView extends RecyclerView {
         if (getLayoutManager() == null) {
             setLayoutManager(new CardStackLayoutManager(getContext()));
         }
+        // Imitate RecyclerView's implementation
+        // http://tools.oesf.biz/android-9.0.0_r1.0/xref/frameworks/base/core/java/com/android/internal/widget/RecyclerView.java#1005
+        if (getAdapter() != null) {
+            getAdapter().unregisterAdapterDataObserver(observer);
+            getAdapter().onDetachedFromRecyclerView(this);
+        }
+        adapter.registerAdapterDataObserver(observer);
         super.setAdapter(adapter);
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        RecyclerView.Adapter adapter = getAdapter();
-        if (adapter != null) {
-            adapter.registerAdapterDataObserver(observer);
-            observer.isRegistered = true;
-        }
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        RecyclerView.Adapter adapter = getAdapter();
-        if (adapter != null) {
-            if (observer.isRegistered) {
-                adapter.unregisterAdapterDataObserver(observer);
-                observer.isRegistered = false;
-            }
-        }
     }
 
     @Override
