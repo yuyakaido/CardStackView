@@ -7,8 +7,6 @@ import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 
 public class CardStackDataObserver extends RecyclerView.AdapterDataObserver {
 
-    public boolean isRegistered = false;
-
     private final RecyclerView recyclerView;
 
     public CardStackDataObserver(RecyclerView recyclerView) {
