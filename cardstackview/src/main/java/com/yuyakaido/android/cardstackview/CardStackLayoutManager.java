@@ -141,7 +141,7 @@ public class CardStackLayoutManager
         if (position == state.topPosition || position < 0 || getItemCount() < position) {
             state.next(CardStackState.Status.Idle);
             state.targetPosition = RecyclerView.NO_POSITION;
-        } else if (state.status == CardStackState.Status.Idle) {
+        } else if (state.status == CardStackState.Status.Idle || state.status == CardStackState.Status.PrepareSwipeAnimation) {
             smoothScrollToPosition(position);
         }
     }
