@@ -85,29 +85,48 @@ public class CardStackLayoutManager
     @Override
     public void onScrollStateChanged(int s) {
         switch (s) {
+            // スクロールが止まったタイミング
             case RecyclerView.SCROLL_STATE_IDLE:
                 if (state.status != CardStackState.Status.PrepareSwipeAnimation) {
+                    // ManualSwipeが完了した場合の処理
                     if (state.targetPosition == RecyclerView.NO_POSITION) {
                         state.next(CardStackState.Status.Idle);
+                        state.targetPosition = RecyclerView.NO_POSITION;
                     } else {
+                        // 2枚以上のカードを同時にスワイプする場合の処理
                         if (state.topPosition < state.targetPosition) {
+                            // 1枚目のカードをスワイプすると一旦SCROLL_STATE_IDLEが流れる
+                            // そのタイミングで次のアニメーションを走らせることで連続でスワイプしているように見せる
                             smoothScrollToNext(state.targetPosition);
                         } else if (state.targetPosition < state.topPosition) {
+                            // Nextの場合と同様に、1枚目の処理が完了したタイミングで次のアニメーションは走らせる
                             smoothScrollToPrevious(state.targetPosition);
                         } else {
+                            // AutomaticSwipeが完了した場合の処理
                             state.next(CardStackState.Status.Idle);
                             state.targetPosition = RecyclerView.NO_POSITION;
                         }
                     }
+                } else {
+                    // スワイプが何らかの理由で途中でキャンセルされた場合を考慮して、ここで状態をリセットする
+                    // （例）AutomaticSwipeの最中にカードをタップしてManualCancelを実行した場合
+                    // https://github.com/yuyakaido/CardStackView/issues/175
+                    // https://github.com/yuyakaido/CardStackView/issues/181
+                    state.next(CardStackState.Status.Idle);
+                    state.targetPosition = RecyclerView.NO_POSITION;
                 }
                 break;
+            // カードをドラッグしている最中
             case RecyclerView.SCROLL_STATE_DRAGGING:
                 state.next(CardStackState.Status.Dragging);
                 break;
+            // カードが指から離れて、慣性アニメーションが開始したタイミング
             case RecyclerView.SCROLL_STATE_SETTLING:
                 if (state.status != CardStackState.Status.PrepareSwipeAnimation) {
+                    // TODO この分岐は本当に必要か？
                     if (state.targetPosition == RecyclerView.NO_POSITION) {
                         state.next(CardStackState.Status.Idle);
+                        state.targetPosition = RecyclerView.NO_POSITION;
                     } else {
                         if (state.topPosition < state.targetPosition) {
                             state.next(CardStackState.Status.PrepareSwipeAnimation);
