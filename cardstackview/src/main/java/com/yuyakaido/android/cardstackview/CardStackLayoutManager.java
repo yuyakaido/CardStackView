@@ -183,8 +183,10 @@ public class CardStackLayoutManager
     void updateProportion(float x, float y) {
         if (getTopPosition() < getItemCount()) {
             View view = findViewByPosition(getTopPosition());
-            float half = getHeight() / 2.0f;
-            state.proportion = -(y - half - view.getTop()) / half;
+            if(view != null) {
+                float half = getHeight() / 2.0f;
+                state.proportion = -(y - half - view.getTop()) / half;
+            }
         }
     }
 
