@@ -33,6 +33,7 @@
                 android:id="@+id/button_container"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:layout_marginBottom="8dp"
                 android:layout_height="80dp"
                 android:layout_alignParentBottom="true"
                 android:clipChildren="false">
@@ -82,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/button_container"
-                android:padding="20dp"
+                android:padding="4dp"
                 android:clipToPadding="false">
             </com.yuyakaido.android.cardstackview.CardStackView>
 
