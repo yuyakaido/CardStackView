@@ -203,7 +203,10 @@ public class CardStackLayoutManager
                     @Override
                     public void run() {
                         listener.onCardSwiped(direction);
-                        listener.onCardAppeared(getTopView(), state.topPosition);
+                        View topView = getTopView();
+                        if (topView != null) {
+                            listener.onCardAppeared(getTopView(), state.topPosition);
+                        }
                     }
                 });
                 state.dx = 0;
@@ -403,7 +406,10 @@ public class CardStackLayoutManager
     }
 
     private void smoothScrollToPrevious(int position) {
-        listener.onCardDisappeared(getTopView(), state.topPosition);
+        View topView = getTopView();
+        if (topView != null) {
+            listener.onCardDisappeared(getTopView(), state.topPosition);
+        }
 
         state.proportion = 0.0f;
         state.targetPosition = position;
