@@ -45,8 +45,7 @@ public class CardStackDataObserver extends RecyclerView.AdapterDataObserver {
 
     @Override
     public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-        CardStackLayoutManager manager = getCardStackLayoutManager();
-        manager.removeAllViews();
+        // Do nothing
     }
 
     private CardStackLayoutManager getCardStackLayoutManager() {
