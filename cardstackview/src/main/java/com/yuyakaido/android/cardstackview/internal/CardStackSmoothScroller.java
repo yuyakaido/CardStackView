@@ -38,7 +38,7 @@ public class CardStackSmoothScroller extends RecyclerView.SmoothScroller {
             // 2. AutomaticSwipeを1度実行する
             // 3. AutomaticRewindを1度実行する
             // 4. AutomaticSwipeを1度実行する
-            // 5. AutomaticSwipeを1度実行する -> これが無限ループに陥ってしまう
+            // 5. AutomaticRewindを1度実行する -> これが無限ループに陥ってしまう
             // ■ 調査結果
             // SmoothScroller.onStartが呼ばれたタイミングでは、Rewind対象のViewが見つからない（正常挙動）
             // Rewind処理開始後のupdateで対象のViewが追加されるはずだが、現状の実装では正常に追加されない
