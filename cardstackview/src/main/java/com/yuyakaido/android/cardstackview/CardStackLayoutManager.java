@@ -214,7 +214,7 @@ public class CardStackLayoutManager
             }
         }
 
-        removeAndRecycleAllViews(recycler);
+        detachAndScrapAttachedViews(recycler);
 
         final int parentTop = getPaddingTop();
         final int parentLeft = getPaddingLeft();
