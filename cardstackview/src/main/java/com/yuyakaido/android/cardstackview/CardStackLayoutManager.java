@@ -48,7 +48,10 @@ public class CardStackLayoutManager
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State s) {
         update(recycler);
         if (s.didStructureChange()) {
-            listener.onCardAppeared(getTopView(), state.topPosition);
+            View topView = getTopView();
+            if (topView != null) {
+                listener.onCardAppeared(getTopView(), state.topPosition);
+            }
         }
     }
 
