@@ -141,6 +141,10 @@ public class CardStackSmoothScroller extends RecyclerView.SmoothScroller {
                 break;
             case ManualCancel:
                 listener.onCardCanceled();
+                if(!manager.isSwipeEnabled()){
+                    manager.getCardStackState().next(CardStackState.Status.RewindAnimating);
+                    manager.setCanInteract(false);
+                }
                 break;
         }
     }

@@ -22,6 +22,7 @@ public class CardStackLayoutManager
         implements RecyclerView.SmoothScroller.ScrollVectorProvider {
 
     private final Context context;
+    private boolean isSwipeEnabled = true;
 
     private CardStackListener listener = CardStackListener.DEFAULT;
     private CardStackSetting setting = new CardStackSetting();
@@ -206,6 +207,7 @@ public class CardStackLayoutManager
                     @Override
                     public void run() {
                         listener.onCardSwiped(direction);
+                        setCanInteract(false);
                         View topView = getTopView();
                         if (topView != null) {
                             listener.onCardAppeared(getTopView(), state.topPosition);
@@ -493,4 +495,24 @@ public class CardStackLayoutManager
         setting.rewindAnimationSetting = rewindAnimationSetting;
     }
 
+    /**
+     * If your using setSwipeEnabled(false) don't use this method is can make setSwipeEnabled unpredictable
+     */
+    public void setCanInteract(boolean isIntractable){
+        if(!isSwipeEnabled) {
+            setCanScrollHorizontal(isIntractable);
+            setCanScrollVertical(isIntractable);
+        }
+    }
+
+    public void setSwipeEnabled(boolean isSwipeEnabled){
+        this.isSwipeEnabled = isSwipeEnabled;
+        if(!isSwipeEnabled){
+            setCanInteract(false);
+        }
+    }
+
+    public boolean isSwipeEnabled() {
+        return isSwipeEnabled;
+    }
 }
