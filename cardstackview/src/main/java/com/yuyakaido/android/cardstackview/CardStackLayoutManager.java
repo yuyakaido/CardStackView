@@ -271,8 +271,24 @@ public class CardStackLayoutManager
             case Top:
                 view.setTranslationY(-targetTranslation);
                 break;
+            case TopAndLeft:
+                view.setTranslationY(-targetTranslation);
+                view.setTranslationX(-targetTranslation);
+                break;
+            case TopAndRight:
+                view.setTranslationY(-targetTranslation);
+                view.setTranslationX(targetTranslation);
+                break;
             case Bottom:
                 view.setTranslationY(targetTranslation);
+                break;
+            case BottomAndLeft:
+                view.setTranslationY(targetTranslation);
+                view.setTranslationX(-targetTranslation);
+                break;
+            case BottomAndRight:
+                view.setTranslationY(targetTranslation);
+                view.setTranslationX(targetTranslation);
                 break;
             case Left:
                 view.setTranslationX(-targetTranslation);
@@ -302,7 +318,23 @@ public class CardStackLayoutManager
                 view.setScaleX(targetScale);
                 // TODO Should handle ScaleY
                 break;
+            case TopAndLeft:
+                view.setScaleX(targetScale);
+                // TODO Should handle ScaleY
+                break;
+            case TopAndRight:
+                view.setScaleX(targetScale);
+                // TODO Should handle ScaleY
+                break;
             case Bottom:
+                view.setScaleX(targetScale);
+                // TODO Should handle ScaleY
+                break;
+            case BottomAndLeft:
+                view.setScaleX(targetScale);
+                // TODO Should handle ScaleY
+                break;
+            case BottomAndRight:
                 view.setScaleX(targetScale);
                 // TODO Should handle ScaleY
                 break;
