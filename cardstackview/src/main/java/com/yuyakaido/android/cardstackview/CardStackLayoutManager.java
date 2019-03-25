@@ -225,6 +225,12 @@ public class CardStackLayoutManager
         final int parentBottom = getHeight() - getPaddingBottom();
         for (int i = state.topPosition; i < state.topPosition + setting.visibleCount && i < getItemCount(); i++) {
             View child = recycler.getViewForPosition(i);
+
+            ViewGroup.LayoutParams params = child.getLayoutParams();
+            params.width = parentRight - parentLeft;
+            params.height = parentBottom - parentTop - getPaddingTop() - getPaddingBottom();
+            child.setLayoutParams(params);
+
             addView(child, 0);
             measureChildWithMargins(child, 0, 0);
             layoutDecoratedWithMargins(child, parentLeft, parentTop, parentRight, parentBottom);
