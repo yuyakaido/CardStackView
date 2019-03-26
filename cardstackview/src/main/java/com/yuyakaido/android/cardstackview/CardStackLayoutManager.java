@@ -21,6 +21,12 @@ public class CardStackLayoutManager
         extends RecyclerView.LayoutManager
         implements RecyclerView.SmoothScroller.ScrollVectorProvider {
 
+    private enum CallType {
+        OnLayoutChildren,
+        ScrollHorizontally,
+        ScrollVertically
+    }
+
     private final Context context;
 
     private CardStackListener listener = CardStackListener.DEFAULT;
@@ -46,7 +52,7 @@ public class CardStackLayoutManager
 
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State s) {
-        update(recycler);
+        update(recycler, CallType.OnLayoutChildren);
         if (s.didStructureChange()) {
             listener.onCardAppeared(getTopView(), state.topPosition);
         }
@@ -66,7 +72,7 @@ public class CardStackLayoutManager
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State s) {
         if (state.status != CardStackState.Status.SwipeAnimating) {
             state.dx -= dx;
-            update(recycler);
+            update(recycler, CallType.ScrollHorizontally);
             return dx;
         }
         return 0;
@@ -76,7 +82,7 @@ public class CardStackLayoutManager
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State s) {
         if (state.status != CardStackState.Status.SwipeAnimating) {
             state.dy -= dy;
-            update(recycler);
+            update(recycler, CallType.ScrollVertically);
             return dy;
         }
         return 0;
@@ -188,7 +194,7 @@ public class CardStackLayoutManager
         }
     }
 
-    private void update(RecyclerView.Recycler recycler) {
+    private void update(RecyclerView.Recycler recycler, CallType type) {
         state.width = getWidth();
         state.height = getHeight();
 
@@ -209,7 +215,18 @@ public class CardStackLayoutManager
             }
         }
 
-        removeAndRecycleAllViews(recycler);
+        // Viewが使い回された時、古いViewが再表示されてしまうことがあるため、
+        // 以下の分岐でViewをリサイクルするかどうか切り分ける
+        if (type == CallType.OnLayoutChildren) {
+            // onLayoutChildrenから呼ばれた時は、古いViewを使いまわして欲しくないため、clearを呼ぶ
+            // clearの前にremoveAndRecyleAllViewsを呼んでおく必要がある
+            // (remove前のViewがrecyckeされる旨のエラーが出る）
+            removeAndRecycleAllViews(recycler);
+            recycler.clear();
+        } else {
+            // Scrollから呼ばれた時は、detach後にscrapListへViewの参照をプールする関数を呼ぶ
+            detachAndScrapAttachedViews(recycler);
+        }
 
         final int parentTop = getPaddingTop();
         final int parentLeft = getPaddingLeft();
