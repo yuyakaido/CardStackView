@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         manager.setDirections(Direction.HORIZONTAL)
         manager.setCanScrollHorizontal(true)
         manager.setCanScrollVertical(true)
-        manager.setSwipeableMethod(SwipeableMethod.ManualAndAutomatic)
+        manager.setSwipeableMethod(SwipeableMethod.Automatic)
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator.apply {

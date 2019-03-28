@@ -15,7 +15,29 @@ public class CardStackState {
     public float proportion = 0.0f;
 
     public enum Status {
-        Idle, Dragging, RewindAnimating, PrepareSwipeAnimation, SwipeAnimating
+        Idle,
+        Dragging,
+        RewindAnimating,
+        AutomaticSwipeAnimating,
+        AutomaticSwipeAnimated,
+        ManualSwipeAnimating,
+        ManualSwipeAnimated;
+
+
+        public boolean isSwipeAnimating() {
+            return this == ManualSwipeAnimating || this == AutomaticSwipeAnimating;
+        }
+
+        public Status toAnimatedStatus() {
+            switch (this) {
+                case ManualSwipeAnimating:
+                    return ManualSwipeAnimated;
+                case AutomaticSwipeAnimating:
+                    return AutomaticSwipeAnimated;
+                default:
+                    return Idle;
+            }
+        }
     }
 
     public void next(Status state) {

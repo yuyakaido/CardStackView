@@ -57,30 +57,96 @@ public class CardStackLayoutManager
 
     @Override
     public boolean canScrollHorizontally() {
-        return setting.canScrollHorizontal;
+        return setting.swipeableMethod.canSwipe() && setting.canScrollHorizontal;
     }
 
     @Override
     public boolean canScrollVertically() {
-        return setting.canScrollVertical;
+        return setting.swipeableMethod.canSwipe() && setting.canScrollVertical;
     }
 
     @Override
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State s) {
-        if (state.status != CardStackState.Status.SwipeAnimating) {
-            state.dx -= dx;
-            update(recycler);
-            return dx;
+        switch (state.status) {
+            case Idle:
+                if (setting.swipeableMethod.canSwipeManually()) {
+                    state.dx -= dx;
+                    update(recycler);
+                    return dx;
+                }
+                break;
+            case Dragging:
+                if (setting.swipeableMethod.canSwipeManually()) {
+                    state.dx -= dx;
+                    update(recycler);
+                    return dx;
+                }
+                break;
+            case RewindAnimating:
+                state.dx -= dx;
+                update(recycler);
+                return dx;
+            case AutomaticSwipeAnimating:
+                if (setting.swipeableMethod.canSwipeAutomatically()) {
+                    state.dx -= dx;
+                    update(recycler);
+                    return dx;
+                }
+                break;
+            case AutomaticSwipeAnimated:
+                break;
+            case ManualSwipeAnimating:
+                if (setting.swipeableMethod.canSwipeManually()) {
+                    state.dx -= dx;
+                    update(recycler);
+                    return dx;
+                }
+                break;
+            case ManualSwipeAnimated:
+                break;
         }
         return 0;
     }
 
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State s) {
-        if (state.status != CardStackState.Status.SwipeAnimating) {
-            state.dy -= dy;
-            update(recycler);
-            return dy;
+        switch (state.status) {
+            case Idle:
+                if (setting.swipeableMethod.canSwipeManually()) {
+                    state.dy -= dy;
+                    update(recycler);
+                    return dy;
+                }
+                break;
+            case Dragging:
+                if (setting.swipeableMethod.canSwipeManually()) {
+                    state.dy -= dy;
+                    update(recycler);
+                    return dy;
+                }
+                break;
+            case RewindAnimating:
+                state.dy -= dy;
+                update(recycler);
+                return dy;
+            case AutomaticSwipeAnimating:
+                if (setting.swipeableMethod.canSwipeAutomatically()) {
+                    state.dy -= dy;
+                    update(recycler);
+                    return dy;
+                }
+                break;
+            case AutomaticSwipeAnimated:
+                break;
+            case ManualSwipeAnimating:
+                if (setting.swipeableMethod.canSwipeManually()) {
+                    state.dy -= dy;
+                    update(recycler);
+                    return dy;
+                }
+                break;
+            case ManualSwipeAnimated:
+                break;
         }
         return 0;
     }
@@ -90,7 +156,7 @@ public class CardStackLayoutManager
         switch (s) {
             // スクロールが止まったタイミング
             case RecyclerView.SCROLL_STATE_IDLE:
-                if (state.status != CardStackState.Status.PrepareSwipeAnimation) {
+                if (!state.status.isSwipeAnimating()) {
                     // ManualSwipeが完了した場合の処理
                     if (state.targetPosition == RecyclerView.NO_POSITION) {
                         state.next(CardStackState.Status.Idle);
@@ -121,18 +187,20 @@ public class CardStackLayoutManager
                 break;
             // カードをドラッグしている最中
             case RecyclerView.SCROLL_STATE_DRAGGING:
-                state.next(CardStackState.Status.Dragging);
+                if (setting.swipeableMethod.canSwipeManually()) {
+                    state.next(CardStackState.Status.Dragging);
+                }
                 break;
             // カードが指から離れて、慣性アニメーションが開始したタイミング
             case RecyclerView.SCROLL_STATE_SETTLING:
-                if (state.status != CardStackState.Status.PrepareSwipeAnimation) {
+                if (!state.status.isSwipeAnimating()) {
                     // TODO この分岐は本当に必要か？
                     if (state.targetPosition == RecyclerView.NO_POSITION) {
                         state.next(CardStackState.Status.Idle);
                         state.targetPosition = RecyclerView.NO_POSITION;
                     } else {
                         if (state.topPosition < state.targetPosition) {
-                            state.next(CardStackState.Status.PrepareSwipeAnimation);
+                            state.next(CardStackState.Status.AutomaticSwipeAnimating);
                         } else if (state.targetPosition < state.topPosition) {
                             state.next(CardStackState.Status.RewindAnimating);
                         }
@@ -149,22 +217,26 @@ public class CardStackLayoutManager
 
     @Override
     public void scrollToPosition(int position) {
-        if (position == state.topPosition || position < 0 || getItemCount() < position) {
-            state.next(CardStackState.Status.Idle);
-            state.targetPosition = RecyclerView.NO_POSITION;
-        } else if (state.status == CardStackState.Status.Idle) {
-            state.topPosition = position;
-            requestLayout();
+        if (setting.swipeableMethod.canSwipeAutomatically()) {
+            if (position == state.topPosition || position < 0 || getItemCount() < position) {
+                state.next(CardStackState.Status.Idle);
+                state.targetPosition = RecyclerView.NO_POSITION;
+            } else if (state.status == CardStackState.Status.Idle) {
+                state.topPosition = position;
+                requestLayout();
+            }
         }
     }
 
     @Override
     public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State s, int position) {
-        if (position == state.topPosition || position < 0 || getItemCount() < position) {
-            state.next(CardStackState.Status.Idle);
-            state.targetPosition = RecyclerView.NO_POSITION;
-        } else if (state.status == CardStackState.Status.Idle) {
-            smoothScrollToPosition(position);
+        if (setting.swipeableMethod.canSwipeAutomatically()) {
+            if (position == state.topPosition || position < 0 || getItemCount() < position) {
+                state.next(CardStackState.Status.Idle);
+                state.targetPosition = RecyclerView.NO_POSITION;
+            } else if (state.status == CardStackState.Status.Idle) {
+                smoothScrollToPosition(position);
+            }
         }
     }
 
@@ -197,9 +269,9 @@ public class CardStackLayoutManager
         state.width = getWidth();
         state.height = getHeight();
 
-        if (state.status == CardStackState.Status.PrepareSwipeAnimation && (state.targetPosition == RecyclerView.NO_POSITION || state.topPosition < state.targetPosition)) {
+        if (state.status.isSwipeAnimating() && (state.targetPosition == RecyclerView.NO_POSITION || state.topPosition < state.targetPosition)) {
             if (Math.abs(state.dx) > getWidth() || Math.abs(state.dy) > getHeight()) {
-                state.next(CardStackState.Status.SwipeAnimating);
+                state.next(state.status.toAnimatedStatus());
 
                 // ■ 概要
                 // Recyclerから古いViewが返却されて、スワイプ済みのカードが表示される
