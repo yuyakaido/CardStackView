@@ -4,6 +4,7 @@ import com.yuyakaido.android.cardstackview.Direction;
 import com.yuyakaido.android.cardstackview.RewindAnimationSetting;
 import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting;
+import com.yuyakaido.android.cardstackview.SwipeableMethod;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class CardStackSetting {
     public List<Direction> directions = Direction.HORIZONTAL;
     public boolean canScrollHorizontal = true;
     public boolean canScrollVertical = true;
+    public SwipeableMethod swipeableMethod = SwipeableMethod.ManualAndAutomatic;
     public SwipeAnimationSetting swipeAnimationSetting = new SwipeAnimationSetting.Builder().build();
     public RewindAnimationSetting rewindAnimationSetting = new RewindAnimationSetting.Builder().build();
 }

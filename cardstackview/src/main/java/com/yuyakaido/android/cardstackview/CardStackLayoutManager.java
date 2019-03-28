@@ -531,6 +531,10 @@ public class CardStackLayoutManager
         setting.canScrollVertical = canScrollVertical;
     }
 
+    public void setSwipeableMethod(SwipeableMethod swipeableMethod) {
+        setting.swipeableMethod = swipeableMethod;
+    }
+
     public void setSwipeAnimationSetting(@NonNull SwipeAnimationSetting swipeAnimationSetting) {
         setting.swipeAnimationSetting = swipeAnimationSetting;
     }
