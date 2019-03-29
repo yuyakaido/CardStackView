@@ -191,21 +191,8 @@ public class CardStackLayoutManager
                     state.next(CardStackState.Status.Dragging);
                 }
                 break;
-            // カードが指から離れて、慣性アニメーションが開始したタイミング
+            // カードが指から離れたタイミング
             case RecyclerView.SCROLL_STATE_SETTLING:
-                if (!state.status.isSwipeAnimating()) {
-                    // TODO この分岐は本当に必要か？
-                    if (state.targetPosition == RecyclerView.NO_POSITION) {
-                        state.next(CardStackState.Status.Idle);
-                        state.targetPosition = RecyclerView.NO_POSITION;
-                    } else {
-                        if (state.topPosition < state.targetPosition) {
-                            state.next(CardStackState.Status.AutomaticSwipeAnimating);
-                        } else if (state.targetPosition < state.topPosition) {
-                            state.next(CardStackState.Status.RewindAnimating);
-                        }
-                    }
-                }
                 break;
         }
     }
@@ -271,11 +258,10 @@ public class CardStackLayoutManager
 
         if (state.status.isSwipeAnimating() && (state.targetPosition == RecyclerView.NO_POSITION || state.topPosition < state.targetPosition)) {
             if (Math.abs(state.dx) > getWidth() || Math.abs(state.dy) > getHeight()) {
-                state.next(state.status.toAnimatedStatus());
-
                 // ■ 概要
-                // Recyclerから古いViewが返却されて、スワイプ済みのカードが表示される
-                // データソースは正しく更新されていて、あくまで表示だけが古い状態になる
+                // スワイプが完了したタイミングで、スワイプ済みのViewをキャッシュから削除する
+                // キャッシュの削除を行わないと、次回更新時にスワイプ済みのカードが表示されてしまう
+                // スワイプ済みカードが表示される場合、データソースは正しく、表示だけが古い状態になっている
                 //
                 // ■ 再現手順
                 // 1. `removeAndRecycleView(getTopView(), recycler);` をコメントアウトする
@@ -286,7 +272,14 @@ public class CardStackLayoutManager
                 // 6. ページング完了後はBが表示されるはずが、Aが画面に表示される
                 removeAndRecycleView(getTopView(), recycler);
 
+                state.next(state.status.toAnimatedStatus());
                 state.topPosition++;
+                state.dx = 0;
+                state.dy = 0;
+                if (state.topPosition == state.targetPosition) {
+                    state.targetPosition = RecyclerView.NO_POSITION;
+                }
+
                 final Direction direction = state.getDirection();
                 new Handler().post(new Runnable() {
                     @Override
@@ -298,8 +291,6 @@ public class CardStackLayoutManager
                         }
                     }
                 });
-                state.dx = 0;
-                state.dy = 0;
             }
         }
 
