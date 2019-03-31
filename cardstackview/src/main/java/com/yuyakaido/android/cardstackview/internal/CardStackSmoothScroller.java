@@ -1,5 +1,6 @@
 package com.yuyakaido.android.cardstackview.internal;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -28,7 +29,12 @@ public class CardStackSmoothScroller extends RecyclerView.SmoothScroller {
     }
 
     @Override
-    protected void onSeekTargetStep(int dx, int dy, RecyclerView.State state, Action action) {
+    protected void onSeekTargetStep(
+            int dx,
+            int dy,
+            @NonNull RecyclerView.State state,
+            @NonNull Action action
+    ) {
         if (type == ScrollType.AutomaticRewind) {
             // ■ 概要
             // ここでViewのRemoveを行わないとRewindが無限ループに陥ってしまう
@@ -57,7 +63,11 @@ public class CardStackSmoothScroller extends RecyclerView.SmoothScroller {
     }
 
     @Override
-    protected void onTargetFound(View targetView, RecyclerView.State state, Action action) {
+    protected void onTargetFound(
+            @NonNull View targetView,
+            @NonNull RecyclerView.State state,
+            @NonNull Action action
+    ) {
         int x = (int) targetView.getTranslationX();
         int y = (int) targetView.getTranslationY();
         AnimationSetting setting;
