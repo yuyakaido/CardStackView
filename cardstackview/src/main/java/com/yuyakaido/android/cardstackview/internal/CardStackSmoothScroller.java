@@ -30,11 +30,10 @@ public class CardStackSmoothScroller extends RecyclerView.SmoothScroller {
     @Override
     protected void onSeekTargetStep(int dx, int dy, RecyclerView.State state, Action action) {
         if (type == ScrollType.AutomaticRewind) {
-            manager.removeAllViews();
             // ■ 概要
             // ここでViewのRemoveを行わないとRewindが無限ループに陥ってしまう
             // ■ 再現手順
-            // 1. 上記処理をコメントアウト
+            // 1. `manager.removeAllViews();`をコメントアウト
             // 2. AutomaticSwipeを1度実行する
             // 3. AutomaticRewindを1度実行する
             // 4. AutomaticSwipeを1度実行する
@@ -46,6 +45,7 @@ public class CardStackSmoothScroller extends RecyclerView.SmoothScroller {
             // ■ 副作用
             // ViewのRemoveを行っているため、表示対象となっているViewの再生成が実行されてしまう
             // これによってパフォーマンス上の問題が発生する可能性がある
+            manager.removeAllViews();
             RewindAnimationSetting setting = manager.getCardStackSetting().rewindAnimationSetting;
             action.update(
                     -getDx(setting),
