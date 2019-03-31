@@ -77,6 +77,7 @@ public class CardStackView extends RecyclerView {
 
     private void initialize() {
         new CardStackSnapHelper().attachToRecyclerView(this);
+        setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
     }
 
 }

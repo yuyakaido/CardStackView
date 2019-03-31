@@ -15,7 +15,36 @@ public class CardStackState {
     public float proportion = 0.0f;
 
     public enum Status {
-        Idle, Dragging, RewindAnimating, PrepareSwipeAnimation, SwipeAnimating
+        Idle,
+        Dragging,
+        RewindAnimating,
+        AutomaticSwipeAnimating,
+        AutomaticSwipeAnimated,
+        ManualSwipeAnimating,
+        ManualSwipeAnimated;
+
+        public boolean isBusy() {
+            return this != Idle;
+        }
+
+        public boolean isDragging() {
+            return this == Dragging;
+        }
+
+        public boolean isSwipeAnimating() {
+            return this == ManualSwipeAnimating || this == AutomaticSwipeAnimating;
+        }
+
+        public Status toAnimatedStatus() {
+            switch (this) {
+                case ManualSwipeAnimating:
+                    return ManualSwipeAnimated;
+                case AutomaticSwipeAnimating:
+                    return AutomaticSwipeAnimated;
+                default:
+                    return Idle;
+            }
+        }
     }
 
     public void next(Status state) {
@@ -48,6 +77,33 @@ public class CardStackState {
             ratio = absDx / (width / 2.0f);
         }
         return Math.min(ratio, 1.0f);
+    }
+
+    public boolean isSwipeCompleted() {
+        if (status.isSwipeAnimating()) {
+            if (topPosition < targetPosition) {
+                if (width < Math.abs(dx) || height < Math.abs(dy)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean canScrollToPosition(int position, int itemCount) {
+        if (position == topPosition) {
+            return false;
+        }
+        if (position < 0) {
+            return false;
+        }
+        if (itemCount < position) {
+            return false;
+        }
+        if (status.isBusy()) {
+            return false;
+        }
+        return true;
     }
 
 }

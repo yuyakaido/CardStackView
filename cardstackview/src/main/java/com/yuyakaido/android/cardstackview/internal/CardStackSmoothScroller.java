@@ -1,5 +1,6 @@
 package com.yuyakaido.android.cardstackview.internal;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -28,13 +29,17 @@ public class CardStackSmoothScroller extends RecyclerView.SmoothScroller {
     }
 
     @Override
-    protected void onSeekTargetStep(int dx, int dy, RecyclerView.State state, Action action) {
+    protected void onSeekTargetStep(
+            int dx,
+            int dy,
+            @NonNull RecyclerView.State state,
+            @NonNull Action action
+    ) {
         if (type == ScrollType.AutomaticRewind) {
-            manager.removeAllViews();
             // ■ 概要
             // ここでViewのRemoveを行わないとRewindが無限ループに陥ってしまう
             // ■ 再現手順
-            // 1. 上記処理をコメントアウト
+            // 1. `manager.removeAllViews();`をコメントアウト
             // 2. AutomaticSwipeを1度実行する
             // 3. AutomaticRewindを1度実行する
             // 4. AutomaticSwipeを1度実行する
@@ -46,6 +51,7 @@ public class CardStackSmoothScroller extends RecyclerView.SmoothScroller {
             // ■ 副作用
             // ViewのRemoveを行っているため、表示対象となっているViewの再生成が実行されてしまう
             // これによってパフォーマンス上の問題が発生する可能性がある
+            manager.removeAllViews();
             RewindAnimationSetting setting = manager.getCardStackSetting().rewindAnimationSetting;
             action.update(
                     -getDx(setting),
@@ -57,7 +63,11 @@ public class CardStackSmoothScroller extends RecyclerView.SmoothScroller {
     }
 
     @Override
-    protected void onTargetFound(View targetView, RecyclerView.State state, Action action) {
+    protected void onTargetFound(
+            @NonNull View targetView,
+            @NonNull RecyclerView.State state,
+            @NonNull Action action
+    ) {
         int x = (int) targetView.getTranslationX();
         int y = (int) targetView.getTranslationY();
         AnimationSetting setting;
@@ -109,14 +119,14 @@ public class CardStackSmoothScroller extends RecyclerView.SmoothScroller {
         CardStackState state = manager.getCardStackState();
         switch (type) {
             case AutomaticSwipe:
-                state.next(CardStackState.Status.PrepareSwipeAnimation);
+                state.next(CardStackState.Status.AutomaticSwipeAnimating);
                 listener.onCardDisappeared(manager.getTopView(), manager.getTopPosition());
                 break;
             case AutomaticRewind:
                 state.next(CardStackState.Status.RewindAnimating);
                 break;
             case ManualSwipe:
-                state.next(CardStackState.Status.PrepareSwipeAnimation);
+                state.next(CardStackState.Status.ManualSwipeAnimating);
                 listener.onCardDisappeared(manager.getTopView(), manager.getTopPosition());
                 break;
             case ManualCancel:
