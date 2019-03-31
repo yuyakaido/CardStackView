@@ -57,9 +57,7 @@ public class CardStackSnapHelper extends SnapHelper {
             if (view != null) {
                 int x = (int) view.getTranslationX();
                 int y = (int) view.getTranslationY();
-                int width = manager.getWidth();
-                int height = manager.getHeight();
-                if (x > width || y > height || (x == 0 && y == 0)) {
+                if (x == 0 && y == 0) {
                     return null;
                 }
                 return view;
