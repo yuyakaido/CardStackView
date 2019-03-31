@@ -1,4 +1,4 @@
-![Logo](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-logo.png)
+![Logo](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-logo.png)
 
 # CardStackView
 
@@ -11,7 +11,7 @@
 
 # Overview
 
-![Overview](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-overview.gif)
+![Overview](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-overview.gif)
 
 # Contents
 
@@ -53,11 +53,11 @@ cardStackView.setAdapter(adapter);
 
 ## Manual Swipe
 
-![ManualSwipe](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-manual-swipe.gif)
+![ManualSwipe](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-manual-swipe.gif)
 
 ## Automatic Swipe
 
-![AutomaticSwipe](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-automatic-swipe.gif)
+![AutomaticSwipe](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-automatic-swipe.gif)
 
 ```java
 CardStackView.swipe();
@@ -79,11 +79,11 @@ CardStackView.swipe();
 
 Manual swipe is canceled when the card is dragged less than threshold.
 
-![Cancel](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-cancel.gif)
+![Cancel](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-cancel.gif)
 
 ## Rewind
 
-![Rewind](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-rewind.gif)
+![Rewind](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-rewind.gif)
 
 ```java
 CardStackView.rewind();
@@ -105,8 +105,8 @@ CardStackView.rewind();
 
 | Value | Sample |
 | :----: | :----: |
-| Left | ![Overlay-Left](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-overlay-left.png) |
-| Right | ![Overlay-Right](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-overlay-right.png) |
+| Left | ![Overlay-Left](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-overlay-left.png) |
+| Right | ![Overlay-Right](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-overlay-right.png) |
 
 Put overlay view in your item layout of RecyclerView.
 
@@ -147,11 +147,11 @@ You can implement reloading by calling `RecyclerView.Adapter.notifyDataSetChange
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | None | ![StackFrom-None](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-stack-from-none.png) |
-|  | Top | ![StackFrom-Top](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-stack-from-top.png) |
-| | Bottom | ![StackFrom-Bottom](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-stack-from-bottom.png) |
-| | Left | ![StackFrom-Left](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-stack-from-left.png) |
-| | Right | ![StackFrom-Right](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-stack-from-right.png) |
+| ✅ | None | ![StackFrom-None](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-stack-from-none.png) |
+|  | Top | ![StackFrom-Top](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-stack-from-top.png) |
+| | Bottom | ![StackFrom-Bottom](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-stack-from-bottom.png) |
+| | Left | ![StackFrom-Left](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-stack-from-left.png) |
+| | Right | ![StackFrom-Right](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-stack-from-right.png) |
 
 ```java
 CardStackLayoutManager.setStackFrom(StackFrom.None);
@@ -161,9 +161,9 @@ CardStackLayoutManager.setStackFrom(StackFrom.None);
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| | 2 | ![VisibleCount-2](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-visible-count-2.png) |
-| ✅ | 3 | ![VisibleCount-3](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-visible-count-3.png) |
-| | 4 | ![VisibleCount-4](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-visible-count-4.png) |
+| | 2 | ![VisibleCount-2](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-visible-count-2.png) |
+| ✅ | 3 | ![VisibleCount-3](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-visible-count-3.png) |
+| | 4 | ![VisibleCount-4](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-visible-count-4.png) |
 
 ```java
 CardStackLayoutManager.setVisibleCount(3);
@@ -173,9 +173,9 @@ CardStackLayoutManager.setVisibleCount(3);
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| | 4dp | ![TranslationInterval-4dp](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-translation-interval-4dp.png) |
-| ✅ | 8dp | ![TranslationInterval-8dp](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-translation-interval-8dp.png) |
-| | 12dp | ![TranslationInterval-12dp](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-translation-interval-12dp.png) |
+| | 4dp | ![TranslationInterval-4dp](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-translation-interval-4dp.png) |
+| ✅ | 8dp | ![TranslationInterval-8dp](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-translation-interval-8dp.png) |
+| | 12dp | ![TranslationInterval-12dp](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-translation-interval-12dp.png) |
 
 ```java
 CardStackLayoutManager.setTranslationInterval(8f);
@@ -185,8 +185,8 @@ CardStackLayoutManager.setTranslationInterval(8f);
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | 95% | ![ScaleInterval-95%](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-scale-interval-95.png) |
-| | 90% | ![ScaleInterval-90%](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-scale-interval-90.png) |
+| ✅ | 95% | ![ScaleInterval-95%](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-scale-interval-95.png) |
+| | 90% | ![ScaleInterval-90%](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-scale-interval-90.png) |
 
 ```java
 CardStackLayoutManager.setScaleInterval(0.95f);
@@ -196,8 +196,8 @@ CardStackLayoutManager.setScaleInterval(0.95f);
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | 20° | ![MaxDegree-20](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-max-degree-20.png) |
-| | 0° | ![MaxDegree-0](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-max-degree-0.png) |
+| ✅ | 20° | ![MaxDegree-20](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-max-degree-20.png) |
+| | 0° | ![MaxDegree-0](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-max-degree-0.png) |
 
 ```java
 CardStackLayoutManager.setMaxDegree(20f);
@@ -207,9 +207,9 @@ CardStackLayoutManager.setMaxDegree(20f);
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | Horizontal | ![SwipeDirection-Horizontal](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-direction-horizontal.gif) |
-| | Vertical | ![SwipeDirection-Vertical](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-direction-vertical.gif) |
-| | Freedom | ![SwipeDirection-Freedom](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-direction-freedom.gif) |
+| ✅ | Horizontal | ![SwipeDirection-Horizontal](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-direction-horizontal.gif) |
+| | Vertical | ![SwipeDirection-Vertical](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-direction-vertical.gif) |
+| | Freedom | ![SwipeDirection-Freedom](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-direction-freedom.gif) |
 
 ```java
 CardStackLayoutManager.setDirections(Direction.HORIZONTAL);
@@ -219,8 +219,8 @@ CardStackLayoutManager.setDirections(Direction.HORIZONTAL);
 
 | Default | Value | Sample |
 | :----: | :----: | :----: |
-| ✅ | 30% | ![SwipeThreshold-30%](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-threshold-30.gif) |
-| | 10% | ![SwipeThreshold-10%](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-threshold-10.gif) |
+| ✅ | 30% | ![SwipeThreshold-30%](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-threshold-30.gif) |
+| | 10% | ![SwipeThreshold-10%](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-threshold-10.gif) |
 
 ```java
 CardStackLayoutManager.setSwipeThreshold(0.3f);
@@ -230,10 +230,10 @@ CardStackLayoutManager.setSwipeThreshold(0.3f);
 
 | CanScrollHorizontal | CanScrollVertical | Sample |
 | :----: | :----: | :----: |
-| true | true | ![SwipeRestriction-NoRestriction](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-restriction-no-restriction.gif) |
-| true | false | ![SwipeRestriction-CanScrollHorizontalOnly](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-restriction-can-scroll-horizontal-only.gif) |
-| false | true | ![SwipeRestriction-CanScrollVerticalOnly](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-restriction-can-scroll-vertical-only.gif) |
-| false | false | ![SwipeRestriction-CannotSwipe](https://github.com/yuyakaido/CardStackView/blob/master/images/sample-swipe-restriction-cannot-swipe.gif) |
+| true | true | ![SwipeRestriction-NoRestriction](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-restriction-no-restriction.gif) |
+| true | false | ![SwipeRestriction-CanScrollHorizontalOnly](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-restriction-can-scroll-horizontal-only.gif) |
+| false | true | ![SwipeRestriction-CanScrollVerticalOnly](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-restriction-can-scroll-vertical-only.gif) |
+| false | false | ![SwipeRestriction-CannotSwipe](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-restriction-cannot-swipe.gif) |
 
 ```java
 CardStackLayoutManager.setCanScrollHorizontal(true);
@@ -250,7 +250,7 @@ CardStackLayoutManager.setCanScrollVertical(true);
 | | None | ![SwipwableMethod-None](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipeable-method-none.gif) |
 
 ```java
-CardStackLayoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
+CardStackLayoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual);
 ```
 
 # Public Interfaces
