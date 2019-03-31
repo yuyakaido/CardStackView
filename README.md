@@ -32,6 +32,7 @@
     - [Max Degree](#max-degree)
     - [Swipe Direction](#swipe-direction)
     - [Swipe Restriction](#swipe-restriction)
+    - [Swipeable Method](#swipeable-method)
 - [Public Interfaces](#public-interfaces)
 - [Callbacks](#callbacks)
 - [Migration Guide](#migration-guide)
@@ -237,6 +238,19 @@ CardStackLayoutManager.setSwipeThreshold(0.3f);
 ```java
 CardStackLayoutManager.setCanScrollHorizontal(true);
 CardStackLayoutManager.setCanScrollVertical(true);
+```
+
+## Swipeable Method
+
+| Default | Value | Sample |
+| :----: | :----: | :----: |
+| ✅ | AutomaticAndManual | ![SwipeableMethod-AutomaticAndManual](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipeable-method-automatic-and-manual.gif) |
+| | Automatic | ![SwipwableMethod-Automatic](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipeable-method-automatic.gif) |
+| | Manual | ![SwipwableMethod-Manual](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipeable-method-manual.gif) |
+| | None | ![SwipwableMethod-None](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipeable-method-none.gif) |
+
+```java
+CardStackLayoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
 ```
 
 # Public Interfaces
