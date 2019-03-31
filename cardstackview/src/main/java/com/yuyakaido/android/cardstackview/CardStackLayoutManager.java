@@ -205,10 +205,7 @@ public class CardStackLayoutManager
     @Override
     public void scrollToPosition(int position) {
         if (setting.swipeableMethod.canSwipeAutomatically()) {
-            if (position == state.topPosition || position < 0 || getItemCount() < position) {
-                state.next(CardStackState.Status.Idle);
-                state.targetPosition = RecyclerView.NO_POSITION;
-            } else if (state.status == CardStackState.Status.Idle) {
+            if (state.canScrollToPosition(position, getItemCount())) {
                 state.topPosition = position;
                 requestLayout();
             }
@@ -218,10 +215,7 @@ public class CardStackLayoutManager
     @Override
     public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State s, int position) {
         if (setting.swipeableMethod.canSwipeAutomatically()) {
-            if (position == state.topPosition || position < 0 || getItemCount() < position) {
-                state.next(CardStackState.Status.Idle);
-                state.targetPosition = RecyclerView.NO_POSITION;
-            } else if (state.status == CardStackState.Status.Idle) {
+            if (state.canScrollToPosition(position, getItemCount())) {
                 smoothScrollToPosition(position);
             }
         }
@@ -256,42 +250,40 @@ public class CardStackLayoutManager
         state.width = getWidth();
         state.height = getHeight();
 
-        if (state.status.isSwipeAnimating() && (state.targetPosition == RecyclerView.NO_POSITION || state.topPosition < state.targetPosition)) {
-            if (Math.abs(state.dx) > getWidth() || Math.abs(state.dy) > getHeight()) {
-                // ■ 概要
-                // スワイプが完了したタイミングで、スワイプ済みのViewをキャッシュから削除する
-                // キャッシュの削除を行わないと、次回更新時にスワイプ済みのカードが表示されてしまう
-                // スワイプ済みカードが表示される場合、データソースは正しく、表示だけが古い状態になっている
-                //
-                // ■ 再現手順
-                // 1. `removeAndRecycleView(getTopView(), recycler);` をコメントアウトする
-                // 2. VisibleCount=1に設定し、最後のカードがスワイプされたらページングを行うようにする
-                // 3. カードを1枚だけ画面に表示する（このカードをAとする）
-                // 4. Aをスワイプする
-                // 5. カードを1枚だけ画面に表示する（このカードをBとする）
-                // 6. ページング完了後はBが表示されるはずが、Aが画面に表示される
-                removeAndRecycleView(getTopView(), recycler);
+        if (state.isSwipeCompleted()) {
+            // ■ 概要
+            // スワイプが完了したタイミングで、スワイプ済みのViewをキャッシュから削除する
+            // キャッシュの削除を行わないと、次回更新時にスワイプ済みのカードが表示されてしまう
+            // スワイプ済みカードが表示される場合、データソースは正しく、表示だけが古い状態になっている
+            //
+            // ■ 再現手順
+            // 1. `removeAndRecycleView(getTopView(), recycler);` をコメントアウトする
+            // 2. VisibleCount=1に設定し、最後のカードがスワイプされたらページングを行うようにする
+            // 3. カードを1枚だけ画面に表示する（このカードをAとする）
+            // 4. Aをスワイプする
+            // 5. カードを1枚だけ画面に表示する（このカードをBとする）
+            // 6. ページング完了後はBが表示されるはずが、Aが画面に表示される
+            removeAndRecycleView(getTopView(), recycler);
 
-                state.next(state.status.toAnimatedStatus());
-                state.topPosition++;
-                state.dx = 0;
-                state.dy = 0;
-                if (state.topPosition == state.targetPosition) {
-                    state.targetPosition = RecyclerView.NO_POSITION;
-                }
-
-                final Direction direction = state.getDirection();
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        listener.onCardSwiped(direction);
-                        View topView = getTopView();
-                        if (topView != null) {
-                            listener.onCardAppeared(getTopView(), state.topPosition);
-                        }
-                    }
-                });
+            state.next(state.status.toAnimatedStatus());
+            state.topPosition++;
+            state.dx = 0;
+            state.dy = 0;
+            if (state.topPosition == state.targetPosition) {
+                state.targetPosition = RecyclerView.NO_POSITION;
             }
+
+            final Direction direction = state.getDirection();
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onCardSwiped(direction);
+                    View topView = getTopView();
+                    if (topView != null) {
+                        listener.onCardAppeared(getTopView(), state.topPosition);
+                    }
+                }
+            });
         }
 
         detachAndScrapAttachedViews(recycler);
@@ -325,7 +317,7 @@ public class CardStackLayoutManager
             }
         }
 
-        if (state.status == CardStackState.Status.Dragging) {
+        if (state.status.isDragging()) {
             listener.onCardDragging(state.getDirection(), state.getRatio());
         }
     }
