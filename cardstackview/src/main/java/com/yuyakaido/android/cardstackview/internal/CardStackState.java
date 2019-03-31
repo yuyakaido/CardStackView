@@ -23,6 +23,10 @@ public class CardStackState {
         ManualSwipeAnimating,
         ManualSwipeAnimated;
 
+        public boolean isBusy() {
+            return this != Idle;
+        }
+
         public boolean isDragging() {
             return this == Dragging;
         }
@@ -77,8 +81,8 @@ public class CardStackState {
 
     public boolean isSwipeCompleted() {
         if (status.isSwipeAnimating()) {
-            if (targetPosition == RecyclerView.NO_POSITION || topPosition < targetPosition) {
-                if (Math.abs(dx) > width || Math.abs(dy) > height) {
+            if (topPosition < targetPosition) {
+                if (width < Math.abs(dx) || height < Math.abs(dy)) {
                     return true;
                 }
             }
@@ -96,7 +100,7 @@ public class CardStackState {
         if (itemCount < position) {
             return false;
         }
-        if (status != Status.Idle) {
+        if (status.isBusy()) {
             return false;
         }
         return true;
