@@ -38,7 +38,7 @@ public class RewindAnimationSetting implements AnimationSetting {
 
     public static class Builder {
         private Direction direction = Direction.Bottom;
-        private int duration = 200;
+        private int duration = Duration.Normal.duration;
         private Interpolator interpolator = new DecelerateInterpolator();
 
         public RewindAnimationSetting.Builder setDirection(Direction direction) {

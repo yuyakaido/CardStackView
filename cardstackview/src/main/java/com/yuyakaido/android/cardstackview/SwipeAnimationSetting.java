@@ -38,7 +38,7 @@ public class SwipeAnimationSetting implements AnimationSetting {
 
     public static class Builder {
         private Direction direction = Direction.Right;
-        private int duration = 200;
+        private int duration = Duration.Normal.duration;
         private Interpolator interpolator = new AccelerateInterpolator();
 
         public Builder setDirection(Direction direction) {

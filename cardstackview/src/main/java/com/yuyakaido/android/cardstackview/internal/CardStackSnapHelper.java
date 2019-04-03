@@ -7,8 +7,13 @@ import android.support.v7.widget.SnapHelper;
 import android.view.View;
 
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
+import com.yuyakaido.android.cardstackview.Duration;
+import com.yuyakaido.android.cardstackview.SwipeAnimationSetting;
 
 public class CardStackSnapHelper extends SnapHelper {
+
+    private int velocityX = 0;
+    private int velocityY = 0;
 
     @Nullable
     @Override
@@ -25,10 +30,22 @@ public class CardStackSnapHelper extends SnapHelper {
                     CardStackSetting setting = manager.getCardStackSetting();
                     float horizontal = Math.abs(x) / (float) targetView.getWidth();
                     float vertical = Math.abs(y) / (float) targetView.getHeight();
-                    if (setting.swipeThreshold < horizontal || setting.swipeThreshold < vertical) {
+                    Duration duration = Duration.fromVelocity(velocityY < velocityX ? velocityX : velocityY);
+                    if (duration == Duration.Fast || setting.swipeThreshold < horizontal || setting.swipeThreshold < vertical) {
                         CardStackState state = manager.getCardStackState();
                         if (setting.directions.contains(state.getDirection())) {
                             state.targetPosition = state.topPosition + 1;
+
+                            SwipeAnimationSetting swipeAnimationSetting = new SwipeAnimationSetting.Builder()
+                                    .setDirection(setting.swipeAnimationSetting.getDirection())
+                                    .setDuration(duration.duration)
+                                    .setInterpolator(setting.swipeAnimationSetting.getInterpolator())
+                                    .build();
+                            manager.setSwipeAnimationSetting(swipeAnimationSetting);
+
+                            this.velocityX = 0;
+                            this.velocityY = 0;
+
                             CardStackSmoothScroller scroller = new CardStackSmoothScroller(CardStackSmoothScroller.ScrollType.ManualSwipe, manager);
                             scroller.setTargetPosition(manager.getTopPosition());
                             manager.startSmoothScroll(scroller);
@@ -43,7 +60,6 @@ public class CardStackSnapHelper extends SnapHelper {
                         manager.startSmoothScroll(scroller);
                     }
                 }
-
             }
         }
         return new int[2];
@@ -73,6 +89,8 @@ public class CardStackSnapHelper extends SnapHelper {
             int velocityX,
             int velocityY
     ) {
+        this.velocityX = Math.abs(velocityX);
+        this.velocityY = Math.abs(velocityY);
         if (layoutManager instanceof CardStackLayoutManager) {
             CardStackLayoutManager manager = (CardStackLayoutManager) layoutManager;
             return manager.getTopPosition();
