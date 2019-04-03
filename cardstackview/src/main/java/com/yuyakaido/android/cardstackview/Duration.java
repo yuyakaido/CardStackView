@@ -1,9 +1,9 @@
 package com.yuyakaido.android.cardstackview;
 
 public enum Duration {
-    Fast(50),
+    Fast(100),
     Normal(200),
-    Slow(400);
+    Slow(500);
 
     public final int duration;
 
