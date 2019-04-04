@@ -13,6 +13,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import com.yuyakaido.android.cardstackview.*
 import java.util.*
@@ -146,6 +147,7 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         manager.setCanScrollHorizontal(true)
         manager.setCanScrollVertical(true)
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
+        manager.setOverlayInterpolator(LinearInterpolator())
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator.apply {

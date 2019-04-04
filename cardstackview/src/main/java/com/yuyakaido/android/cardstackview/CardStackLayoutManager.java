@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
 
 import com.yuyakaido.android.cardstackview.internal.CardStackSetting;
 import com.yuyakaido.android.cardstackview.internal.CardStackSmoothScroller;
@@ -472,25 +473,26 @@ public class CardStackLayoutManager
             bottomOverlay.setAlpha(0.0f);
         }
         Direction direction = state.getDirection();
+        float alpha = setting.overlayInterpolator.getInterpolation(state.getRatio());
         switch (direction) {
             case Left:
                 if (leftOverlay != null) {
-                    leftOverlay.setAlpha(state.getRatio());
+                    leftOverlay.setAlpha(alpha);
                 }
                 break;
             case Right:
                 if (rightOverlay != null) {
-                    rightOverlay.setAlpha(state.getRatio());
+                    rightOverlay.setAlpha(alpha);
                 }
                 break;
             case Top:
                 if (topOverlay != null) {
-                    topOverlay.setAlpha(state.getRatio());
+                    topOverlay.setAlpha(alpha);
                 }
                 break;
             case Bottom:
                 if (bottomOverlay != null) {
-                    bottomOverlay.setAlpha(state.getRatio());
+                    bottomOverlay.setAlpha(alpha);
                 }
                 break;
         }
@@ -618,6 +620,10 @@ public class CardStackLayoutManager
 
     public void setRewindAnimationSetting(@NonNull RewindAnimationSetting rewindAnimationSetting) {
         setting.rewindAnimationSetting = rewindAnimationSetting;
+    }
+
+    public void setOverlayInterpolator(@NonNull Interpolator overlayInterpolator) {
+        setting.overlayInterpolator = overlayInterpolator;
     }
 
 }
