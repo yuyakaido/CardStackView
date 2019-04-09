@@ -21,7 +21,8 @@
     - [Automatic Swipe](#automatic-swipe)
     - [Cancel](#cancel)
     - [Rewind](#rewind)
-    - [Overlay](#overlay)
+    - [Overlay View](#overlay-view)
+    - [Overlay Interpolator](#overlay-interpolator)
     - [Paging](#paging)
     - [Reloading](#reloading)
     - [Stack From](#stack-from)
@@ -41,12 +42,10 @@
 
 # Setup
 
-```java
-CardStackLayoutManager manager = new CardStackLayoutManager();
-CardStackAdapter adapter = new CardStackAdapter();
-CardStackView cardStackView = findViewById(R.id.card_stack_view);
-cardStackView.setLayoutManager(manager);
-cardStackView.setAdapter(adapter);
+```kotlin
+val cardStackView = findViewById<CardStackView>(R.id.card_stack_view)
+cardStackView.layoutManager = CardStackLayoutManager()
+cardStackView.adapter = CardStackAdapter()
 ```
 
 # Features
@@ -59,20 +58,20 @@ cardStackView.setAdapter(adapter);
 
 ![AutomaticSwipe](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-automatic-swipe.gif)
 
-```java
-CardStackView.swipe();
+```kotlin
+CardStackView.swipe()
 ```
 
 You can set custom swipe animation.
 
-```
-SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
-    .setDirection(Direction.Right)
-    .setDuration(200)
-    .setInterpolator(new AccelerateInterpolator())
-    .build();
-CardStackLayoutManager.setSwipeAnimationSetting(setting);
-CardStackView.swipe();
+```kotlin
+val setting = SwipeAnimationSetting.Builder()
+        .setDirection(Direction.Right)
+        .setDuration(Duration.Normal.duration)
+        .setInterpolator(AccelerateInterpolator())
+        .build()
+CardStackLayoutManager.setSwipeAnimationSetting(setting)
+CardStackView.swipe()
 ```
 
 ## Cancel
@@ -85,23 +84,23 @@ Manual swipe is canceled when the card is dragged less than threshold.
 
 ![Rewind](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-rewind.gif)
 
-```java
-CardStackView.rewind();
+```kotlin
+CardStackView.rewind()
 ```
 
 You can set custom rewind animation.
 
-```java
-RewindAnimationSetting setting = new RewindAnimationSetting.Builder()
-    .setDirection(Direction.Bottom)
-    .setDuration(200)
-    .setInterpolator(new DecelerateInterpolator())
-    .build();
-CardStackLayoutManager.setRewindAnimationSetting(setting);
-CardStackView.rewind();
+```kotlin
+val setting = RewindAnimationSetting.Builder()
+        .setDirection(Direction.Bottom)
+        .setDuration(Duration.Normal.duration)
+        .setInterpolator(DecelerateInterpolator())
+        .build()
+CardStackLayoutManager.setRewindAnimationSetting(setting)
+CardStackView.rewind()
 ```
 
-## Overlay
+## Overlay View
 
 | Value | Sample |
 | :----: | :----: |
@@ -128,6 +127,14 @@ Put overlay view in your item layout of RecyclerView.
 | Top | top_overlay |
 | Bottom | bottom_overlay |
 
+## Overlay Interpolator
+
+You can set own interpolator to define the rate of change of alpha.
+
+```kotlin
+CardStackLayoutManager.setOverlayInterpolator(LinearInterpolator())
+```
+
 ## Paging
 
 You can implement paging by using following two ways.
@@ -137,7 +144,7 @@ You can implement paging by using following two ways.
 
 **Caution**
 
-You should **not** call `RecyclerView.Adapter.notifyDataSetChanged` for paging because this method will reset top position and maybe occur a perfomance issue.
+You should **NOT** call `RecyclerView.Adapter.notifyDataSetChanged` for paging because this method will reset top position and maybe occur a perfomance issue.
 
 ## Reloading
 
@@ -153,8 +160,8 @@ You can implement reloading by calling `RecyclerView.Adapter.notifyDataSetChange
 | | Left | ![StackFrom-Left](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-stack-from-left.png) |
 | | Right | ![StackFrom-Right](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-stack-from-right.png) |
 
-```java
-CardStackLayoutManager.setStackFrom(StackFrom.None);
+```kotlin
+CardStackLayoutManager.setStackFrom(StackFrom.None)
 ```
 
 ## Visible Count
@@ -165,8 +172,8 @@ CardStackLayoutManager.setStackFrom(StackFrom.None);
 | ✅ | 3 | ![VisibleCount-3](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-visible-count-3.png) |
 | | 4 | ![VisibleCount-4](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-visible-count-4.png) |
 
-```java
-CardStackLayoutManager.setVisibleCount(3);
+```kotlin
+CardStackLayoutManager.setVisibleCount(3)
 ```
 
 ## Translation Interval
@@ -177,8 +184,8 @@ CardStackLayoutManager.setVisibleCount(3);
 | ✅ | 8dp | ![TranslationInterval-8dp](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-translation-interval-8dp.png) |
 | | 12dp | ![TranslationInterval-12dp](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-translation-interval-12dp.png) |
 
-```java
-CardStackLayoutManager.setTranslationInterval(8f);
+```kotlin
+CardStackLayoutManager.setTranslationInterval(8.0f)
 ```
 
 ## Scale Interval
@@ -188,8 +195,8 @@ CardStackLayoutManager.setTranslationInterval(8f);
 | ✅ | 95% | ![ScaleInterval-95%](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-scale-interval-95.png) |
 | | 90% | ![ScaleInterval-90%](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-scale-interval-90.png) |
 
-```java
-CardStackLayoutManager.setScaleInterval(0.95f);
+```kotlin
+CardStackLayoutManager.setScaleInterval(0.95f)
 ```
 
 ## Max Degree
@@ -199,8 +206,8 @@ CardStackLayoutManager.setScaleInterval(0.95f);
 | ✅ | 20° | ![MaxDegree-20](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-max-degree-20.png) |
 | | 0° | ![MaxDegree-0](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-max-degree-0.png) |
 
-```java
-CardStackLayoutManager.setMaxDegree(20f);
+```kotlin
+CardStackLayoutManager.setMaxDegree(20.0f)
 ```
 
 ## Swipe Direction
@@ -211,8 +218,8 @@ CardStackLayoutManager.setMaxDegree(20f);
 | | Vertical | ![SwipeDirection-Vertical](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-direction-vertical.gif) |
 | | Freedom | ![SwipeDirection-Freedom](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-direction-freedom.gif) |
 
-```java
-CardStackLayoutManager.setDirections(Direction.HORIZONTAL);
+```kotlin
+CardStackLayoutManager.setDirections(Direction.HORIZONTAL)
 ```
 
 ## Swipe Threshold
@@ -222,8 +229,8 @@ CardStackLayoutManager.setDirections(Direction.HORIZONTAL);
 | ✅ | 30% | ![SwipeThreshold-30%](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-threshold-30.gif) |
 | | 10% | ![SwipeThreshold-10%](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-threshold-10.gif) |
 
-```java
-CardStackLayoutManager.setSwipeThreshold(0.3f);
+```kotlin
+CardStackLayoutManager.setSwipeThreshold(0.3f)
 ```
 
 ## Swipe Restriction
@@ -235,9 +242,9 @@ CardStackLayoutManager.setSwipeThreshold(0.3f);
 | false | true | ![SwipeRestriction-CanScrollVerticalOnly](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-restriction-can-scroll-vertical-only.gif) |
 | false | false | ![SwipeRestriction-CannotSwipe](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipe-restriction-cannot-swipe.gif) |
 
-```java
-CardStackLayoutManager.setCanScrollHorizontal(true);
-CardStackLayoutManager.setCanScrollVertical(true);
+```kotlin
+CardStackLayoutManager.setCanScrollHorizontal(true)
+CardStackLayoutManager.setCanScrollVertical(true)
 ```
 
 ## Swipeable Method
@@ -249,8 +256,8 @@ CardStackLayoutManager.setCanScrollVertical(true);
 | | Manual | ![SwipwableMethod-Manual](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipeable-method-manual.gif) |
 | | None | ![SwipwableMethod-None](https://github.com/yuyakaido/images/blob/master/CardStackView/sample-swipeable-method-none.gif) |
 
-```java
-CardStackLayoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual);
+```kotlin
+CardStackLayoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
 ```
 
 # Public Interfaces
