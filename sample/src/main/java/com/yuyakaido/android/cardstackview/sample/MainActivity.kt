@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         skip.setOnClickListener {
             val setting = SwipeAnimationSetting.Builder()
                     .setDirection(Direction.Left)
-                    .setDuration(200)
+                    .setDuration(Duration.Normal.duration)
                     .setInterpolator(AccelerateInterpolator())
                     .build()
             manager.setSwipeAnimationSetting(setting)
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         rewind.setOnClickListener {
             val setting = RewindAnimationSetting.Builder()
                     .setDirection(Direction.Bottom)
-                    .setDuration(200)
+                    .setDuration(Duration.Normal.duration)
                     .setInterpolator(DecelerateInterpolator())
                     .build()
             manager.setRewindAnimationSetting(setting)
@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         like.setOnClickListener {
             val setting = SwipeAnimationSetting.Builder()
                     .setDirection(Direction.Right)
-                    .setDuration(200)
+                    .setDuration(Duration.Normal.duration)
                     .setInterpolator(AccelerateInterpolator())
                     .build()
             manager.setSwipeAnimationSetting(setting)
