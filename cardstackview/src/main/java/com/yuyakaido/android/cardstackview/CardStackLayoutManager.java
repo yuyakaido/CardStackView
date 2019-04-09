@@ -257,6 +257,8 @@ public class CardStackLayoutManager
             // 6. ページング完了後はBが表示されるはずが、Aが画面に表示される
             removeAndRecycleView(getTopView(), recycler);
 
+            final Direction direction = state.getDirection();
+
             state.next(state.status.toAnimatedStatus());
             state.topPosition++;
             state.dx = 0;
@@ -296,7 +298,6 @@ public class CardStackLayoutManager
              *         at com.android.internal.os.Zygote$MethodAndArgsCaller.run(Zygote.java:240)
              *         at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:767)
              */
-            final Direction direction = state.getDirection();
             new Handler().post(new Runnable() {
                 @Override
                 public void run() {
