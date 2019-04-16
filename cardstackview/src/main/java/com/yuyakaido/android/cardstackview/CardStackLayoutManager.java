@@ -68,6 +68,10 @@ public class CardStackLayoutManager
 
     @Override
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State s) {
+        if (state.topPosition == getItemCount()) {
+            return 0;
+        }
+
         switch (state.status) {
             case Idle:
                 if (setting.swipeableMethod.canSwipeManually()) {
@@ -106,11 +110,16 @@ public class CardStackLayoutManager
             case ManualSwipeAnimated:
                 break;
         }
+
         return 0;
     }
 
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State s) {
+        if (state.topPosition == getItemCount()) {
+            return 0;
+        }
+
         switch (state.status) {
             case Idle:
                 if (setting.swipeableMethod.canSwipeManually()) {
