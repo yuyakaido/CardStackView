@@ -1,6 +1,6 @@
 package com.yuyakaido.android.cardstackview.sample
 
-import android.support.v7.util.DiffUtil
+import androidx.recyclerview.widget.DiffUtil
 
 class SpotDiffCallback(
         private val old: List<Spot>,
