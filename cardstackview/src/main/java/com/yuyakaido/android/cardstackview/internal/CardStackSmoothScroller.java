@@ -2,12 +2,12 @@ package com.yuyakaido.android.cardstackview.internal;
 
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.RewindAnimationSetting;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CardStackSmoothScroller extends RecyclerView.SmoothScroller {
 
@@ -37,22 +37,6 @@ public class CardStackSmoothScroller extends RecyclerView.SmoothScroller {
             @NonNull Action action
     ) {
         if (type == ScrollType.AutomaticRewind) {
-            // ■ 概要
-            // ここでViewのRemoveを行わないとRewindが無限ループに陥ってしまう
-            // ■ 再現手順
-            // 1. `manager.removeAllViews();`をコメントアウト
-            // 2. AutomaticSwipeを1度実行する
-            // 3. AutomaticRewindを1度実行する
-            // 4. AutomaticSwipeを1度実行する
-            // 5. AutomaticRewindを1度実行する -> これが無限ループに陥ってしまう
-            // ■ 調査結果
-            // SmoothScroller.onStartが呼ばれたタイミングでは、Rewind対象のViewが見つからない（正常挙動）
-            // Rewind処理開始後のupdateで対象のViewが追加されるはずだが、現状の実装では正常に追加されない
-            // 結果として、Rewind対象のViewが永遠に見つからずに無限ループに陥ってしまう
-            // ■ 副作用
-            // ViewのRemoveを行っているため、表示対象となっているViewの再生成が実行されてしまう
-            // これによってパフォーマンス上の問題が発生する可能性がある
-            manager.removeAllViews();
             RewindAnimationSetting setting = manager.getCardStackSetting().rewindAnimationSetting;
             action.update(
                     -getDx(setting),
