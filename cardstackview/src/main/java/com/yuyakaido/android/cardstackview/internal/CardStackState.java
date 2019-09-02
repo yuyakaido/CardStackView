@@ -13,6 +13,8 @@ public class CardStackState {
     public int topPosition = 0;
     public int targetPosition = RecyclerView.NO_POSITION;
     public float proportion = 0.0f;
+    public Boolean isLastChildOnAnimation = false;
+    public Boolean isLastChildWasAnimated = false;
 
     public enum Status {
         Idle,
@@ -105,5 +107,4 @@ public class CardStackState {
         }
         return true;
     }
-
 }
