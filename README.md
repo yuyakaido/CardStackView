@@ -42,7 +42,7 @@
 
 # Setup
 
-1. Add a `[CardStackView](cardstackview/src/main/java/com/yuyakaido/android/cardstackview/CardStackView.java)` to your layout
+1. Add a [CardStackView](cardstackview/src/main/java/com/yuyakaido/android/cardstackview/CardStackView.java) to your layout
 ```xml
 <com.yuyakaido.android.cardstackview.CardStackView
             android:id="@+id/card_stack_view"
