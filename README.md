@@ -42,6 +42,18 @@
 
 # Setup
 
+1. Add a `[CardStackView](cardstackview/src/main/java/com/yuyakaido/android/cardstackview/CardStackView.java)` to your layout
+```xml
+<com.yuyakaido.android.cardstackview.CardStackView
+            android:id="@+id/card_stack_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+```
+
+2. Implement an adapter for your stack view. This should be a ([RecyclerView.Adapter](https://developer.android.com/reference/android/support/v7/widget/RecyclerView.Adapter)). There is a [Sample CardStackAdapter](sample/src/main/java/com/yuyakaido/android/cardstackview/sample/CardStackAdapter.kt) in this project. You may also want to use a [ListAdapter](https://developer.android.com/reference/android/support/v7/recyclerview/extensions/ListAdapter) for less boilerplate code, and automatically handled range updates (especially helpful if your data updates as the user interacts).
+
+3. Wire up your view with your Adapter.
 ```kotlin
 val cardStackView = findViewById<CardStackView>(R.id.card_stack_view)
 cardStackView.layoutManager = CardStackLayoutManager()
