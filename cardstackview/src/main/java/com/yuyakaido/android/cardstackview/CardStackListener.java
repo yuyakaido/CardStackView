@@ -4,7 +4,7 @@ import android.view.View;
 
 public interface CardStackListener {
     void onCardDragging(Direction direction, float ratio);
-    void onCardSwiped(Direction direction);
+    void onCardSwiped(Direction direction, int swipedPosition);
     void onCardRewound();
     void onCardCanceled();
     void onCardAppeared(View view, int position);
@@ -14,7 +14,7 @@ public interface CardStackListener {
         @Override
         public void onCardDragging(Direction direction, float ratio) {}
         @Override
-        public void onCardSwiped(Direction direction) {}
+        public void onCardSwiped(Direction direction, int swipedPosition) {}
         @Override
         public void onCardRewound() {}
         @Override
