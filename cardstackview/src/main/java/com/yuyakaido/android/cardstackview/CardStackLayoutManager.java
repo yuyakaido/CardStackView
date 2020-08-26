@@ -339,13 +339,17 @@ public class CardStackLayoutManager
 
             if (i == state.topPosition) {
                 updateTranslation(child);
-                resetScale(child);
+                if(setting.animateScaleWhileSwiping) {
+                    resetScale(child);
+                }
                 updateRotation(child);
                 updateOverlay(child);
             } else {
                 int currentIndex = i - state.topPosition;
                 updateTranslation(child, currentIndex);
-                updateScale(child, currentIndex);
+                if(setting.animateScaleWhileSwiping) {
+                    updateScale(child, currentIndex);
+                }
                 resetRotation(child);
                 resetOverlay(child);
             }
@@ -619,6 +623,10 @@ public class CardStackLayoutManager
 
     public void setCanScrollVertical(boolean canScrollVertical) {
         setting.canScrollVertical = canScrollVertical;
+    }
+
+    public void setAnimateScaleWhileSwiping(boolean animateScaleWhenSwiping) {
+        setting.animateScaleWhileSwiping = animateScaleWhenSwiping;
     }
 
     public void setSwipeableMethod(SwipeableMethod swipeableMethod) {
