@@ -81,4 +81,7 @@ public class CardStackView extends RecyclerView {
         setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
     }
 
+    public CardStackLayoutManager getCardStackLayoutManager(){
+        return (CardStackLayoutManager) getLayoutManager();
+    }
 }
