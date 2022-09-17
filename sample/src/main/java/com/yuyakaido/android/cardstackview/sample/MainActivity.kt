@@ -45,9 +45,9 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         Log.d("CardStackView", "onCardDragging: d = ${direction.name}, r = $ratio")
     }
 
-    override fun onCardSwiped(direction: Direction) {
-        Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
-        if (manager.topPosition == adapter.itemCount - 5) {
+    override fun onCardSwiped(direction: Direction, swipedPosition: Int) {
+        Log.d("CardStackView", "onCardSwiped: p = $swipedPosition, d = $direction")
+        if (swipedPosition == adapter.itemCount - 5) {
             paginate()
         }
     }

@@ -291,7 +291,7 @@ CardStackLayoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
 | Method | Description |
 | :---- | :---- |
 | CardStackListener.onCardDragging(Direction direction, float ratio) | This method is called while the card is dragging. |
-| CardStackListener.onCardSwiped(Direction direction) | This method is called when the card is swiped. |
+| CardStackListener.onCardSwiped(Direction direction, int swipedPosition) | This method is called when the card is swiped. |
 | CardStackListener.onCardRewound() | This method is called when the card is rewinded. |
 | CardStackListener.onCardCanceled() | This method is called when the card is dragged less than threshold. |
 | CardStackListener.onCardAppeared(View view, int position) | This method is called when the card appeared. |
@@ -316,7 +316,7 @@ CardStackLayoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
 | :---- | :---- |
 | CardStackView.CardEventListener | CardStackListener |
 | onCardDragging(float percentX, float percentY) | onCardDragging(Direction direction, float ratio) |
-| onCardSwiped(SwipeDirection direction) | onCardSwiped(Direction direction) |
+| onCardSwiped(SwipeDirection direction) | onCardSwiped(Direction direction, int swipedPosition) |
 | onCardReversed() | onCardRewound() |
 | onCardMovedToOrigin() | onCardCanceled() |
 | onCardClicked(int index) | This method is no longer provided. Please implement in your item of RecyclerView. |

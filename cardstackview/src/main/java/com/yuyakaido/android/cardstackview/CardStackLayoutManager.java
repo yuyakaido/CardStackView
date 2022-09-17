@@ -270,6 +270,7 @@ public class CardStackLayoutManager
             final Direction direction = state.getDirection();
 
             state.next(state.status.toAnimatedStatus());
+            final int swipedPosition = state.topPosition;
             state.topPosition++;
             state.dx = 0;
             state.dy = 0;
@@ -311,7 +312,7 @@ public class CardStackLayoutManager
             new Handler().post(new Runnable() {
                 @Override
                 public void run() {
-                    listener.onCardSwiped(direction);
+                    listener.onCardSwiped(direction, swipedPosition);
                     View topView = getTopView();
                     if (topView != null) {
                         listener.onCardAppeared(getTopView(), state.topPosition);
