@@ -1,11 +1,5 @@
 apply plugin: 'com.android.library'
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-}
-
 android {
     compileSdkVersion 28
 
