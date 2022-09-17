@@ -5,7 +5,6 @@
 ![Platform](http://img.shields.io/badge/platform-android-blue.svg?style=flat)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![API](https://img.shields.io/badge/API-14%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=14)
-[![Download](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)](https://bintray.com/yuyakaido/maven/CardStackView/_latestVersion)
 [![AndroidArsenal](https://img.shields.io/badge/Android%20Arsenal-CardStackView-blue.svg?style=flat)](https://android-arsenal.com/details/1/6075)
 [![CircleCI](https://circleci.com/gh/yuyakaido/CardStackView.svg?style=svg)](https://circleci.com/gh/yuyakaido/CardStackView)
 
@@ -324,11 +323,9 @@ CardStackLayoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
 
 # Installation
 
-LatestVersion is ![LatestVersion](https://api.bintray.com/packages/yuyakaido/maven/CardStackView/images/download.svg)
-
 ```groovy
 dependencies {
-    implementation "com.yuyakaido.android:card-stack-view:${LatestVersion}"
+    implementation "com.yuyakaido.android:card-stack-view:2.3.4"
 }
 ```
 
