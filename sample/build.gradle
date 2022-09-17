@@ -3,12 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.yuyakaido.android.cardstackview.sample"
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 33
     }
 }
 
