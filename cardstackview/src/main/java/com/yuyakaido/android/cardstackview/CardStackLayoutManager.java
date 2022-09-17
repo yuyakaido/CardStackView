@@ -1,17 +1,21 @@
 package com.yuyakaido.android.cardstackview;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.graphics.PointF;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.animation.Interpolator;
 
 import androidx.annotation.FloatRange;
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.yuyakaido.android.cardstackview.internal.CardStackAnimatorListener;
 import com.yuyakaido.android.cardstackview.internal.CardStackSetting;
 import com.yuyakaido.android.cardstackview.internal.CardStackSmoothScroller;
 import com.yuyakaido.android.cardstackview.internal.CardStackState;
@@ -26,16 +30,18 @@ public class CardStackLayoutManager
     private final Context context;
 
     private CardStackListener listener = CardStackListener.DEFAULT;
-    private CardStackSetting setting = new CardStackSetting();
+    private CardStackSetting setting;
     private CardStackState state = new CardStackState();
 
     public CardStackLayoutManager(Context context) {
         this(context, CardStackListener.DEFAULT);
+        this.setting = new CardStackSetting(context.getResources());
     }
 
     public CardStackLayoutManager(Context context, CardStackListener listener) {
         this.context = context;
         this.listener = listener;
+        this.setting = new CardStackSetting(context.getResources());
     }
 
     @Override
@@ -276,6 +282,7 @@ public class CardStackLayoutManager
             if (state.topPosition == state.targetPosition) {
                 state.targetPosition = RecyclerView.NO_POSITION;
             }
+            state.isLastChildWasAnimated = false;
 
             /* Handlerを経由してイベント通知を行っているのは、以下のエラーを回避するため
              *
@@ -361,44 +368,100 @@ public class CardStackLayoutManager
         view.setTranslationY(state.dy);
     }
 
-    private void updateTranslation(View view, int index) {
+    private void updateTranslation(View view, final int index) {
+        boolean isLastVisibleElement = index == setting.visibleCount - 1;
+        if (state.isLastChildOnAnimation && isLastVisibleElement) {
+            return;
+        }
+
         int nextIndex = index - 1;
         int translationPx = DisplayUtil.dpToPx(context, setting.translationInterval);
         float currentTranslation = index * translationPx;
         float nextTranslation = nextIndex * translationPx;
         float targetTranslation = currentTranslation - (currentTranslation - nextTranslation) * state.getRatio();
+        boolean needToStartAnimation = needToStartAnimation(index);
+        Float translationX = null;
+        Float translationY = null;
+
         switch (setting.stackFrom) {
             case None:
                 // Do nothing
                 break;
             case Top:
-                view.setTranslationY(-targetTranslation);
+                translationY = -targetTranslation;
                 break;
             case TopAndLeft:
-                view.setTranslationY(-targetTranslation);
-                view.setTranslationX(-targetTranslation);
+                translationY = -targetTranslation;
+                translationX = -targetTranslation;
                 break;
             case TopAndRight:
-                view.setTranslationY(-targetTranslation);
-                view.setTranslationX(targetTranslation);
+                translationY = -targetTranslation;
+                translationX = targetTranslation;
                 break;
             case Bottom:
-                view.setTranslationY(targetTranslation);
+                translationY = targetTranslation;
                 break;
             case BottomAndLeft:
-                view.setTranslationY(targetTranslation);
-                view.setTranslationX(-targetTranslation);
+                translationY = targetTranslation;
+                translationX = -targetTranslation;
                 break;
             case BottomAndRight:
-                view.setTranslationY(targetTranslation);
-                view.setTranslationX(targetTranslation);
+                translationY = targetTranslation;
+                translationX = targetTranslation;
                 break;
             case Left:
-                view.setTranslationX(-targetTranslation);
+                translationX = -targetTranslation;
                 break;
             case Right:
-                view.setTranslationX(targetTranslation);
+                translationX = targetTranslation;
                 break;
+        }
+
+        if (needToStartAnimation) {
+            startAnimation(view, translationX, translationY);
+        } else {
+            setTranslation(view, translationX, translationY);
+        }
+    }
+
+    private void startAnimation(@NonNull View view, @Nullable Float translationX, @Nullable Float translationY) {
+        ViewPropertyAnimator animator = view.animate();
+
+        if (translationX != null) {
+            animator.translationX(translationX);
+        }
+
+        if (translationY != null) {
+            animator.translationY(translationY);
+        }
+
+        animator.setDuration(setting.lastItemAppearingAnimationDuration).setListener(new CardStackAnimatorListener() {
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                state.isLastChildOnAnimation = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                state.isLastChildOnAnimation = false;
+                state.isLastChildWasAnimated = true;
+            }
+        });
+    }
+
+    private boolean needToStartAnimation(int index) {
+        boolean isLastElement = index == setting.visibleCount - 1;
+        return !state.isLastChildOnAnimation && isLastElement && !state.isLastChildWasAnimated;
+    }
+
+    private void setTranslation(@NonNull View view, @Nullable Float translationX, @Nullable Float translationY) {
+        if (translationX != null) {
+            view.setTranslationX(translationX);
+        }
+
+        if (translationY != null) {
+            view.setTranslationY(translationY);
         }
     }
 
@@ -637,4 +700,7 @@ public class CardStackLayoutManager
         setting.overlayInterpolator = overlayInterpolator;
     }
 
+    public void setLastItemAppearingAnimationDuration(@NonNull Integer duration) {
+        setting.lastItemAppearingAnimationDuration = duration;
+    }
 }
