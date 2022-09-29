@@ -4,38 +4,29 @@ import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import kotlinx.coroutines.launch
 import kotlin.math.min
 
-data class Item(
-    val id: Int,
-    val color: Color
-)
-
 @Composable
-fun CardStackView(
-    items: List<Item>
+inline fun <T> CardStackView(
+    items: List<T>,
+    modifier: Modifier = Modifier,
+    crossinline content: @Composable (T) -> Unit
 ) {
     val cardWidthDp = 300.dp
     val cardHeightDp = 400.dp
@@ -47,7 +38,7 @@ fun CardStackView(
     val scales = remember { List(visibleSize) { Animatable(1f - it * 0.05f) } }
     val scope = rememberCoroutineScope()
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         repeat(visibleSize) { index ->
@@ -73,11 +64,23 @@ fun CardStackView(
                             },
                             onDragEnd = {
                                 Log.d("CardStackView", "onDragEnd")
-                                Log.d("CardStackView", "TranslationX: ${translationX.velocityVector.value}")
-                                Log.d("CardStackView", "TranslationY: ${translationY.velocityVector.value}")
-                                val cardDistance = Offset(cardWidthDp.toPx(), cardHeightDp.toPx()).getDistance() / 2
+                                Log.d(
+                                    "CardStackView",
+                                    "TranslationX: ${translationX.velocityVector.value}"
+                                )
+                                Log.d(
+                                    "CardStackView",
+                                    "TranslationY: ${translationY.velocityVector.value}"
+                                )
+                                val cardDistance = Offset(
+                                    cardWidthDp.toPx(),
+                                    cardHeightDp.toPx()
+                                ).getDistance() / 2
                                 Log.d("CardStackView", "CardDistance: $cardDistance")
-                                val translationDistance = Offset(translationX.targetValue, translationY.targetValue).getDistance()
+                                val translationDistance = Offset(
+                                    translationX.targetValue,
+                                    translationY.targetValue
+                                ).getDistance()
                                 Log.d("CardStackView", "TranslationDistance: $translationDistance")
                                 val percentage = min(1f, translationDistance / cardDistance)
                                 if (percentage < 0.5f) {
@@ -143,8 +146,14 @@ fun CardStackView(
                                     translationY.animateTo(translationY.targetValue + dragAmount.y)
                                 }
                                 scope.launch {
-                                    val cardDistance = Offset(cardWidthDp.toPx(), cardHeightDp.toPx()).getDistance() / 2
-                                    val translationDistance = Offset(translationX.targetValue, translationY.targetValue).getDistance()
+                                    val cardDistance = Offset(
+                                        cardWidthDp.toPx(),
+                                        cardHeightDp.toPx()
+                                    ).getDistance() / 2
+                                    val translationDistance = Offset(
+                                        translationX.targetValue,
+                                        translationY.targetValue
+                                    ).getDistance()
                                     val percentage = min(1f, translationDistance / cardDistance)
                                     val proportion = 1f - percentage
                                     val targetScale = 1f - proportion * 0.05f
@@ -156,15 +165,10 @@ fun CardStackView(
                     .size(
                         width = cardWidthDp,
                         height = cardHeightDp
-                    )
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(item.color),
+                    ),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = item.id.toString(),
-                    fontSize = 80.sp
-                )
+                content(item)
             }
         }
     }
