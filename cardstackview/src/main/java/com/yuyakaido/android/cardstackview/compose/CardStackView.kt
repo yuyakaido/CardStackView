@@ -2,34 +2,31 @@ package com.yuyakaido.android.cardstackview.compose
 
 import android.util.Log
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import kotlinx.coroutines.launch
-import kotlin.math.min
 
 @Composable
 inline fun <T> CardStackView(
     items: List<T>,
     modifier: Modifier = Modifier,
+    controller: CardStackViewController<T> = rememberCardStackViewController(),
+    contentKey: (target: T) -> Any? = { it },
     crossinline content: @Composable (T) -> Unit
 ) {
-    val cardWidthDp = 300.dp
-    val cardHeightDp = 400.dp
+    val cardWidthDp = LocalView.current.width.dp
+    val cardHeightDp = LocalView.current.height.dp
 
     val visibleSize = items.size
     val zIndexes = remember { List(visibleSize) { mutableStateOf(visibleSize - it - 1) } }
@@ -43,19 +40,21 @@ inline fun <T> CardStackView(
     ) {
         repeat(visibleSize) { index ->
             val item = items[index]
-            val xIndex = zIndexes[index].value
+            val zIndex = zIndexes[index].value
             val translationX = translationXs[index]
             val translationY = translationYs[index]
             val currentScale = scales[index]
             val nextScale = scales.getOrNull(index + 1)
+            val cardController = rememberCardController<T>()
+            controller.cardControllers.add(contentKey(item) to cardController)
+
             Box(
                 modifier = Modifier
-                    .zIndex(xIndex.toFloat())
+                    .zIndex(zIndex.toFloat())
                     .graphicsLayer(
-                        translationX = translationX.value,
-                        translationY = translationY.value,
-//                        scaleX = currentScale.value,
-//                        scaleY = currentScale.value
+                        translationX = cardController.cardX,
+                        translationY = cardController.cardY,
+                        rotationZ = cardController.rotation,
                     )
                     .pointerInput(Unit) {
                         detectDragGestures(
@@ -72,6 +71,8 @@ inline fun <T> CardStackView(
                                     "CardStackView",
                                     "TranslationY: ${translationY.velocityVector.value}"
                                 )
+                                cardController.onDragEnd()
+                                /*
                                 val cardDistance = Offset(
                                     cardWidthDp.toPx(),
                                     cardHeightDp.toPx()
@@ -133,11 +134,15 @@ inline fun <T> CardStackView(
 //                                        translationYs.forEach { it.snapTo(0f) }
                                     }
                                 }
+                                */
                             },
                             onDragCancel = {
+                                cardController.onDragCancel()
                                 Log.d("CardStackView", "onDragCancel")
                             },
                             onDrag = { change, dragAmount ->
+                                cardController.onDrag(dragAmount)
+                                /*
                                 change.consume()
                                 scope.launch {
                                     translationX.animateTo(translationX.targetValue + dragAmount.x)
@@ -159,13 +164,10 @@ inline fun <T> CardStackView(
                                     val targetScale = 1f - proportion * 0.05f
                                     nextScale?.animateTo(targetScale)
                                 }
+                                */
                             }
                         )
-                    }
-                    .size(
-                        width = cardWidthDp,
-                        height = cardHeightDp
-                    ),
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 content(item)

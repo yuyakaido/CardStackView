@@ -5,16 +5,28 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.yuyakaido.android.cardstackview.compose.CardStackView
+import com.yuyakaido.android.cardstackview.compose.rememberCardStackViewController
+import kotlinx.coroutines.launch
 
 class ComposeActivity : ComponentActivity() {
 
@@ -22,13 +34,44 @@ class ComposeActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val spots = createSpots()
         setContent {
-            CardStackView(
-                items = spots,
-            ) {
-                Spot(
-                    spot = it,
-                    modifier = Modifier.fillMaxSize()
-                )
+            val scope = rememberCoroutineScope()
+            val cardStackController = rememberCardStackViewController<Spot>()
+            Box(modifier = Modifier.fillMaxSize()) {
+                CardStackView(
+                    items = spots,
+                    controller = cardStackController,
+                    modifier = Modifier
+                ) {
+                    Spot(
+                        spot = it,
+                        modifier = Modifier
+                            .padding(24.dp)
+                    )
+                }
+                Row(
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(horizontal = 24.dp, vertical = 16.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    CircleButton(
+                        onClick = {
+                            scope.launch {
+                                cardStackController.swipeLeft()
+                            }
+                        },
+                        icon = Icons.Rounded.Close
+                    )
+                    CircleButton(
+                        onClick = {
+                            scope.launch {
+                                cardStackController.swipeRight()
+                            }
+                        },
+                        icon = Icons.Rounded.Favorite
+                    )
+                }
             }
         }
     }
@@ -114,10 +157,17 @@ private fun Spot(
     modifier: Modifier = Modifier,
     spot: Spot
 ) {
-    Box(modifier = modifier
-        .size(500.dp)
-        .background(color = Color.Black)
+    Box(
+        modifier = modifier
+            .background(color = Color.Black)
     ) {
+        AsyncImage(
+            model = spot.url,
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(0.6F)
+        )
         Column(
             modifier = Modifier
                 .padding(16.dp)
@@ -138,6 +188,25 @@ private fun Spot(
         }
     }
 }
+
+@Composable
+private fun CircleButton(
+    onClick: () -> Unit,
+    icon: ImageVector,
+) {
+    IconButton(
+        modifier = Modifier
+            .clip(CircleShape)
+            .size(60.dp),
+        onClick = onClick,
+    ) {
+        Icon(
+            icon, null,
+            tint = Color.Red
+        )
+    }
+}
+
 
 @Preview
 @Composable
