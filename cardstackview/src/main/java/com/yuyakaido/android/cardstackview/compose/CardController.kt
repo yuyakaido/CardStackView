@@ -1,9 +1,6 @@
 package com.yuyakaido.android.cardstackview.compose
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -178,38 +175,22 @@ open class CardController<T>(
     }
 
     fun swipeRight() {
-        direction = Direction.RIGHT
-        swipe()
-    }
-
-    private fun swipe() {
         scope.launch {
             direction = Direction.RIGHT
-            scope.launch {
-                swipeX.animateTo(
-                    targetValue = swipeX.velocityVector.value,
-                    animationSpec = spring(
-                        dampingRatio = Spring.DampingRatioLowBouncy,
-                        stiffness = Spring.StiffnessLow
-                    )
-                )
-//                                        swipeXs.forEach { it.snapTo(0f) }
-            }
-            scope.launch {
-                swipeY.animateTo(
-                    targetValue = swipeY.velocityVector.value,
-                    animationSpec = spring(
-                        dampingRatio = Spring.DampingRatioLowBouncy,
-                        stiffness = Spring.StiffnessLow
-                    )
-                )
-//                                        swipeYs.forEach { it.snapTo(0f) }
-            }
+            swipeX.animateTo(
+                targetValue = screenWidth * 2,
+                animationSpec = tween(swipeDuration)
+            )
         }
     }
 
     fun swipeLeft() {
-        direction = Direction.LEFT
-        swipe()
+        scope.launch {
+            direction = Direction.LEFT
+            swipeX.animateTo(
+                targetValue = -(screenWidth * 2),
+                animationSpec = tween(swipeDuration)
+            )
+        }
     }
 }
