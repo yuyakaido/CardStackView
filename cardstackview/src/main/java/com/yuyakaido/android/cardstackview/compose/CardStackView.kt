@@ -18,12 +18,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 
 @Composable
-inline fun <T> CardStackView(
+fun <T> CardStackView(
     items: List<T>,
     modifier: Modifier = Modifier,
     controller: CardStackViewController<T> = rememberCardStackViewController(),
     contentKey: (target: T) -> Any? = { it },
-    crossinline content: @Composable (T) -> Unit
+    content: @Composable (T) -> Unit
 ) {
     val cardWidthDp = LocalView.current.width.dp
     val cardHeightDp = LocalView.current.height.dp
