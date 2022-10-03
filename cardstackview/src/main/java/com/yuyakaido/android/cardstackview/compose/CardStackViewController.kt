@@ -9,17 +9,27 @@ fun <T> rememberCardStackViewController(): CardStackViewController<T> {
 }
 
 class CardStackViewController<T> {
-    var cardControllers: MutableList<Pair<Any?, CardController<T>>> = mutableListOf()
+    private var cardControllers: List<Pair<Any?, CardController<T>>> = mutableListOf()
+
+    fun setControllers(controllers: List<Pair<Any?, CardController<T>>>) {
+        cardControllers = controllers
+    }
+
+    fun currentCardController(key: Any?): CardController<T> {
+        return cardControllers.first { (k, _) ->
+            k == key
+        }.second
+    }
 
     fun swipeRight() {
-        cardControllers.firstOrNull { (_, v) ->
+        cardControllers.first { (_, v) ->
             v.cardX == 0F && v.cardY == 0F
-        }?.second?.swipeRight()
+        }.second.swipeRight()
     }
 
     fun swipeLeft() {
-        cardControllers.firstOrNull { (_, v) ->
+        cardControllers.first { (_, v) ->
             v.cardX == 0F && v.cardY == 0F
-        }?.second?.swipeLeft()
+        }.second.swipeLeft()
     }
 }

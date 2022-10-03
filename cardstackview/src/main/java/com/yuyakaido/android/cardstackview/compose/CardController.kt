@@ -2,16 +2,19 @@ package com.yuyakaido.android.cardstackview.compose
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.lang.Float.min
 import kotlin.math.abs
 
 enum class Direction {
@@ -50,14 +53,21 @@ fun <T> rememberCardController(
     val scope = rememberCoroutineScope()
     val screenWidth =
         with(LocalDensity.current) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
+    val cardWidth = with(LocalDensity.current) { LocalView.current.width.dp.toPx() }
+    val cardHeight = with(LocalDensity.current) { LocalView.current.height.dp.toPx() }
+
     return remember {
         val swipeX = Animatable(0f)
         val swipeY = Animatable(0f)
+        val nextScale = Animatable(1F)
         CardController(
             swipeX,
             swipeY,
+            nextScale,
             scope,
             screenWidth,
+            cardWidth,
+            cardHeight,
             swipeDuration,
             swipedThreshold,
             rotateConfiguration
@@ -68,8 +78,11 @@ fun <T> rememberCardController(
 open class CardController<T>(
     private val swipeX: Animatable<Float, AnimationVector1D>,
     private val swipeY: Animatable<Float, AnimationVector1D>,
+    private val nextScale: Animatable<Float, AnimationVector1D>,
     private val scope: CoroutineScope,
     private val screenWidth: Float,
+    private val cardWidth: Float,
+    private val cardHeight: Float,
     private val swipeDuration: Int,
     private val swipedThreshold: Float,
     private val rotateConfiguration: RotateConfiguration,
@@ -91,8 +104,26 @@ open class CardController<T>(
 
     fun onDrag(dragAmount: Offset) {
         scope.apply {
-            launch { swipeX.animateTo(swipeX.targetValue + dragAmount.x) }
-            launch { swipeY.animateTo(swipeY.targetValue + dragAmount.y) }
+            launch {
+                swipeX.animateTo(swipeX.targetValue + dragAmount.x)
+            }
+            launch {
+                swipeY.animateTo(swipeY.targetValue + dragAmount.y)
+            }
+            launch {
+                val cardDistance = Offset(
+                    cardWidth,
+                    cardHeight
+                ).getDistance() / 2
+                val translationDistance = Offset(
+                    swipeX.targetValue,
+                    swipeY.targetValue
+                ).getDistance()
+                val percentage = min(1f, translationDistance / cardDistance)
+                val proportion = 1f - percentage
+                val targetScale = 1f - proportion * 0.05f
+                nextScale.animateTo(targetScale)
+            }
         }
     }
 
@@ -109,24 +140,76 @@ open class CardController<T>(
         }
     }
 
+
     fun onDragCancel() {
         scope.apply {
-            launch { swipeX.animateTo(0f) }
-            launch { swipeY.animateTo(0f) }
+            launch {
+                swipeX.animateTo(
+                    targetValue = 0f,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
+                )
+            }
+            launch {
+                swipeY.animateTo(
+                    targetValue = 0f,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
+                )
+            }
+            launch {
+                nextScale.animateTo(
+                    targetValue = 1f - 1 * 0.05f,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
+                )
+            }
         }
     }
 
+    fun isCardSwiped(): Boolean {
+        return abs(swipeX.value) == screenWidth
+    }
+
     fun swipeRight() {
+        direction = Direction.RIGHT
+        swipe()
+    }
+
+    private fun swipe() {
         scope.launch {
             direction = Direction.RIGHT
-            swipeX.animateTo(screenWidth + (screenWidth / 2), tween(swipeDuration))
+            scope.launch {
+                swipeX.animateTo(
+                    targetValue = swipeX.velocityVector.value,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
+                )
+//                                        swipeXs.forEach { it.snapTo(0f) }
+            }
+            scope.launch {
+                swipeY.animateTo(
+                    targetValue = swipeY.velocityVector.value,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
+                )
+//                                        swipeYs.forEach { it.snapTo(0f) }
+            }
         }
     }
 
     fun swipeLeft() {
-        scope.launch {
-            direction = Direction.LEFT
-            swipeX.animateTo(-(screenWidth + (screenWidth / 2)), tween(swipeDuration))
-        }
+        direction = Direction.LEFT
+        swipe()
     }
 }
