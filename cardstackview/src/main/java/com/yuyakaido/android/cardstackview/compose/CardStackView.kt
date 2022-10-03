@@ -17,57 +17,73 @@ import androidx.compose.ui.zIndex
 fun <T> CardStackView(
     items: List<T>,
     modifier: Modifier = Modifier,
-    contentKey: (target: T) -> Any? = { it },
     controller: CardStackViewController<T> = rememberCardStackViewController(),
-    visibleCount: Int = 3,
+    contentKey: (target: T) -> Any? = { it },
     content: @Composable (T) -> Unit
 ) {
     controller.setControllers(items.map { contentKey(it) to rememberCardController() })
-
-    val visibleSize = items.size
-    val zIndexes = remember { List(visibleSize) { mutableStateOf(visibleSize - it - 1) } }
 
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        repeat(visibleSize) { index ->
-            val item = items[index]
-            val zIndex = zIndexes[index].value
-            val cardController = controller.currentCardController(contentKey(item))
 
-            if (!cardController.isCardSwiped()) {
-                Box(
-                    modifier = Modifier
-                        .zIndex(zIndex.toFloat())
-                        .graphicsLayer(
-                            translationX = cardController.cardX,
-                            translationY = cardController.cardY,
-                            rotationZ = cardController.rotation,
+        CardContents(
+            items = items,
+            controller = controller,
+            contentKey = contentKey,
+            content = content,
+        )
+    }
+}
+
+@Composable
+private fun <T> CardContents(
+    items: List<T>,
+    controller: CardStackViewController<T>,
+    modifier: Modifier = Modifier,
+    contentKey: (target: T) -> Any? = { it },
+    content: @Composable (T) -> Unit
+) {
+    val visibleSize = items.size
+    val zIndexes = remember { List(visibleSize) { mutableStateOf(visibleSize - it - 1) } }
+
+    repeat(visibleSize) { index ->
+        val item = items[index]
+        val zIndex = zIndexes[index].value
+        val cardController = controller.currentCardController(contentKey(item))
+
+        if (!cardController.isCardSwiped()) {
+            Box(
+                modifier = modifier
+                    .zIndex(zIndex.toFloat())
+                    .graphicsLayer(
+                        translationX = cardController.cardX,
+                        translationY = cardController.cardY,
+                        rotationZ = cardController.rotation,
+                    )
+                    .pointerInput(Unit) {
+                        detectDragGestures(
+                            onDragStart = {
+                                Log.d("CardStackView", "onDragStart")
+                            },
+                            onDragEnd = {
+                                Log.d("CardStackView", "onDragEnd")
+                                cardController.onDragEnd()
+                            },
+                            onDragCancel = {
+                                cardController.onDragCancel()
+                                Log.d("CardStackView", "onDragCancel")
+                            },
+                            onDrag = { change, dragAmount ->
+                                change.consume()
+                                cardController.onDrag(dragAmount)
+                            }
                         )
-                        .pointerInput(Unit) {
-                            detectDragGestures(
-                                onDragStart = {
-                                    Log.d("CardStackView", "onDragStart")
-                                },
-                                onDragEnd = {
-                                    Log.d("CardStackView", "onDragEnd")
-                                    cardController.onDragEnd()
-                                },
-                                onDragCancel = {
-                                    cardController.onDragCancel()
-                                    Log.d("CardStackView", "onDragCancel")
-                                },
-                                onDrag = { change, dragAmount ->
-                                    change.consume()
-                                    cardController.onDrag(dragAmount)
-                                }
-                            )
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    content(item)
-                }
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                content(item)
             }
         }
     }
