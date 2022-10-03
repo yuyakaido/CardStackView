@@ -58,16 +58,16 @@ fun <T> rememberCardController(
         val swipeY = Animatable(0f)
         val nextScale = Animatable(1F)
         CardController(
-            swipeX,
-            swipeY,
-            nextScale,
-            scope,
-            screenWidth,
-            cardWidth,
-            cardHeight,
-            swipeDuration,
-            swipedThreshold,
-            rotateConfiguration
+            swipeX = swipeX,
+            swipeY = swipeY,
+            nextScale = nextScale,
+            scope = scope,
+            screenWidth = screenWidth,
+            cardWidth = cardWidth,
+            cardHeight = cardHeight,
+            swipeDuration = swipeDuration,
+            swipedThreshold = swipedThreshold,
+            rotateConfiguration = rotateConfiguration
         )
     }
 }
