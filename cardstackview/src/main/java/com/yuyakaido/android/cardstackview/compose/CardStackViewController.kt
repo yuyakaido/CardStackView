@@ -30,13 +30,13 @@ class CardStackViewController<T> : CardStackViewControllerType<T> {
 
     override fun swipeRight() {
         cardControllers.firstOrNull { (_, v) ->
-            v.cardX == 0F && v.cardY == 0F
+            !v.isCardSwiped()
         }?.second?.swipeRight()
     }
 
     override fun swipeLeft() {
         cardControllers.firstOrNull { (_, v) ->
-            v.cardX == 0F && v.cardY == 0F
+            !v.isCardSwiped()
         }?.second?.swipeLeft()
     }
 
