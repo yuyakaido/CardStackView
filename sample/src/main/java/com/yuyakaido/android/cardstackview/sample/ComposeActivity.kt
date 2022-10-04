@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -50,6 +51,7 @@ class ComposeActivity : ComponentActivity() {
                         spot = it,
                         modifier = Modifier
                             .padding(24.dp)
+                            .clip(RoundedCornerShape(12.dp))
                     )
                 }
                 Row(

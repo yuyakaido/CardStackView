@@ -39,9 +39,9 @@ data class RotateConfiguration(
 }
 
 interface CardControllerType<T> {
-    fun onDrag(dragAmount: Offset)
-    fun onDragEnd()
-    fun onDragCancel()
+    fun onDrag(dragAmount: Offset, item: T)
+    fun onDragEnd(item: T)
+    fun onDragCancel(item: T)
     fun isCardSwiped(): Boolean
     fun swipeLeft()
     fun swipeRight()
@@ -114,7 +114,7 @@ open class CardController<T>(
 
     override var direction: Direction? = null
 
-    override fun onDrag(dragAmount: Offset) {
+    override fun onDrag(dragAmount: Offset, item: T) {
         scope.apply {
             launch {
                 swipeX.animateTo(swipeX.targetValue + dragAmount.x)
@@ -139,7 +139,7 @@ open class CardController<T>(
         }
     }
 
-    override fun onDragEnd() {
+    override fun onDragEnd(item: T) {
         val isSwiped = abs(swipeX.targetValue) > abs(screenWidth) / swipedThreshold
         if (isSwiped) {
             if (swipeX.targetValue > 0) {
@@ -148,12 +148,12 @@ open class CardController<T>(
                 swipeLeft()
             }
         } else {
-            onDragCancel()
+            onDragCancel(item)
         }
     }
 
 
-    override fun onDragCancel() {
+    override fun onDragCancel(item: T) {
         scope.apply {
             launch {
                 swipeX.animateTo(

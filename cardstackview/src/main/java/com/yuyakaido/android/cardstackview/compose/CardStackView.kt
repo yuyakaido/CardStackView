@@ -66,15 +66,15 @@ private fun <T> CardContents(
                             },
                             onDragEnd = {
                                 Log.d("CardStackView", "onDragEnd")
-                                cardController.onDragEnd()
+                                cardController.onDragEnd(item)
                             },
                             onDragCancel = {
-                                cardController.onDragCancel()
+                                cardController.onDragCancel(item)
                                 Log.d("CardStackView", "onDragCancel")
                             },
                             onDrag = { change, dragAmount ->
                                 change.consume()
-                                cardController.onDrag(dragAmount)
+                                cardController.onDrag(dragAmount, item)
                             }
                         )
                     },
