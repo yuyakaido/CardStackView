@@ -10,6 +10,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.yuyakaido.android.cardstackview.compose.CardStackView
+import com.yuyakaido.android.cardstackview.compose.rememberCardController
 import com.yuyakaido.android.cardstackview.compose.rememberCardStackViewController
 import kotlinx.coroutines.launch
 
@@ -36,6 +38,8 @@ class ComposeActivity : ComponentActivity() {
         setContent {
             val scope = rememberCoroutineScope()
             val cardStackController = rememberCardStackViewController<Spot>()
+            cardStackController.setControllers(spots.map { it to rememberCardController() })
+
             Box(modifier = Modifier.fillMaxSize()) {
                 CardStackView(
                     items = spots,
@@ -62,6 +66,14 @@ class ComposeActivity : ComponentActivity() {
                             }
                         },
                         icon = Icons.Rounded.Close
+                    )
+                    CircleButton(
+                        onClick = {
+                            scope.launch {
+                                cardStackController.rewind()
+                            }
+                        },
+                        icon = Icons.Rounded.ArrowBack
                     )
                     CircleButton(
                         onClick = {

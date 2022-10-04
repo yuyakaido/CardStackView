@@ -61,7 +61,7 @@ fun <T> rememberCardController(
     swipeDuration: Int = DEFAULT_SWIPE_DURATION,
     swipedThreshold: Float = DEFAULT_SWIPED_THRESHOLD,
     rotateConfiguration: RotateConfiguration = RotateConfiguration.default()
-): CardControllerType<T> {
+): CardController<T> {
     val scope = rememberCoroutineScope()
     val screenWidth =
         with(LocalDensity.current) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
@@ -186,7 +186,7 @@ open class CardController<T>(
     }
 
     override fun isCardSwiped(): Boolean {
-        return abs(swipeX.value) == screenWidth
+        return abs(swipeX.value) >= screenWidth
     }
 
     override fun swipeRight() {
@@ -209,5 +209,36 @@ open class CardController<T>(
         }
     }
 
-    override fun rewind() = Unit
+    override fun rewind() {
+        scope.apply {
+            direction = null
+            launch {
+                swipeX.animateTo(
+                    targetValue = 0f,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
+                )
+            }
+            launch {
+                swipeY.animateTo(
+                    targetValue = 0f,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
+                )
+            }
+            launch {
+                nextScale.animateTo(
+                    targetValue = 1f - 1 * 0.05f,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
+                )
+            }
+        }
+    }
 }
