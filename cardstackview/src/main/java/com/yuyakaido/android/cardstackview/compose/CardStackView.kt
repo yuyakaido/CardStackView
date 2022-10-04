@@ -17,7 +17,7 @@ import androidx.compose.ui.zIndex
 fun <T> CardStackView(
     items: List<T>,
     modifier: Modifier = Modifier,
-    controller: CardStackViewController<T> = rememberCardStackViewController(),
+    controller: CardStackViewControllerType<T> = rememberCardStackViewController(),
     contentKey: (target: T) -> Any? = { it },
     content: @Composable (T) -> Unit
 ) {
@@ -40,7 +40,7 @@ fun <T> CardStackView(
 @Composable
 private fun <T> CardContents(
     items: List<T>,
-    controller: CardStackViewController<T>,
+    controller: CardStackViewControllerType<T>,
     modifier: Modifier = Modifier,
     contentKey: (target: T) -> Any? = { it },
     content: @Composable (T) -> Unit

@@ -38,6 +38,21 @@ data class RotateConfiguration(
     }
 }
 
+interface CardControllerType<T> {
+    fun onDrag(dragAmount: Offset)
+    fun onDragEnd()
+    fun onDragCancel()
+    fun isCardSwiped(): Boolean
+    fun swipeLeft()
+    fun swipeRight()
+    fun rewind()
+
+    val cardX: Float
+    val cardY: Float
+    val rotation: Float
+    var direction: Direction?
+}
+
 const val DEFAULT_SWIPE_DURATION = 500
 const val DEFAULT_SWIPED_THRESHOLD = 3F
 
@@ -46,7 +61,7 @@ fun <T> rememberCardController(
     swipeDuration: Int = DEFAULT_SWIPE_DURATION,
     swipedThreshold: Float = DEFAULT_SWIPED_THRESHOLD,
     rotateConfiguration: RotateConfiguration = RotateConfiguration.default()
-): CardController<T> {
+): CardControllerType<T> {
     val scope = rememberCoroutineScope()
     val screenWidth =
         with(LocalDensity.current) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
@@ -83,23 +98,23 @@ open class CardController<T>(
     private val swipeDuration: Int,
     private val swipedThreshold: Float,
     private val rotateConfiguration: RotateConfiguration,
-) {
-    val cardX: Float
+) : CardControllerType<T> {
+    override val cardX: Float
         get() = swipeX.value
 
-    val cardY: Float
+    override val cardY: Float
         get() = swipeY.value
 
-    val rotation: Float
+    override val rotation: Float
         get() = (swipeX.value / rotateConfiguration.ratio.value)
             .coerceIn(
                 -rotateConfiguration.tilt,
                 rotateConfiguration.tilt
             )
 
-    var direction: Direction? = null
+    override var direction: Direction? = null
 
-    fun onDrag(dragAmount: Offset) {
+    override fun onDrag(dragAmount: Offset) {
         scope.apply {
             launch {
                 swipeX.animateTo(swipeX.targetValue + dragAmount.x)
@@ -124,7 +139,7 @@ open class CardController<T>(
         }
     }
 
-    fun onDragEnd() {
+    override fun onDragEnd() {
         val isSwiped = abs(swipeX.targetValue) > abs(screenWidth) / swipedThreshold
         if (isSwiped) {
             if (swipeX.targetValue > 0) {
@@ -138,7 +153,7 @@ open class CardController<T>(
     }
 
 
-    fun onDragCancel() {
+    override fun onDragCancel() {
         scope.apply {
             launch {
                 swipeX.animateTo(
@@ -170,11 +185,11 @@ open class CardController<T>(
         }
     }
 
-    fun isCardSwiped(): Boolean {
+    override fun isCardSwiped(): Boolean {
         return abs(swipeX.value) == screenWidth
     }
 
-    fun swipeRight() {
+    override fun swipeRight() {
         scope.launch {
             direction = Direction.RIGHT
             swipeX.animateTo(
@@ -184,7 +199,7 @@ open class CardController<T>(
         }
     }
 
-    fun swipeLeft() {
+    override fun swipeLeft() {
         scope.launch {
             direction = Direction.LEFT
             swipeX.animateTo(
@@ -193,4 +208,6 @@ open class CardController<T>(
             )
         }
     }
+
+    override fun rewind() = Unit
 }

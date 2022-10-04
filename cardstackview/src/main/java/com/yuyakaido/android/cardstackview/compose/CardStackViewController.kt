@@ -4,30 +4,37 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 
 @Composable
-fun <T> rememberCardStackViewController(): CardStackViewController<T> {
+fun <T> rememberCardStackViewController(): CardStackViewControllerType<T> {
     return remember { CardStackViewController() }
 }
 
-class CardStackViewController<T> {
-    private var cardControllers: List<Pair<Any?, CardController<T>>> = mutableListOf()
+interface CardStackViewControllerType<T> {
+    fun setControllers(controllers: List<Pair<Any?, CardControllerType<T>>>)
+    fun currentCardController(key: Any?): CardControllerType<T>
+    fun swipeRight()
+    fun swipeLeft()
+}
 
-    fun setControllers(controllers: List<Pair<Any?, CardController<T>>>) {
+class CardStackViewController<T> : CardStackViewControllerType<T> {
+    private var cardControllers: List<Pair<Any?, CardControllerType<T>>> = mutableListOf()
+
+    override fun setControllers(controllers: List<Pair<Any?, CardControllerType<T>>>) {
         cardControllers = controllers
     }
 
-    fun currentCardController(key: Any?): CardController<T> {
+    override fun currentCardController(key: Any?): CardControllerType<T> {
         return cardControllers.first { (k, _) ->
             k == key
         }.second
     }
 
-    fun swipeRight() {
+    override fun swipeRight() {
         cardControllers.first { (_, v) ->
             v.cardX == 0F && v.cardY == 0F
         }.second.swipeRight()
     }
 
-    fun swipeLeft() {
+    override fun swipeLeft() {
         cardControllers.first { (_, v) ->
             v.cardX == 0F && v.cardY == 0F
         }.second.swipeLeft()
