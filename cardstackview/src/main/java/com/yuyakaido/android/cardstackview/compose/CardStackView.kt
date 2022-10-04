@@ -18,8 +18,7 @@ import androidx.compose.ui.zIndex
 fun <T> CardStackView(
     items: List<T>,
     modifier: Modifier = Modifier,
-    controller: CardStackViewControllerType<T> = rememberCardStackViewController(),
-    contentKey: (target: T) -> Any? = { it },
+    controller: CardStackViewControllerType<T> = rememberCardStackViewController(items),
     content: @Composable (T) -> Unit
 ) {
     Box(
@@ -29,7 +28,6 @@ fun <T> CardStackView(
         CardContents(
             items = items,
             controller = controller,
-            contentKey = contentKey,
             content = content,
         )
     }
@@ -40,7 +38,6 @@ private fun <T> CardContents(
     items: List<T>,
     controller: CardStackViewControllerType<T>,
     modifier: Modifier = Modifier,
-    contentKey: (target: T) -> Any? = { it },
     content: @Composable (T) -> Unit
 ) {
     val visibleSize = items.size
@@ -50,7 +47,7 @@ private fun <T> CardContents(
         val item = items[index]
         val zIndex = zIndexes[index].value
         key(item) {
-            val cardController = controller.currentCardController(contentKey(item))
+            val cardController = controller.currentCardController(item)
             Box(
                 modifier = modifier
                     .zIndex(zIndex.toFloat())

@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.yuyakaido.android.cardstackview.compose.CardStackView
-import com.yuyakaido.android.cardstackview.compose.rememberCardController
 import com.yuyakaido.android.cardstackview.compose.rememberCardStackViewController
 import kotlinx.coroutines.launch
 
@@ -38,8 +37,7 @@ class ComposeActivity : ComponentActivity() {
         val spots = createSpots()
         setContent {
             val scope = rememberCoroutineScope()
-            val cardStackController = rememberCardStackViewController<Spot>()
-            cardStackController.setControllers(spots.map { it to rememberCardController() })
+            val cardStackController = rememberCardStackViewController(spots)
 
             Box(modifier = Modifier.fillMaxSize()) {
                 CardStackView(

@@ -4,25 +4,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 
 @Composable
-fun <T> rememberCardStackViewController(): CardStackViewController<T> {
-    return remember { CardStackViewController() }
+fun <T> rememberCardStackViewController(items: List<T>): CardStackViewController<T> {
+    val controllers = items.map { it to rememberCardController<T>() }
+    return remember {
+        CardStackViewController(
+            cardControllers = controllers,
+        )
+    }
 }
 
 interface CardStackViewControllerType<T> {
-    fun currentCardController(key: Any?): CardControllerType<T>
+    fun currentCardController(key: T): CardControllerType<T>
     fun swipeRight()
     fun swipeLeft()
     fun rewind()
 }
 
-class CardStackViewController<T> : CardStackViewControllerType<T> {
-    private var cardControllers: List<Pair<Any?, CardControllerType<T>>> = mutableListOf()
+class CardStackViewController<T>(
+    private val cardControllers: List<Pair<T, CardControllerType<T>>>
+) : CardStackViewControllerType<T> {
 
-    fun setControllers(controllers: List<Pair<Any?, CardControllerType<T>>>) {
-        cardControllers = controllers
-    }
-
-    override fun currentCardController(key: Any?): CardControllerType<T> {
+    override fun currentCardController(key: T): CardControllerType<T> {
         return cardControllers.first { (k, _) ->
             k == key
         }.second
