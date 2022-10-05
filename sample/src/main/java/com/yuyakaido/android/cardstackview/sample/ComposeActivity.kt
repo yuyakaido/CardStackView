@@ -1,6 +1,7 @@
 package com.yuyakaido.android.cardstackview.sample
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -15,6 +16,7 @@ import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,55 +38,8 @@ class ComposeActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val spots = createSpots()
         setContent {
-            val scope = rememberCoroutineScope()
-            val cardStackController = rememberCardStackViewController(spots)
-
-            Box(modifier = Modifier.fillMaxSize()) {
-                CardStackView(
-                    items = spots,
-                    controller = cardStackController,
-                    modifier = Modifier
-                ) {
-                    Spot(
-                        spot = it,
-                        modifier = Modifier
-                            .padding(24.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                    )
-                }
-                Row(
-                    Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(horizontal = 24.dp, vertical = 16.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    CircleButton(
-                        onClick = {
-                            scope.launch {
-                                cardStackController.swipeLeft()
-                            }
-                        },
-                        icon = Icons.Rounded.Close
-                    )
-                    CircleButton(
-                        onClick = {
-                            scope.launch {
-                                cardStackController.rewind()
-                            }
-                        },
-                        icon = Icons.Rounded.ArrowBack
-                    )
-                    CircleButton(
-                        onClick = {
-                            scope.launch {
-                                cardStackController.swipeRight()
-                            }
-                        },
-                        icon = Icons.Rounded.Favorite
-                    )
-                }
-            }
+            //CardStackViewSample(spots = spots)
+            CustomCardStackViewSample(spots = spots)
         }
     }
 
@@ -161,6 +116,125 @@ class ComposeActivity : ComponentActivity() {
             )
         )
         return spots
+    }
+}
+
+@Composable
+private fun CardStackViewSample(
+    spots: List<Spot>,
+) {
+    val scope = rememberCoroutineScope()
+    val cardStackController = rememberCardStackViewController(spots)
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        CardStackView(
+            items = spots,
+            controller = cardStackController,
+            modifier = Modifier
+        ) {
+            Spot(
+                spot = it,
+                modifier = Modifier
+                    .padding(24.dp)
+                    .clip(RoundedCornerShape(12.dp))
+            )
+        }
+        Row(
+            Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 24.dp, vertical = 16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            CircleButton(
+                onClick = {
+                    scope.launch {
+                        cardStackController.swipeLeft()
+                    }
+                },
+                icon = Icons.Rounded.Close
+            )
+            CircleButton(
+                onClick = {
+                    scope.launch {
+                        cardStackController.rewind()
+                    }
+                },
+                icon = Icons.Rounded.ArrowBack
+            )
+            CircleButton(
+                onClick = {
+                    scope.launch {
+                        cardStackController.swipeRight()
+                    }
+                },
+                icon = Icons.Rounded.Favorite
+            )
+        }
+    }
+}
+
+
+@Composable
+private fun CustomCardStackViewSample(
+    spots: List<Spot>,
+) {
+    val scope = rememberCoroutineScope()
+    val cardStackController = rememberCustomCardStackViewController<Spot>()
+    val controllers = spots.map {
+        it to rememberCustomCardController<Spot>()
+    }
+    cardStackController.setControllers(controllers)
+    LaunchedEffect(cardStackController.isEmpty()) {
+        if (cardStackController.isEmpty()) {
+            Log.d("CardStackView", "Cards is Empty!")
+        }
+    }
+    Box(modifier = Modifier.fillMaxSize()) {
+        CardStackView(
+            items = spots,
+            controller = cardStackController,
+            modifier = Modifier
+        ) {
+            Spot(
+                spot = it,
+                modifier = Modifier
+                    .padding(24.dp)
+                    .clip(RoundedCornerShape(12.dp))
+            )
+        }
+        Row(
+            Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 24.dp, vertical = 16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            CircleButton(
+                onClick = {
+                    scope.launch {
+                        cardStackController.swipeLeft()
+                    }
+                },
+                icon = Icons.Rounded.Close
+            )
+            CircleButton(
+                onClick = {
+                    scope.launch {
+                        cardStackController.rewind()
+                    }
+                },
+                icon = Icons.Rounded.ArrowBack
+            )
+            CircleButton(
+                onClick = {
+                    scope.launch {
+                        cardStackController.swipeRight()
+                    }
+                },
+                icon = Icons.Rounded.Favorite
+            )
+        }
     }
 }
 
