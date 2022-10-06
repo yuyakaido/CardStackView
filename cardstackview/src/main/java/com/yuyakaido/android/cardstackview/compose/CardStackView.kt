@@ -23,7 +23,7 @@ fun <T> CardStackView(
     onDragStart: (T, Offset) -> Unit = { _, _ -> },
     onDragEnd: (T) -> Unit = {},
     onDragCancel: (T) -> Unit = {},
-    onEmpty: (T) -> Unit = {},
+    onEmpty: () -> Unit = {},
     onSwiped: (T, Direction) -> Unit = { _, _ -> },
     content: @Composable (T) -> Unit
 ) {
@@ -79,11 +79,11 @@ fun <T> CardStackView(
                         onSwiped(item, it)
                     }
                 }
-                LaunchedEffect(controller.isEmpty()) {
-                    if (controller.isEmpty()) {
-                        onEmpty(item)
-                    }
-                }
+            }
+        }
+        LaunchedEffect(controller.isEmpty()) {
+            if (controller.isEmpty()) {
+                onEmpty()
             }
         }
     }

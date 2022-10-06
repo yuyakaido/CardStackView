@@ -1,6 +1,8 @@
 package com.yuyakaido.android.cardstackview.sample
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -21,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -117,6 +120,10 @@ class ComposeActivity : ComponentActivity() {
     }
 }
 
+private fun showToast(context: Context, text: String) {
+    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+}
+
 @Composable
 private fun CardStackViewSample(
     spots: List<Spot>,
@@ -182,12 +189,19 @@ private fun CustomCardStackViewSample(
     val controllers = spots.map {
         it to rememberCustomCardController<Spot>()
     }
+    val context = LocalContext.current
     cardStackController.setControllers(controllers)
 
     Box(modifier = Modifier.fillMaxSize()) {
         CardStackView(
             items = spots,
             controller = cardStackController,
+            onSwiped = { item, direction ->
+                showToast(context, "${item.name} Swipe To ${direction.name}")
+            },
+            onEmpty = {
+                showToast(context, "Empty!!")
+            },
             modifier = Modifier
         ) {
             Spot(
