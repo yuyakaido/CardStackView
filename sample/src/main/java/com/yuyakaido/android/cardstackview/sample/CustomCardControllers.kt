@@ -5,14 +5,12 @@ import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import com.yuyakaido.android.cardstackview.compose.CardController
 import com.yuyakaido.android.cardstackview.compose.DEFAULT_SWIPED_THRESHOLD
-import com.yuyakaido.android.cardstackview.compose.Direction
 import com.yuyakaido.android.cardstackview.compose.RotateConfiguration
 import kotlinx.coroutines.CoroutineScope
 
@@ -66,15 +64,6 @@ class CustomCardControllers<Spot>(
     swipedThreshold = swipedThreshold,
     rotateConfiguration = rotateConfiguration
 ) {
-    override fun onDrag(dragAmount: Offset, item: Spot) {
-        val direction = if (cardX + dragAmount.x > 0) {
-            Direction.RIGHT
-        } else {
-            Direction.LEFT
-        }
-        super.onDrag(dragAmount, item)
-    }
-
     fun swipeRight(spot: Spot) {
         swipeRight()
     }

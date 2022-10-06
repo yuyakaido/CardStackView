@@ -18,6 +18,7 @@ interface CardStackViewControllerType<T> {
     fun swipeRight()
     fun swipeLeft()
     fun rewind()
+    fun isEmpty(): Boolean
 }
 
 class CardStackViewController<T>(
@@ -46,5 +47,11 @@ class CardStackViewController<T>(
         cardControllers.lastOrNull { (_, v) ->
             v.isCardSwiped()
         }?.second?.rewind()
+    }
+
+    override fun isEmpty(): Boolean {
+        return cardControllers.firstOrNull { (_, v) ->
+            !v.isCardSwiped()
+        } == null
     }
 }

@@ -15,7 +15,8 @@ import java.lang.Float.min
 import kotlin.math.abs
 
 enum class Direction {
-    LEFT, RIGHT,
+    LEFT,
+    RIGHT,
 }
 
 enum class RotateRatio(val value: Int) {
@@ -39,9 +40,9 @@ data class RotateConfiguration(
 }
 
 interface CardControllerType<T> {
-    fun onDrag(dragAmount: Offset, item: T)
-    fun onDragEnd(item: T)
-    fun onDragCancel(item: T)
+    fun onDrag(dragAmount: Offset)
+    fun onDragEnd()
+    fun onDragCancel()
     fun isCardSwiped(): Boolean
     fun swipeLeft()
     fun swipeRight()
@@ -114,7 +115,7 @@ open class CardController<T>(
 
     override var direction: Direction? = null
 
-    override fun onDrag(dragAmount: Offset, item: T) {
+    override fun onDrag(dragAmount: Offset) {
         scope.apply {
             launch {
                 swipeX.animateTo(swipeX.targetValue + dragAmount.x)
@@ -139,7 +140,7 @@ open class CardController<T>(
         }
     }
 
-    override fun onDragEnd(item: T) {
+    override fun onDragEnd() {
         val isSwiped = abs(swipeX.targetValue) > abs(screenWidth) / swipedThreshold
         if (isSwiped) {
             if (swipeX.targetValue > 0) {
@@ -148,12 +149,12 @@ open class CardController<T>(
                 swipeLeft()
             }
         } else {
-            onDragCancel(item)
+            onDragCancel()
         }
     }
 
 
-    override fun onDragCancel(item: T) {
+    override fun onDragCancel() {
         scope.apply {
             launch {
                 swipeX.animateTo(

@@ -1,7 +1,6 @@
 package com.yuyakaido.android.cardstackview.sample
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -15,7 +14,6 @@ import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -185,11 +183,7 @@ private fun CustomCardStackViewSample(
         it to rememberCustomCardController<Spot>()
     }
     cardStackController.setControllers(controllers)
-    LaunchedEffect(cardStackController.isEmpty()) {
-        if (cardStackController.isEmpty()) {
-            Log.d("CardStackView", "Cards is Empty!")
-        }
-    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         CardStackView(
             items = spots,

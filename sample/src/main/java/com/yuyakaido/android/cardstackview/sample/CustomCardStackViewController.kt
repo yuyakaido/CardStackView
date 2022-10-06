@@ -44,7 +44,7 @@ class CustomCardStackViewController<Spot> : CardStackViewControllerType<Spot> {
         }?.second?.rewind()
     }
 
-    fun isEmpty(): Boolean {
+    override fun isEmpty(): Boolean {
         return cardControllers.firstOrNull { (_, v) ->
             !v.isCardSwiped()
         } == null
