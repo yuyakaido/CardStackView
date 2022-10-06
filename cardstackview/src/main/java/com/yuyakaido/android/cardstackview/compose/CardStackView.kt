@@ -20,7 +20,7 @@ fun <T> CardStackView(
     visibleCount: Int = 3,
     paddingBetweenCards: Float = 20F,
     onDrag: (T, Offset) -> Unit = { _, _ -> },
-    onDragStart: (T) -> Unit = {},
+    onDragStart: (T, Offset) -> Unit = { _, _ -> },
     onDragEnd: (T) -> Unit = {},
     onDragCancel: (T) -> Unit = {},
     onEmpty: (T) -> Unit = {},
@@ -53,7 +53,7 @@ fun <T> CardStackView(
                         .pointerInput(Unit) {
                             detectDragGestures(
                                 onDragStart = {
-                                    onDragStart(item)
+                                    onDragStart(item, it)
                                 },
                                 onDragEnd = {
                                     cardController.onDragEnd()
