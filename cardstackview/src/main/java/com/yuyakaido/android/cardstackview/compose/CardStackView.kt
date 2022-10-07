@@ -89,7 +89,7 @@ fun <T> CardStackView(
     }
 }
 
-data class PaddingBetweenCards(
+internal data class PaddingBetweenCards(
     val paddingX: Float,
     val paddingY: Float,
 ) {
