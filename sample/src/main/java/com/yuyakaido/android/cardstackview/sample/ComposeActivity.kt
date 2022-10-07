@@ -18,7 +18,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,8 +34,7 @@ class ComposeActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val spots = createSpots()
         setContent {
-            //CardStackViewSample(spots = spots)
-            CustomCardStackViewSample(spots = spots)
+            CardStackViewSample(spots = spots)
         }
     }
 
@@ -127,54 +125,6 @@ private fun CardStackViewSample(
         CardStackView(
             items = spots,
             controller = cardStackController,
-            modifier = Modifier
-        ) {
-            Spot(
-                spot = it,
-                modifier = Modifier
-                    .padding(24.dp)
-                    .clip(RoundedCornerShape(12.dp))
-            )
-        }
-
-        ButtonsSection(
-            onLikeClick = {
-                scope.launch {
-                    cardStackController.swipeLeft()
-                }
-            },
-            onRewindClick = {
-                scope.launch {
-                    cardStackController.rewind()
-                }
-            },
-            onSkipClick = {
-                scope.launch {
-                    cardStackController.swipeRight()
-                }
-            },
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
-    }
-}
-
-
-@Composable
-private fun CustomCardStackViewSample(
-    spots: List<Spot>,
-) {
-    val scope = rememberCoroutineScope()
-    val cardStackController = rememberCustomCardStackViewController<Spot>()
-    val controllers = spots.map {
-        it to rememberCustomCardController<Spot>()
-    }
-    val context = LocalContext.current
-    cardStackController.setControllers(controllers)
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        CardStackView(
-            items = spots,
-            controller = cardStackController,
             onSwiped = { item, direction ->
                 Log.d("CardStackView", "onSwiped ${item.name} Swipe To ${direction.name}")
             },
@@ -197,7 +147,7 @@ private fun CustomCardStackViewSample(
         ButtonsSection(
             onLikeClick = {
                 scope.launch {
-                    cardStackController.swipeLeft()
+                    cardStackController.swipeRight()
                 }
             },
             onRewindClick = {
@@ -207,7 +157,7 @@ private fun CustomCardStackViewSample(
             },
             onSkipClick = {
                 scope.launch {
-                    cardStackController.swipeRight()
+                    cardStackController.swipeLeft()
                 }
             },
             modifier = Modifier.align(Alignment.BottomCenter)
