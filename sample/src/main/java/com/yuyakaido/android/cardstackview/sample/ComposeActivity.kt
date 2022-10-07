@@ -11,10 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -24,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -144,38 +141,25 @@ private fun CardStackViewSample(
                     .clip(RoundedCornerShape(12.dp))
             )
         }
-        Row(
-            Modifier
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = 24.dp, vertical = 16.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            CircleButton(
-                onClick = {
-                    scope.launch {
-                        cardStackController.swipeLeft()
-                    }
-                },
-                icon = Icons.Rounded.Close
-            )
-            CircleButton(
-                onClick = {
-                    scope.launch {
-                        cardStackController.rewind()
-                    }
-                },
-                icon = Icons.Rounded.ArrowBack
-            )
-            CircleButton(
-                onClick = {
-                    scope.launch {
-                        cardStackController.swipeRight()
-                    }
-                },
-                icon = Icons.Rounded.Favorite
-            )
-        }
+
+        ButtonsSection(
+            onLikeClick = {
+                scope.launch {
+                    cardStackController.swipeLeft()
+                }
+            },
+            onRewindClick = {
+                scope.launch {
+                    cardStackController.rewind()
+                }
+            },
+            onSkipClick = {
+                scope.launch {
+                    cardStackController.swipeRight()
+                }
+            },
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 }
 
@@ -211,38 +195,53 @@ private fun CustomCardStackViewSample(
                     .clip(RoundedCornerShape(12.dp))
             )
         }
-        Row(
-            Modifier
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = 24.dp, vertical = 16.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            CircleButton(
-                onClick = {
-                    scope.launch {
-                        cardStackController.swipeLeft()
-                    }
-                },
-                icon = Icons.Rounded.Close
-            )
-            CircleButton(
-                onClick = {
-                    scope.launch {
-                        cardStackController.rewind()
-                    }
-                },
-                icon = Icons.Rounded.ArrowBack
-            )
-            CircleButton(
-                onClick = {
-                    scope.launch {
-                        cardStackController.swipeRight()
-                    }
-                },
-                icon = Icons.Rounded.Favorite
-            )
-        }
+
+        ButtonsSection(
+            onLikeClick = {
+                scope.launch {
+                    cardStackController.swipeLeft()
+                }
+            },
+            onRewindClick = {
+                scope.launch {
+                    cardStackController.rewind()
+                }
+            },
+            onSkipClick = {
+                scope.launch {
+                    cardStackController.swipeRight()
+                }
+            },
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
+    }
+}
+
+@Composable
+private fun ButtonsSection(
+    onLikeClick: () -> Unit,
+    onRewindClick: () -> Unit,
+    onSkipClick: () -> Unit,
+    modifier: Modifier,
+) {
+    Row(
+        modifier = modifier
+            .padding(horizontal = 24.dp, vertical = 16.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        CircleButton(
+            onClick = onSkipClick,
+            icon = ImageVector.vectorResource(id = R.drawable.skip_red_24dp)
+        )
+        CircleButton(
+            onClick = onRewindClick,
+            icon = ImageVector.vectorResource(id = R.drawable.rewind_blue_24dp)
+        )
+        CircleButton(
+            onClick = onLikeClick,
+            icon = ImageVector.vectorResource(id = R.drawable.like_green_24dp)
+        )
     }
 }
 
@@ -296,7 +295,6 @@ private fun CircleButton(
     ) {
         Icon(
             icon, null,
-            tint = Color.Red
         )
     }
 }
