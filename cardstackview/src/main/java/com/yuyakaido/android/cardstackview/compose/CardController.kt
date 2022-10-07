@@ -14,31 +14,6 @@ import kotlinx.coroutines.launch
 import java.lang.Float.min
 import kotlin.math.abs
 
-enum class Direction {
-    LEFT,
-    RIGHT,
-}
-
-enum class RotateRatio(val value: Int) {
-    LARGE(30),
-    MEDIUM(60),
-    SMALL(90);
-}
-
-data class RotateConfiguration(
-    val ratio: RotateRatio,
-    val tilt: Float,
-) {
-    companion object {
-        fun default(): RotateConfiguration {
-            return RotateConfiguration(
-                ratio = RotateRatio.MEDIUM,
-                tilt = 40F
-            )
-        }
-    }
-}
-
 interface CardControllerType<T> {
     fun onDrag(dragAmount: Offset)
     fun onDragEnd()
@@ -56,14 +31,9 @@ interface CardControllerType<T> {
     val ratio: Float
 }
 
-const val DEFAULT_SWIPE_DURATION = 500
-const val DEFAULT_SWIPED_THRESHOLD = 3F
-
 @Composable
 fun <T> rememberCardController(
-    swipeDuration: Int = DEFAULT_SWIPE_DURATION,
-    swipedThreshold: Float = DEFAULT_SWIPED_THRESHOLD,
-    rotateConfiguration: RotateConfiguration = RotateConfiguration.default()
+    config: CardStackConfig,
 ): CardController<T> {
     val scope = rememberCoroutineScope()
     val screenWidth =
@@ -76,7 +46,7 @@ fun <T> rememberCardController(
     return remember {
         val swipeX = Animatable(0f)
         val swipeY = Animatable(0f)
-        val nextScale = Animatable(1F)
+        val nextScale = Animatable(1f)
         CardController(
             swipeX = swipeX,
             swipeY = swipeY,
@@ -86,9 +56,7 @@ fun <T> rememberCardController(
             screenHeight = screenHeight,
             cardWidth = cardWidth,
             cardHeight = cardHeight,
-            swipeDuration = swipeDuration,
-            swipedThreshold = swipedThreshold,
-            rotateConfiguration = rotateConfiguration
+            config = config,
         )
     }
 }
@@ -102,9 +70,7 @@ open class CardController<T>(
     private val screenHeight: Float,
     private val cardWidth: Float,
     private val cardHeight: Float,
-    private val swipeDuration: Int,
-    private val swipedThreshold: Float,
-    private val rotateConfiguration: RotateConfiguration,
+    private val config: CardStackConfig,
 ) : CardControllerType<T> {
     override val cardX: Float
         get() = swipeX.value
@@ -113,10 +79,10 @@ open class CardController<T>(
         get() = swipeY.value
 
     override val rotation: Float
-        get() = (swipeX.value / rotateConfiguration.ratio.value)
+        get() = (swipeX.value / config.rotateRatio)
             .coerceIn(
-                -rotateConfiguration.tilt,
-                rotateConfiguration.tilt
+                -config.maxDegree,
+                config.maxDegree
             )
 
     override var direction: Direction? = null
@@ -159,7 +125,7 @@ open class CardController<T>(
     }
 
     override fun onDragEnd() {
-        val isSwiped = abs(swipeX.targetValue) > abs(screenWidth) / swipedThreshold
+        val isSwiped = abs(swipeX.targetValue) / abs(screenWidth) > config.swipeThreshold
         if (isSwiped) {
             if (swipeX.targetValue > 0) {
                 swipeRight()
@@ -210,20 +176,20 @@ open class CardController<T>(
 
     override fun swipeRight() {
         scope.launch {
-            direction = Direction.RIGHT
+            direction = Direction.Right
             swipeX.animateTo(
                 targetValue = screenWidth * 2,
-                animationSpec = tween(swipeDuration)
+                animationSpec = tween(config.swipeDuration)
             )
         }
     }
 
     override fun swipeLeft() {
         scope.launch {
-            direction = Direction.LEFT
+            direction = Direction.Left
             swipeX.animateTo(
                 targetValue = -(screenWidth * 2),
-                animationSpec = tween(swipeDuration)
+                animationSpec = tween(config.swipeDuration)
             )
         }
     }
@@ -251,7 +217,7 @@ open class CardController<T>(
             }
             launch {
                 nextScale.animateTo(
-                    targetValue = 1f - 1 * 0.05f,
+                    targetValue = 0.95f,
                     animationSpec = spring(
                         dampingRatio = Spring.DampingRatioLowBouncy,
                         stiffness = Spring.StiffnessLow

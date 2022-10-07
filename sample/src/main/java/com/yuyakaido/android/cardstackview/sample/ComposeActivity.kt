@@ -25,7 +25,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.yuyakaido.android.cardstackview.compose.CardStackConfig
 import com.yuyakaido.android.cardstackview.compose.CardStackView
+import com.yuyakaido.android.cardstackview.compose.StackFrom
 import com.yuyakaido.android.cardstackview.compose.rememberCardStackViewController
 import kotlinx.coroutines.launch
 
@@ -120,11 +122,15 @@ private fun CardStackViewSample(
     spots: List<Spot>,
 ) {
     val scope = rememberCoroutineScope()
-    val cardStackController = rememberCardStackViewController(spots)
+    val config = CardStackConfig(
+        stackFrom = StackFrom.TopAndLeft
+    )
+    val cardStackController = rememberCardStackViewController(spots, config)
 
     Box(modifier = Modifier.fillMaxSize()) {
         CardStackView(
             items = spots,
+            config = config,
             controller = cardStackController,
             onSwiped = { item, direction ->
                 Log.d("CardStackView", "onSwiped ${item.name} Swipe To ${direction.name}")

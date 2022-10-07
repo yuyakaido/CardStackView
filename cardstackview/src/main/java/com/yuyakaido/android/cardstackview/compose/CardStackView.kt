@@ -16,9 +16,8 @@ import androidx.compose.ui.zIndex
 fun <T> CardStackView(
     items: List<T>,
     modifier: Modifier = Modifier,
-    controller: CardStackViewControllerType<T> = rememberCardStackViewController(items),
-    visibleCount: Int = 2,
-    paddingBetweenCards: Float = 0F, //20F,
+    config: CardStackConfig = CardStackConfig(),
+    controller: CardStackViewControllerType<T> = rememberCardStackViewController(items, config),
     onDrag: (T, Float) -> Unit = { _, _ -> },
     onDragStart: (T, Offset) -> Unit = { _, _ -> },
     onDragEnd: (T) -> Unit = {},
@@ -29,7 +28,7 @@ fun <T> CardStackView(
 ) {
     val visibleContents = items.filter {
         !controller.currentCardController(it).isCardSwiped()
-    }.take(visibleCount)
+    }.take(config.visibleCount)
 
     Box(
         modifier = modifier.fillMaxSize(),
@@ -41,13 +40,15 @@ fun <T> CardStackView(
             val zIndex = zIndexes[index].value
             val cardController = controller.currentCardController(item)
             key(item, cardController) {
-                val paddingTop by animateFloatAsState(targetValue = (zIndex * paddingBetweenCards))
+                val padding = PaddingBetweenCards.get(config.translationInterval, config.stackFrom)
+                val paddingX by animateFloatAsState(targetValue = (zIndex * padding.paddingX))
+                val paddingY by animateFloatAsState(targetValue = (zIndex * padding.paddingY))
                 Box(
                     modifier = modifier
                         .zIndex(zIndex.toFloat())
                         .graphicsLayer(
-                            translationX = cardController.cardX,
-                            translationY = cardController.cardY + paddingTop,
+                            translationX = cardController.cardX + paddingX,
+                            translationY = cardController.cardY + paddingY,
                             rotationZ = cardController.rotation,
                         )
                         .pointerInput(Unit) {
@@ -83,6 +84,45 @@ fun <T> CardStackView(
         LaunchedEffect(controller.isEmpty()) {
             if (controller.isEmpty()) {
                 onEmpty()
+            }
+        }
+    }
+}
+
+data class PaddingBetweenCards(
+    val paddingX: Float,
+    val paddingY: Float,
+) {
+    companion object {
+        fun get(translationInterval: Float, stackFrom: StackFrom): PaddingBetweenCards {
+            return when (stackFrom) {
+                StackFrom.None -> {
+                    PaddingBetweenCards(0f, 0f)
+                }
+                StackFrom.Top -> {
+                    PaddingBetweenCards(0f, translationInterval)
+                }
+                StackFrom.TopAndLeft -> {
+                    PaddingBetweenCards(translationInterval, translationInterval)
+                }
+                StackFrom.TopAndRight -> {
+                    PaddingBetweenCards(-translationInterval, translationInterval)
+                }
+                StackFrom.Bottom -> {
+                    PaddingBetweenCards(0f, -translationInterval)
+                }
+                StackFrom.BottomAndLeft -> {
+                    PaddingBetweenCards(translationInterval, -translationInterval)
+                }
+                StackFrom.BottomAndRight -> {
+                    PaddingBetweenCards(-translationInterval, -translationInterval)
+                }
+                StackFrom.Left -> {
+                    PaddingBetweenCards(translationInterval, 0f)
+                }
+                StackFrom.Right -> {
+                    PaddingBetweenCards(-translationInterval, 0f)
+                }
             }
         }
     }

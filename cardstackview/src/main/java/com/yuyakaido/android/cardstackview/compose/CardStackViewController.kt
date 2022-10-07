@@ -4,11 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 
 @Composable
-fun <T> rememberCardStackViewController(items: List<T>): CardStackViewController<T> {
-    val controllers = items.map { it to rememberCardController<T>() }
+fun <T> rememberCardStackViewController(
+    items: List<T>,
+    config: CardStackConfig
+): CardStackViewController<T> {
+    val controllers = items.map { it to rememberCardController<T>(config) }
     return remember {
         CardStackViewController(
             cardControllers = controllers,
+            config = config,
         )
     }
 }
@@ -22,7 +26,8 @@ interface CardStackViewControllerType<T> {
 }
 
 class CardStackViewController<T>(
-    private val cardControllers: List<Pair<T, CardControllerType<T>>>
+    private val cardControllers: List<Pair<T, CardControllerType<T>>>,
+    private val config: CardStackConfig,
 ) : CardStackViewControllerType<T> {
 
     override fun currentCardController(key: T): CardControllerType<T> {
@@ -32,15 +37,19 @@ class CardStackViewController<T>(
     }
 
     override fun swipeRight() {
-        cardControllers.firstOrNull { (_, v) ->
-            !v.isCardSwiped()
-        }?.second?.swipeRight()
+        if (config.swipeMethod.canSwipeManually()) {
+            cardControllers.firstOrNull { (_, v) ->
+                !v.isCardSwiped()
+            }?.second?.swipeRight()
+        }
     }
 
     override fun swipeLeft() {
-        cardControllers.firstOrNull { (_, v) ->
-            !v.isCardSwiped()
-        }?.second?.swipeLeft()
+        if (config.swipeMethod.canSwipeManually()) {
+            cardControllers.firstOrNull { (_, v) ->
+                !v.isCardSwiped()
+            }?.second?.swipeLeft()
+        }
     }
 
     override fun rewind() {
