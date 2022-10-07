@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -140,7 +141,6 @@ private fun CardStackViewSample(
                 spot = it,
                 modifier = Modifier
                     .padding(24.dp)
-                    .clip(RoundedCornerShape(12.dp))
             )
         }
 
@@ -198,34 +198,38 @@ private fun Spot(
     modifier: Modifier = Modifier,
     spot: Spot
 ) {
-    Box(
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        elevation = 3.dp,
         modifier = modifier
     ) {
-        AsyncImage(
-            model = spot.url,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(0.6F)
-        )
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.BottomStart)
-        ) {
-            Text(
-                text = spot.name,
-                fontSize = 26.sp,
-                color = Color.White,
-                fontWeight = FontWeight.W700,
+        Box {
+            AsyncImage(
+                model = spot.url,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(0.6F)
             )
-            Text(
-                text = spot.city,
-                fontSize = 20.sp,
-                color = Color.White,
-                fontWeight = FontWeight.W700,
-            )
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.BottomStart)
+            ) {
+                Text(
+                    text = spot.name,
+                    fontSize = 26.sp,
+                    color = Color.White,
+                    fontWeight = FontWeight.W700,
+                )
+                Text(
+                    text = spot.city,
+                    fontSize = 20.sp,
+                    color = Color.White,
+                    fontWeight = FontWeight.W700,
+                )
+            }
         }
     }
 }

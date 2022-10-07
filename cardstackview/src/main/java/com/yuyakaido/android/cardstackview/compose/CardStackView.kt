@@ -17,8 +17,8 @@ fun <T> CardStackView(
     items: List<T>,
     modifier: Modifier = Modifier,
     controller: CardStackViewControllerType<T> = rememberCardStackViewController(items),
-    visibleCount: Int = 3,
-    paddingBetweenCards: Float = 20F,
+    visibleCount: Int = 2,
+    paddingBetweenCards: Float = 0F, //20F,
     onDrag: (T, Float) -> Unit = { _, _ -> },
     onDragStart: (T, Offset) -> Unit = { _, _ -> },
     onDragEnd: (T) -> Unit = {},
@@ -70,7 +70,6 @@ fun <T> CardStackView(
                                 }
                             )
                         },
-                    contentAlignment = Alignment.Center
                 ) {
                     content(item)
                 }
