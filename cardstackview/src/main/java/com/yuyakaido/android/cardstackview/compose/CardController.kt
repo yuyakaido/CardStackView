@@ -52,6 +52,8 @@ interface CardControllerType<T> {
     val cardY: Float
     val rotation: Float
     var direction: Direction?
+
+    val ratio: Float
 }
 
 const val DEFAULT_SWIPE_DURATION = 500
@@ -66,6 +68,8 @@ fun <T> rememberCardController(
     val scope = rememberCoroutineScope()
     val screenWidth =
         with(LocalDensity.current) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
+    val screenHeight =
+        with(LocalDensity.current) { LocalConfiguration.current.screenHeightDp.dp.toPx() }
     val cardWidth = with(LocalDensity.current) { LocalView.current.width.dp.toPx() }
     val cardHeight = with(LocalDensity.current) { LocalView.current.height.dp.toPx() }
 
@@ -79,6 +83,7 @@ fun <T> rememberCardController(
             nextScale = nextScale,
             scope = scope,
             screenWidth = screenWidth,
+            screenHeight = screenHeight,
             cardWidth = cardWidth,
             cardHeight = cardHeight,
             swipeDuration = swipeDuration,
@@ -94,6 +99,7 @@ open class CardController<T>(
     private val nextScale: Animatable<Float, AnimationVector1D>,
     private val scope: CoroutineScope,
     private val screenWidth: Float,
+    private val screenHeight: Float,
     private val cardWidth: Float,
     private val cardHeight: Float,
     private val swipeDuration: Int,
@@ -114,6 +120,18 @@ open class CardController<T>(
             )
 
     override var direction: Direction? = null
+
+    override val ratio: Float
+        get() {
+            val absDx = abs(cardX)
+            val absDy = abs(cardY)
+            val ratio: Float = if (absDx < absDy) {
+                absDy / (screenHeight / 2.0f)
+            } else {
+                absDx / (screenWidth / 2.0f)
+            }
+            return min(ratio, 1.0f)
+        }
 
     override fun onDrag(dragAmount: Offset) {
         scope.apply {

@@ -19,6 +19,8 @@ fun <Spot> rememberCustomCardController(): CustomCardControllers<Spot> {
     val scope = rememberCoroutineScope()
     val screenWidth =
         with(LocalDensity.current) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
+    val screenHeight =
+        with(LocalDensity.current) { LocalConfiguration.current.screenHeightDp.dp.toPx() }
     val cardWidth = with(LocalDensity.current) { LocalView.current.width.dp.toPx() }
     val cardHeight = with(LocalDensity.current) { LocalView.current.height.dp.toPx() }
 
@@ -32,6 +34,7 @@ fun <Spot> rememberCustomCardController(): CustomCardControllers<Spot> {
             nextScale = nextScale,
             scope = scope,
             screenWidth = screenWidth,
+            screenHeight = screenHeight,
             cardWidth = cardWidth,
             cardHeight = cardHeight,
             swipeDuration = 800,
@@ -47,6 +50,7 @@ class CustomCardControllers<Spot>(
     nextScale: Animatable<Float, AnimationVector1D>,
     scope: CoroutineScope,
     screenWidth: Float,
+    screenHeight: Float,
     cardWidth: Float,
     cardHeight: Float,
     swipeDuration: Int,
@@ -58,6 +62,7 @@ class CustomCardControllers<Spot>(
     nextScale = nextScale,
     scope = scope,
     screenWidth = screenWidth,
+    screenHeight = screenHeight,
     cardWidth = cardWidth,
     cardHeight = cardHeight,
     swipeDuration = swipeDuration,

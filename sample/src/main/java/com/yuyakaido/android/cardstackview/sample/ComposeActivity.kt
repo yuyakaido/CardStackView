@@ -1,8 +1,7 @@
 package com.yuyakaido.android.cardstackview.sample
 
-import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -117,10 +116,6 @@ class ComposeActivity : ComponentActivity() {
     }
 }
 
-private fun showToast(context: Context, text: String) {
-    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-}
-
 @Composable
 private fun CardStackViewSample(
     spots: List<Spot>,
@@ -181,10 +176,13 @@ private fun CustomCardStackViewSample(
             items = spots,
             controller = cardStackController,
             onSwiped = { item, direction ->
-                showToast(context, "${item.name} Swipe To ${direction.name}")
+                Log.d("CardStackView", "onSwiped ${item.name} Swipe To ${direction.name}")
             },
             onEmpty = {
-                showToast(context, "Empty!!")
+                Log.d("CardStackView", "onEmpty Empty!!")
+            },
+            onDrag = { item, ratio ->
+                Log.d("CardStackView", "onDrag ${item.name}: ratio [$ratio]")
             },
             modifier = Modifier
         ) {

@@ -19,7 +19,7 @@ fun <T> CardStackView(
     controller: CardStackViewControllerType<T> = rememberCardStackViewController(items),
     visibleCount: Int = 3,
     paddingBetweenCards: Float = 20F,
-    onDrag: (T, Offset) -> Unit = { _, _ -> },
+    onDrag: (T, Float) -> Unit = { _, _ -> },
     onDragStart: (T, Offset) -> Unit = { _, _ -> },
     onDragEnd: (T) -> Unit = {},
     onDragCancel: (T) -> Unit = {},
@@ -66,7 +66,7 @@ fun <T> CardStackView(
                                 onDrag = { change, dragAmount ->
                                     change.consume()
                                     cardController.onDrag(dragAmount)
-                                    onDrag(item, dragAmount)
+                                    onDrag(item, cardController.ratio)
                                 }
                             )
                         },
