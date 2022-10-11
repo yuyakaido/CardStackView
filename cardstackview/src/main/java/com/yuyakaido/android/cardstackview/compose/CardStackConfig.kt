@@ -7,7 +7,7 @@ data class CardStackConfig(
     val translationInterval: Float = 20F,
     val stackFrom: StackFrom = StackFrom.None,
     val visibleCount: Int = 3,
-    val maxDegree: Float = 40f,
+    val maxDegree: Float = 20f,
     val rotateRatio: Int = 60,
     val swipeMethod: SwipeMethod = SwipeMethod.AutomaticAndManual,
 )
