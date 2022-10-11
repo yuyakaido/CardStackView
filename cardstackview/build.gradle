@@ -16,9 +16,6 @@ android {
 }
 
 dependencies {
-    // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
     // Compose
     implementation 'androidx.compose.ui:ui:1.2.1'
     implementation 'androidx.compose.ui:ui-tooling:1.2.1'
