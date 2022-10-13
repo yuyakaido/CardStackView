@@ -1,5 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
+
+group = 'com.github.yuyakaido'
+version = '1.0-alpha'
 
 android {
     compileSdkVersion 33
@@ -19,4 +23,17 @@ dependencies {
     implementation 'androidx.compose.ui:ui:1.2.1'
     implementation 'androidx.compose.ui:ui-tooling:1.2.1'
     implementation 'androidx.compose.material:material:1.2.1'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.yuyakaido'
+                artifactId = 'card-stack-view-compose'
+                version = '1.0-alpha'
+            }
+        }
+    }
 }
