@@ -125,7 +125,11 @@ private fun CardStackViewSample(
     val config = CardStackConfig(
         stackFrom = StackFrom.TopAndLeft
     )
-    val cardStackController = rememberCardStackViewController(spots, config)
+    val cardStackController = rememberCardStackViewController(
+        spots,
+        config,
+        contentKey = { it }
+    )
 
     Box(modifier = Modifier.fillMaxSize()) {
         CardStackView(

@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import java.lang.Float.min
 import kotlin.math.abs
 
-interface CardControllerType<T> {
+interface CardControllerType {
     fun onDrag(dragAmount: Offset)
     fun onDragEnd()
     fun onDragCancel()
@@ -32,9 +32,9 @@ interface CardControllerType<T> {
 }
 
 @Composable
-fun <T> rememberCardController(
+fun rememberCardController(
     config: CardStackConfig,
-): CardController<T> {
+): CardController {
     val scope = rememberCoroutineScope()
     val screenWidth =
         with(LocalDensity.current) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
@@ -61,7 +61,7 @@ fun <T> rememberCardController(
     }
 }
 
-open class CardController<T>(
+open class CardController(
     private val swipeX: Animatable<Float, AnimationVector1D>,
     private val swipeY: Animatable<Float, AnimationVector1D>,
     private val nextScale: Animatable<Float, AnimationVector1D>,
@@ -71,7 +71,7 @@ open class CardController<T>(
     private val cardWidth: Float,
     private val cardHeight: Float,
     private val config: CardStackConfig,
-) : CardControllerType<T> {
+) : CardControllerType {
     override val cardX: Float
         get() = swipeX.value
 
