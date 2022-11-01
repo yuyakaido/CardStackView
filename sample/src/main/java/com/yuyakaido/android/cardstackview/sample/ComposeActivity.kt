@@ -122,19 +122,19 @@ private fun CardStackViewSample(
     spots: List<Spot>,
 ) {
     val scope = rememberCoroutineScope()
-    val config = CardStackSetting(
+    val setting = CardStackSetting(
         stackFrom = StackFrom.TopAndLeft
     )
     val cardStackController = rememberCardStackViewController(
         spots,
-        config,
+        setting,
         contentKey = { it }
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
         CardStackView(
             items = spots,
-            setting = config,
+            setting = setting,
             controller = cardStackController,
             onSwiped = { item, direction ->
                 Log.d("CardStackView", "onSwiped ${item.name} Swipe To ${direction.name}")
