@@ -6,14 +6,14 @@ import androidx.compose.runtime.remember
 @Composable
 fun <T> rememberCardStackViewController(
     items: List<T>,
-    config: CardStackConfig,
+    setting: CardStackSetting,
     contentKey: (T) -> Any? = { it }
 ): CardStackViewController<T> {
-    val controllers = items.map { contentKey(it) to rememberCardController(config) }
+    val controllers = items.map { contentKey(it) to rememberCardController(setting) }
     return remember {
         CardStackViewController(
             cardControllers = controllers,
-            config = config,
+            config = setting,
             contentKey = contentKey,
         )
     }
@@ -29,7 +29,7 @@ interface CardStackViewControllerType<T> {
 
 class CardStackViewController<T>(
     private val cardControllers: List<Pair<Any?, CardControllerType>>,
-    private val config: CardStackConfig,
+    private val config: CardStackSetting,
     private val contentKey: (T) -> Any? = { it }
 ) : CardStackViewControllerType<T> {
 

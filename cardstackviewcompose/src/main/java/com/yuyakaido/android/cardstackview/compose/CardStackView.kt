@@ -19,9 +19,9 @@ import androidx.compose.ui.zIndex
 fun <T> CardStackView(
     items: List<T>,
     modifier: Modifier = Modifier,
-    config: CardStackConfig = CardStackConfig(),
+    setting: CardStackSetting = CardStackSetting(),
     contentKey: (T) -> Any? = { it },
-    controller: CardStackViewControllerType<T> = rememberCardStackViewController(items, config, contentKey),
+    controller: CardStackViewControllerType<T> = rememberCardStackViewController(items, setting, contentKey),
     onDrag: (T, Float) -> Unit = { _, _ -> },
     onDragStart: (T, Offset) -> Unit = { _, _ -> },
     onDragEnd: (T) -> Unit = {},
@@ -32,7 +32,7 @@ fun <T> CardStackView(
 ) {
     val visibleContents = items.filter {
         !controller.currentCardController(it).isCardSwiped()
-    }.take(config.visibleCount)
+    }.take(setting.visibleCount)
 
     Box(
         modifier = modifier.fillMaxSize(),
@@ -42,8 +42,8 @@ fun <T> CardStackView(
         visibleContents.forEachIndexed { index, item ->
             val zIndex = visibleSize - index - 1
             val cardController = controller.currentCardController(item)
-            key(item, cardController) {
-                val padding = PaddingBetweenCards.get(config.translationInterval, config.stackFrom)
+            key(contentKey(item)) {
+                val padding = PaddingBetweenCards.get(setting.translationInterval, setting.stackFrom)
                 val paddingX by animateFloatAsState(targetValue = (zIndex * padding.paddingX))
                 val paddingY by animateFloatAsState(targetValue = (zIndex * padding.paddingY))
                 Box(
@@ -87,45 +87,6 @@ fun <T> CardStackView(
         LaunchedEffect(controller.isEmpty()) {
             if (controller.isEmpty()) {
                 onEmpty()
-            }
-        }
-    }
-}
-
-internal data class PaddingBetweenCards(
-    val paddingX: Float,
-    val paddingY: Float,
-) {
-    companion object {
-        fun get(translationInterval: Float, stackFrom: StackFrom): PaddingBetweenCards {
-            return when (stackFrom) {
-                StackFrom.None -> {
-                    PaddingBetweenCards(0f, 0f)
-                }
-                StackFrom.Top -> {
-                    PaddingBetweenCards(0f, translationInterval)
-                }
-                StackFrom.TopAndLeft -> {
-                    PaddingBetweenCards(translationInterval, translationInterval)
-                }
-                StackFrom.TopAndRight -> {
-                    PaddingBetweenCards(-translationInterval, translationInterval)
-                }
-                StackFrom.Bottom -> {
-                    PaddingBetweenCards(0f, -translationInterval)
-                }
-                StackFrom.BottomAndLeft -> {
-                    PaddingBetweenCards(translationInterval, -translationInterval)
-                }
-                StackFrom.BottomAndRight -> {
-                    PaddingBetweenCards(-translationInterval, -translationInterval)
-                }
-                StackFrom.Left -> {
-                    PaddingBetweenCards(translationInterval, 0f)
-                }
-                StackFrom.Right -> {
-                    PaddingBetweenCards(-translationInterval, 0f)
-                }
             }
         }
     }

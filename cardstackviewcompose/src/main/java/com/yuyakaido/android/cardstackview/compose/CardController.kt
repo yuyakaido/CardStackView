@@ -33,7 +33,7 @@ interface CardControllerType {
 
 @Composable
 fun rememberCardController(
-    config: CardStackConfig,
+    config: CardStackSetting,
 ): CardController {
     val scope = rememberCoroutineScope()
     val screenWidth =
@@ -70,7 +70,7 @@ open class CardController(
     private val screenHeight: Float,
     private val cardWidth: Float,
     private val cardHeight: Float,
-    private val config: CardStackConfig,
+    private val config: CardStackSetting,
 ) : CardControllerType {
     override val cardX: Float
         get() = swipeX.value
