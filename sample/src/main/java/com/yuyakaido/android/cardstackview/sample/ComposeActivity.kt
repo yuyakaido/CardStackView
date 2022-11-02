@@ -145,6 +145,9 @@ private fun CardStackViewSample(
             onDrag = { item, ratio ->
                 Log.d("CardStackView", "onDrag ${item.name}: ratio [$ratio]")
             },
+            onCardAppeared = { item ->
+                Log.d("CardStackView", "onCardAppeared ${item.name}")
+            },
             modifier = Modifier
         ) {
             Spot(

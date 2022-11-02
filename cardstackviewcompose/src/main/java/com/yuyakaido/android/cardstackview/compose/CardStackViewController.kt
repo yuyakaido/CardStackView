@@ -20,11 +20,12 @@ fun <T> rememberCardStackViewController(
 }
 
 interface CardStackViewControllerType<T> {
-    fun currentCardController(key: T): CardControllerType
+    fun currentCardController(item: T): CardControllerType
     fun swipeRight()
     fun swipeLeft()
     fun rewind()
     fun isEmpty(): Boolean
+    fun displayedItem(item: T): T?
 }
 
 class CardStackViewController<T>(
@@ -33,9 +34,9 @@ class CardStackViewController<T>(
     private val contentKey: (T) -> Any? = { it }
 ) : CardStackViewControllerType<T> {
 
-    override fun currentCardController(key: T): CardControllerType {
+    override fun currentCardController(item: T): CardControllerType {
         return cardControllers.first { (k, _) ->
-            k == contentKey(key)
+            k == contentKey(item)
         }.second
     }
 
@@ -65,5 +66,17 @@ class CardStackViewController<T>(
         return cardControllers.firstOrNull { (_, v) ->
             !v.isCardSwiped()
         } == null
+    }
+
+    override fun displayedItem(item: T): T? {
+        val displayed = cardControllers.firstOrNull {
+            !it.second.isCardSwiped()
+        } ?: return null
+
+        return if (displayed.first == contentKey(item)) {
+            item
+        } else {
+            null
+        }
     }
 }

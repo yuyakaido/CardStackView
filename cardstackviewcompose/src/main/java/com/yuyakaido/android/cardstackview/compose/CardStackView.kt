@@ -27,6 +27,7 @@ fun <T> CardStackView(
     onDragEnd: (T) -> Unit = {},
     onDragCancel: (T) -> Unit = {},
     onEmpty: () -> Unit = {},
+    onCardAppeared: (T) -> Unit = {},
     onSwiped: (T, Direction) -> Unit = { _, _ -> },
     content: @Composable (T) -> Unit
 ) {
@@ -43,7 +44,8 @@ fun <T> CardStackView(
             val zIndex = visibleSize - index - 1
             val cardController = controller.currentCardController(item)
             key(contentKey(item)) {
-                val padding = PaddingBetweenCards.get(setting.translationInterval, setting.stackFrom)
+                val padding =
+                    PaddingBetweenCards.get(setting.translationInterval, setting.stackFrom)
                 val paddingX by animateFloatAsState(targetValue = (zIndex * padding.paddingX))
                 val paddingY by animateFloatAsState(targetValue = (zIndex * padding.paddingY))
                 Box(
@@ -80,6 +82,12 @@ fun <T> CardStackView(
                 LaunchedEffect(cardController.direction) {
                     cardController.direction?.let {
                         onSwiped(item, it)
+                    }
+                }
+                LaunchedEffect(controller.displayedItem(item)) {
+                    val displayedItem = controller.displayedItem(item)
+                    if (displayedItem != null) {
+                        onCardAppeared(displayedItem)
                     }
                 }
             }
