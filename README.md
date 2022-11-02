@@ -325,7 +325,8 @@ CardStackLayoutManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
 
 ```groovy
 dependencies {
-    implementation "com.yuyakaido.android:card-stack-view:2.3.4"
+    // ... other dependencies
+    implementation 'com.github.yuyakaido:cardstackview:2.3.4'
 }
 ```
 
