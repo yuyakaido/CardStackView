@@ -96,7 +96,11 @@ open class CardController(
             } else {
                 absDx / (screenWidth / 2.0f)
             }
-            return min(ratio, 1.0f)
+            return if (cardX > 0) {
+                ratio
+            } else {
+                -ratio
+            }.coerceIn(-1.0f, 1.0f)
         }
 
     override fun onDrag(dragAmount: Offset) {
