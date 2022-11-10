@@ -137,7 +137,7 @@ private fun CardStackViewSample(
             setting = setting,
             controller = cardStackController,
             onSwiped = { item, direction ->
-                Log.d("CardStackView", "onSwiped ${item.name} Swipe To ${direction.name}")
+                Log.d("CardStackView", "onSwiped ${item.name} Swipe To $direction")
             },
             onEmpty = {
                 Log.d("CardStackView", "onEmpty Empty!!")
