@@ -44,7 +44,7 @@ class CardStackViewController<T>(
         if (config.swipeMethod.canSwipeManually()) {
             cardControllers.firstOrNull { (_, v) ->
                 !v.isCardSwiped()
-            }?.second?.swipeRight()
+            }?.second?.swipeRight(false)
         }
     }
 
@@ -52,7 +52,7 @@ class CardStackViewController<T>(
         if (config.swipeMethod.canSwipeManually()) {
             cardControllers.firstOrNull { (_, v) ->
                 !v.isCardSwiped()
-            }?.second?.swipeLeft()
+            }?.second?.swipeLeft(false)
         }
     }
 

@@ -19,8 +19,8 @@ interface CardControllerType {
     fun onDragEnd()
     fun onDragCancel()
     fun isCardSwiped(): Boolean
-    fun swipeLeft()
-    fun swipeRight()
+    fun swipeLeft(isDrag: Boolean)
+    fun swipeRight(isDrag: Boolean)
     fun rewind()
 
     val cardX: Float
@@ -132,9 +132,9 @@ open class CardController(
         val isSwiped = abs(swipeX.targetValue) / abs(screenWidth) > config.swipeThreshold
         if (isSwiped) {
             if (swipeX.targetValue > 0) {
-                swipeRight()
+                swipeRight(true)
             } else {
-                swipeLeft()
+                swipeLeft(true)
             }
         } else {
             onDragCancel()
@@ -178,9 +178,9 @@ open class CardController(
         return abs(swipeX.value) >= screenWidth
     }
 
-    override fun swipeRight() {
+    override fun swipeRight(isDrag: Boolean) {
         scope.launch {
-            direction = Direction.Right
+            direction = Direction.Right(isDrag)
             swipeX.animateTo(
                 targetValue = screenWidth * 2,
                 animationSpec = tween(config.swipeDuration)
@@ -188,9 +188,9 @@ open class CardController(
         }
     }
 
-    override fun swipeLeft() {
+    override fun swipeLeft(isDrag: Boolean) {
         scope.launch {
-            direction = Direction.Left
+            direction = Direction.Left(isDrag)
             swipeX.animateTo(
                 targetValue = -(screenWidth * 2),
                 animationSpec = tween(config.swipeDuration)
