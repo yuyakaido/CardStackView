@@ -3,7 +3,7 @@ package com.yuyakaido.android.cardstackview.compose
 import androidx.compose.runtime.Composable
 
 @Composable
-fun <T> rememberCardStackViewController(
+fun <T> cardStackViewController(
     items: List<T>,
     setting: CardStackSetting,
     contentKey: (T) -> Any? = { it }

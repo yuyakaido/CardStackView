@@ -21,7 +21,7 @@ fun <T> CardStackView(
     modifier: Modifier = Modifier,
     setting: CardStackSetting = CardStackSetting(),
     contentKey: (T) -> Any? = { it },
-    controller: CardStackViewControllerType<T> = rememberCardStackViewController(items, setting, contentKey),
+    controller: CardStackViewControllerType<T> = cardStackViewController(items, setting, contentKey),
     onDrag: (T, Float) -> Unit = { _, _ -> },
     onDragStart: (T, Offset) -> Unit = { _, _ -> },
     onDragEnd: (T) -> Unit = {},
