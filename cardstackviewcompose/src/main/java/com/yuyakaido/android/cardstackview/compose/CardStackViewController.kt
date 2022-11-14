@@ -1,7 +1,6 @@
 package com.yuyakaido.android.cardstackview.compose
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 
 @Composable
 fun <T> rememberCardStackViewController(
@@ -10,13 +9,11 @@ fun <T> rememberCardStackViewController(
     contentKey: (T) -> Any? = { it }
 ): CardStackViewController<T> {
     val controllers = items.map { contentKey(it) to rememberCardController(setting) }
-    return remember {
-        CardStackViewController(
-            cardControllers = controllers,
-            config = setting,
-            contentKey = contentKey,
-        )
-    }
+    return CardStackViewController(
+        cardControllers = controllers,
+        config = setting,
+        contentKey = contentKey,
+    )
 }
 
 interface CardStackViewControllerType<T> {
