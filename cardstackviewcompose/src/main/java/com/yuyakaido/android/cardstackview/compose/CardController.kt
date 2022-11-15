@@ -16,7 +16,7 @@ import kotlin.math.abs
 
 interface CardControllerType {
     fun onDrag(dragAmount: Offset)
-    fun onDragEnd()
+    fun onDragEnd(onDragCancel: () -> Unit)
     fun onDragCancel()
     fun isCardSwiped(): Boolean
     fun swipeLeft(isDrag: Boolean)
@@ -128,7 +128,7 @@ open class CardController(
         }
     }
 
-    override fun onDragEnd() {
+    override  fun onDragEnd(onDragCancel: () -> Unit) {
         val isSwiped = abs(swipeX.targetValue) / abs(screenWidth) > config.swipeThreshold
         if (isSwiped) {
             if (swipeX.targetValue > 0) {
@@ -137,6 +137,7 @@ open class CardController(
                 swipeLeft(true)
             }
         } else {
+            this.onDragCancel()
             onDragCancel()
         }
     }

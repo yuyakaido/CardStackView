@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.zIndex
 
 @Composable
@@ -62,7 +63,11 @@ fun <T> CardStackView(
                                     onDragStart(item, it)
                                 },
                                 onDragEnd = {
-                                    cardController.onDragEnd()
+                                    cardController.onDragEnd(
+                                        onDragCancel = {
+                                            onDragCancel(item)
+                                        }
+                                    )
                                     onDragEnd(item)
                                 },
                                 onDragCancel = {
@@ -70,7 +75,9 @@ fun <T> CardStackView(
                                     onDragCancel(item)
                                 },
                                 onDrag = { change, dragAmount ->
-                                    change.consume()
+                                    if (change.positionChange() != Offset.Zero) {
+                                        change.consume()
+                                    }
                                     cardController.onDrag(dragAmount)
                                     onDrag(item, cardController.ratio)
                                 }

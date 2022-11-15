@@ -145,6 +145,9 @@ private fun CardStackViewSample(
             onDrag = { item, ratio ->
                 Log.d("CardStackView", "onDrag ${item.name}: ratio [$ratio]")
             },
+            onDragCancel = { item ->
+                Log.d("CardStackView", "onDragCancel ${item.name}")
+            },
             onCardAppeared = { item ->
                 Log.d("CardStackView", "onCardAppeared ${item.name}")
             },
