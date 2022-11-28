@@ -134,7 +134,6 @@ private fun CardStackViewSample(
     Box(modifier = Modifier.fillMaxSize()) {
         CardStackView(
             items = spots,
-            setting = setting,
             controller = cardStackController,
             onSwiped = { item, direction ->
                 Log.d("CardStackView", "onSwiped ${item.name} Swipe To $direction")
