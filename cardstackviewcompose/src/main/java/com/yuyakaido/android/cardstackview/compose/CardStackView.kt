@@ -29,7 +29,6 @@ fun <T> CardStackView(
     onEmpty: () -> Unit = {},
     onCardAppeared: (T) -> Unit = {},
     onSwiped: (T, Direction) -> Unit = { _, _ -> },
-    isOperable: Boolean = true,
     content: @Composable (T) -> Unit
 ) {
     val setting = controller.setting()
@@ -61,15 +60,9 @@ fun <T> CardStackView(
                         .pointerInput(Unit) {
                             detectDragGestures(
                                 onDragStart = {
-                                    if (!isOperable) {
-                                        return@detectDragGestures
-                                    }
                                     onDragStart(item, it)
                                 },
                                 onDragEnd = {
-                                    if (!isOperable) {
-                                        return@detectDragGestures
-                                    }
                                     cardController.onDragEnd(
                                         onDragCancel = {
                                             onDragCancel(item)
@@ -78,16 +71,10 @@ fun <T> CardStackView(
                                     onDragEnd(item)
                                 },
                                 onDragCancel = {
-                                    if (!isOperable) {
-                                        return@detectDragGestures
-                                    }
                                     cardController.onDragCancel()
                                     onDragCancel(item)
                                 },
                                 onDrag = { change, dragAmount ->
-                                    if (!isOperable) {
-                                        return@detectDragGestures
-                                    }
                                     if (change.positionChange() != Offset.Zero) {
                                         change.consume()
                                     }
