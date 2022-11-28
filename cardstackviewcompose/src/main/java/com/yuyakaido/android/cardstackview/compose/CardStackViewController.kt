@@ -1,22 +1,27 @@
 package com.yuyakaido.android.cardstackview.compose
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 
 @Composable
-fun <T> cardStackViewController(
+fun <T> rememberCardStackViewController(
     items: List<T>,
     setting: CardStackSetting,
     contentKey: (T) -> Any? = { it }
 ): CardStackViewController<T> {
     val controllers = items.map { contentKey(it) to rememberCardController(setting) }
-    return CardStackViewController(
-        cardControllers = controllers,
-        config = setting,
-        contentKey = contentKey,
-    )
+    val keys = items.map { contentKey(it) }
+    return remember(keys) {
+        CardStackViewController(
+            cardControllers = controllers,
+            setting = setting,
+            contentKey = contentKey,
+        )
+    }
 }
 
 interface CardStackViewControllerType<T> {
+    fun setting(): CardStackSetting
     fun currentCardController(item: T): CardControllerType
     fun swipeRight()
     fun swipeLeft()
@@ -27,9 +32,13 @@ interface CardStackViewControllerType<T> {
 
 class CardStackViewController<T>(
     private val cardControllers: List<Pair<Any?, CardControllerType>>,
-    private val config: CardStackSetting,
+    private val setting: CardStackSetting,
     private val contentKey: (T) -> Any? = { it }
 ) : CardStackViewControllerType<T> {
+
+    override fun setting(): CardStackSetting {
+        return setting
+    }
 
     override fun currentCardController(item: T): CardControllerType {
         return cardControllers.first { (k, _) ->
@@ -38,7 +47,7 @@ class CardStackViewController<T>(
     }
 
     override fun swipeRight() {
-        if (config.swipeMethod.canSwipeManually()) {
+        if (setting.swipeMethod.canSwipeManually()) {
             cardControllers.firstOrNull { (_, v) ->
                 !v.isCardSwiped()
             }?.second?.swipeRight(false)
@@ -46,7 +55,7 @@ class CardStackViewController<T>(
     }
 
     override fun swipeLeft() {
-        if (config.swipeMethod.canSwipeManually()) {
+        if (setting.swipeMethod.canSwipeManually()) {
             cardControllers.firstOrNull { (_, v) ->
                 !v.isCardSwiped()
             }?.second?.swipeLeft(false)

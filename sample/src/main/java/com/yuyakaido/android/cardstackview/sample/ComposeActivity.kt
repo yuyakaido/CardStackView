@@ -28,7 +28,7 @@ import coil.compose.AsyncImage
 import com.yuyakaido.android.cardstackview.compose.CardStackSetting
 import com.yuyakaido.android.cardstackview.compose.CardStackView
 import com.yuyakaido.android.cardstackview.compose.StackFrom
-import com.yuyakaido.android.cardstackview.compose.cardStackViewController
+import com.yuyakaido.android.cardstackview.compose.rememberCardStackViewController
 import kotlinx.coroutines.launch
 
 class ComposeActivity : ComponentActivity() {
@@ -125,7 +125,7 @@ private fun CardStackViewSample(
     val setting = CardStackSetting(
         stackFrom = StackFrom.TopAndLeft
     )
-    val cardStackController = cardStackViewController(
+    val cardStackController = rememberCardStackViewController(
         spots,
         setting,
         contentKey = { it }
