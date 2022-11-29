@@ -128,7 +128,7 @@ open class CardController(
         }
     }
 
-    override  fun onDragEnd(onDragCancel: () -> Unit) {
+    override fun onDragEnd(onDragCancel: () -> Unit) {
         val isSwiped = abs(swipeX.targetValue) / abs(screenWidth) > config.swipeThreshold
         if (isSwiped) {
             if (swipeX.targetValue > 0) {
@@ -187,6 +187,12 @@ open class CardController(
                 animationSpec = tween(config.swipeDuration)
             )
         }
+        scope.launch {
+            swipeY.animateTo(
+                targetValue = cardY * 4,
+                animationSpec = tween(config.swipeDuration)
+            )
+        }
     }
 
     override fun swipeLeft(isDrag: Boolean) {
@@ -194,6 +200,12 @@ open class CardController(
             direction = Direction.Left(isDrag)
             swipeX.animateTo(
                 targetValue = -(screenWidth * 2),
+                animationSpec = tween(config.swipeDuration)
+            )
+        }
+        scope.launch {
+            swipeY.animateTo(
+                targetValue = cardY * 4,
                 animationSpec = tween(config.swipeDuration)
             )
         }
