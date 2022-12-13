@@ -240,16 +240,20 @@ public class CardStackLayoutManager
 
     void updateProportion(float x, float y) {
         if (getTopPosition() < (setting.canLastItemSwipe ? getItemCount() : getItemCount() - 1)) {
-            View view = findViewByPosition(getTopPosition());
-            if (view != null) {
-                float half = getHeight() / 2.0f;
-                updateProportion(-(y - half - view.getTop()) / half);
+            if (setting.useProportionalSwipe) {
+                View view = findViewByPosition(getTopPosition());
+                if (view != null) {
+                    float half = getHeight() / 2.0f;
+                    updateProportion(-(y - half - view.getTop()) / half);
+                }
+            } else {
+                updateProportion(1f);
             }
         }
     }
 
     void updateProportion(float proportion) {
-        state.proportion = setting.useProportionalSwipe ? proportion : 1f;
+        state.proportion = proportion;
     }
 
     private void update(RecyclerView.Recycler recycler) {
