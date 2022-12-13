@@ -69,7 +69,7 @@ public class CardStackLayoutManager
 
     @Override
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State s) {
-        if (state.topPosition == getItemCount()) {
+        if (state.topPosition == (setting.canLastItemSwipe ? getItemCount() : getItemCount() - 1)) {
             return 0;
         }
 
@@ -117,7 +117,7 @@ public class CardStackLayoutManager
 
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State s) {
-        if (state.topPosition == getItemCount()) {
+        if (state.topPosition == (setting.canLastItemSwipe ? getItemCount() : getItemCount() - 1)) {
             return 0;
         }
 
@@ -239,13 +239,17 @@ public class CardStackLayoutManager
     }
 
     void updateProportion(float x, float y) {
-        if (getTopPosition() < getItemCount()) {
+        if (getTopPosition() < (setting.canLastItemSwipe ? getItemCount() : getItemCount() - 1)) {
             View view = findViewByPosition(getTopPosition());
             if (view != null) {
                 float half = getHeight() / 2.0f;
-                state.proportion = -(y - half - view.getTop()) / half;
+                updateProportion(-(y - half - view.getTop()) / half);
             }
         }
+    }
+
+    void updateProportion(float proportion) {
+        state.proportion = setting.useProportionalSwipe ? proportion : 1f;
     }
 
     private void update(RecyclerView.Recycler recycler) {
@@ -637,4 +641,11 @@ public class CardStackLayoutManager
         setting.overlayInterpolator = overlayInterpolator;
     }
 
+    public void setUseProportionalSwipe(boolean useProportionalSwipe) {
+        setting.useProportionalSwipe = useProportionalSwipe;
+    }
+
+    public void canLastItemSwipe(boolean canLastItemSwipe) {
+        setting.canLastItemSwipe = canLastItemSwipe;
+    }
 }

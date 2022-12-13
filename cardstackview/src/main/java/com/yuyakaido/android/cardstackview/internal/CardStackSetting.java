@@ -21,8 +21,10 @@ public class CardStackSetting {
     public List<Direction> directions = Direction.HORIZONTAL;
     public boolean canScrollHorizontal = true;
     public boolean canScrollVertical = true;
+    public boolean useProportionalSwipe = true;
     public SwipeableMethod swipeableMethod = SwipeableMethod.AutomaticAndManual;
     public SwipeAnimationSetting swipeAnimationSetting = new SwipeAnimationSetting.Builder().build();
     public RewindAnimationSetting rewindAnimationSetting = new RewindAnimationSetting.Builder().build();
     public Interpolator overlayInterpolator = new LinearInterpolator();
+    public boolean canLastItemSwipe = true;
 }
