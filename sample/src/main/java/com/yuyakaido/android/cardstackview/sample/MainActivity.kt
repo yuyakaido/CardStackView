@@ -76,7 +76,9 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         setSupportActionBar(toolbar)
 
         // DrawerLayout
-        val actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer)
+        val actionBarDrawerToggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer
+        )
         actionBarDrawerToggle.syncState()
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
 
@@ -104,33 +106,27 @@ class MainActivity : AppCompatActivity(), CardStackListener {
     private fun setupButton() {
         val skip = findViewById<View>(R.id.skip_button)
         skip.setOnClickListener {
-            val setting = SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Left)
-                    .setDuration(Duration.Normal.duration)
-                    .setInterpolator(AccelerateInterpolator())
-                    .build()
+            val setting = SwipeAnimationSetting.Builder().setDirection(Direction.Left)
+                .setDuration(Duration.Normal.duration).setInterpolator(AccelerateInterpolator())
+                .build()
             manager.setSwipeAnimationSetting(setting)
             cardStackView.swipe()
         }
 
         val rewind = findViewById<View>(R.id.rewind_button)
         rewind.setOnClickListener {
-            val setting = RewindAnimationSetting.Builder()
-                    .setDirection(Direction.Bottom)
-                    .setDuration(Duration.Normal.duration)
-                    .setInterpolator(DecelerateInterpolator())
-                    .build()
+            val setting = RewindAnimationSetting.Builder().setDirection(Direction.Bottom)
+                .setDuration(Duration.Normal.duration).setInterpolator(DecelerateInterpolator())
+                .build()
             manager.setRewindAnimationSetting(setting)
             cardStackView.rewind()
         }
 
         val like = findViewById<View>(R.id.like_button)
         like.setOnClickListener {
-            val setting = SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Right)
-                    .setDuration(Duration.Normal.duration)
-                    .setInterpolator(AccelerateInterpolator())
-                    .build()
+            val setting = SwipeAnimationSetting.Builder().setDirection(Direction.Right)
+                .setDuration(Duration.Normal.duration).setInterpolator(AccelerateInterpolator())
+                .build()
             manager.setSwipeAnimationSetting(setting)
             cardStackView.swipe()
         }
@@ -265,24 +261,84 @@ class MainActivity : AppCompatActivity(), CardStackListener {
 
     private fun createSpot(): Spot {
         return Spot(
-                name = "Yasaka Shrine",
-                city = "Kyoto",
-                url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"
+            name = "Yasaka Shrine",
+            city = "Kyoto",
+            url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"
         )
     }
 
     private fun createSpots(): List<Spot> {
         val spots = ArrayList<Spot>()
-        spots.add(Spot(name = "Yasaka Shrine", city = "Kyoto", url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"))
-        spots.add(Spot(name = "Fushimi Inari Shrine", city = "Kyoto", url = "https://source.unsplash.com/NYyCqdBOKwc/600x800"))
-        spots.add(Spot(name = "Bamboo Forest", city = "Kyoto", url = "https://source.unsplash.com/buF62ewDLcQ/600x800"))
-        spots.add(Spot(name = "Brooklyn Bridge", city = "New York", url = "https://source.unsplash.com/THozNzxEP3g/600x800"))
-        spots.add(Spot(name = "Empire State Building", city = "New York", url = "https://source.unsplash.com/USrZRcRS2Lw/600x800"))
-        spots.add(Spot(name = "The statue of Liberty", city = "New York", url = "https://source.unsplash.com/PeFk7fzxTdk/600x800"))
-        spots.add(Spot(name = "Louvre Museum", city = "Paris", url = "https://source.unsplash.com/LrMWHKqilUw/600x800"))
-        spots.add(Spot(name = "Eiffel Tower", city = "Paris", url = "https://source.unsplash.com/HN-5Z6AmxrM/600x800"))
-        spots.add(Spot(name = "Big Ben", city = "London", url = "https://source.unsplash.com/CdVAUADdqEc/600x800"))
-        spots.add(Spot(name = "Great Wall of China", city = "China", url = "https://source.unsplash.com/AWh9C-QjhE4/600x800"))
+        spots.add(
+            Spot(
+                name = "Yasaka Shrine",
+                city = "Kyoto",
+                url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"
+            )
+        )
+        spots.add(
+            Spot(
+                name = "Fushimi Inari Shrine",
+                city = "Kyoto",
+                url = "https://source.unsplash.com/NYyCqdBOKwc/600x800"
+            )
+        )
+        spots.add(
+            Spot(
+                name = "Bamboo Forest",
+                city = "Kyoto",
+                url = "https://source.unsplash.com/buF62ewDLcQ/600x800"
+            )
+        )
+        spots.add(
+            Spot(
+                name = "Brooklyn Bridge",
+                city = "New York",
+                url = "https://source.unsplash.com/THozNzxEP3g/600x800"
+            )
+        )
+        spots.add(
+            Spot(
+                name = "Empire State Building",
+                city = "New York",
+                url = "https://source.unsplash.com/USrZRcRS2Lw/600x800"
+            )
+        )
+        spots.add(
+            Spot(
+                name = "The statue of Liberty",
+                city = "New York",
+                url = "https://source.unsplash.com/PeFk7fzxTdk/600x800"
+            )
+        )
+        spots.add(
+            Spot(
+                name = "Louvre Museum",
+                city = "Paris",
+                url = "https://source.unsplash.com/LrMWHKqilUw/600x800"
+            )
+        )
+        spots.add(
+            Spot(
+                name = "Eiffel Tower",
+                city = "Paris",
+                url = "https://source.unsplash.com/HN-5Z6AmxrM/600x800"
+            )
+        )
+        spots.add(
+            Spot(
+                name = "Big Ben",
+                city = "London",
+                url = "https://source.unsplash.com/CdVAUADdqEc/600x800"
+            )
+        )
+        spots.add(
+            Spot(
+                name = "Great Wall of China",
+                city = "China",
+                url = "https://source.unsplash.com/AWh9C-QjhE4/600x800"
+            )
+        )
         return spots
     }
 
