@@ -64,7 +64,7 @@ fun <T> CardStackView(
                             ).ratio
                             setting.scaleInterval + abs(ratio) * (1f - setting.scaleInterval)
                         }
-                        else -> setting.scaleInterval
+                        else -> 1f - index * (1f - setting.scaleInterval)
                     }
                 )
                 Box(
