@@ -3,7 +3,7 @@ package com.yuyakaido.android.cardstackview.compose
 data class CardStackSetting(
     val swipeDuration: Int = 500,
     val swipeThreshold: Float = 0.3f, // 0.0f ~ 1.0f
-    //val scaleInterval: Float = 0.95f, // 0.0f - 1.0f
+    val scaleInterval: Float = 0.95f, // 0.0f - 1.0f
     val translationInterval: Float = 20F,
     val stackFrom: StackFrom = StackFrom.None,
     val visibleCount: Int = 3,

@@ -15,13 +15,18 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.zIndex
+import kotlin.math.abs
 
 @Composable
 fun <T> CardStackView(
     items: List<T>,
     modifier: Modifier = Modifier,
     contentKey: (T) -> Any? = { it },
-    controller: CardStackViewControllerType<T> = rememberCardStackViewController(items, CardStackSetting(), contentKey),
+    controller: CardStackViewControllerType<T> = rememberCardStackViewController(
+        items,
+        CardStackSetting(),
+        contentKey
+    ),
     onDrag: (T, Float) -> Unit = { _, _ -> },
     onDragStart: (T, Offset) -> Unit = { _, _ -> },
     onDragEnd: (T) -> Unit = {},
@@ -49,10 +54,25 @@ fun <T> CardStackView(
                     PaddingBetweenCards.get(setting.translationInterval, setting.stackFrom)
                 val paddingX by animateFloatAsState(targetValue = (zIndex * padding.paddingX))
                 val paddingY by animateFloatAsState(targetValue = (zIndex * padding.paddingY))
+                val scale by animateFloatAsState(
+                    targetValue =
+                    when (index) {
+                        0 -> 1f
+                        1 -> run {
+                            val ratio = controller.currentCardController(
+                                visibleContents.first()
+                            ).ratio
+                            setting.scaleInterval + abs(ratio) * (1f - setting.scaleInterval)
+                        }
+                        else -> setting.scaleInterval
+                    }
+                )
                 Box(
                     modifier = modifier
                         .zIndex(zIndex.toFloat())
                         .graphicsLayer(
+                            scaleX = scale,
+                            scaleY = scale,
                             translationX = cardController.cardX + paddingX,
                             translationY = cardController.cardY + paddingY,
                             rotationZ = cardController.rotation,

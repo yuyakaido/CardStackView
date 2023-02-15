@@ -123,7 +123,7 @@ private fun CardStackViewSample(
 ) {
     val scope = rememberCoroutineScope()
     val setting = CardStackSetting(
-        stackFrom = StackFrom.TopAndLeft
+        stackFrom = StackFrom.None
     )
     val cardStackController = rememberCardStackViewController(
         spots,
