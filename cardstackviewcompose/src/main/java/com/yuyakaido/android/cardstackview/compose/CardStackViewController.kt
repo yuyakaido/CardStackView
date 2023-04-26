@@ -9,8 +9,13 @@ fun <T> rememberCardStackViewController(
     setting: CardStackSetting,
     contentKey: (T) -> Any? = { it }
 ): CardStackViewController<T> {
-    val controllers = items.map { contentKey(it) to rememberCardController(setting) }
+    var controllers: List<Pair<Any?, CardControllerType>> = remember {
+        mutableListOf()
+    }
     val keys = items.map { contentKey(it) }
+    val newControllers = items.map { contentKey(it) to rememberCardController(setting) }
+    controllers = (controllers.filterNot { keys.contains(it.first) } + newControllers)
+        .sortedBy { if (it.second.isCardSwiped()) -1 else 1 }
     return remember(keys) {
         CardStackViewController(
             cardControllers = controllers,
