@@ -38,7 +38,7 @@ fun <T> CardStackView(
 ) {
     val setting = controller.setting()
     val visibleContents = items.filter {
-        !controller.currentCardController(it).isCardSwiped()
+        controller.currentCardController(it)?.isCardSwiped()?.not() ?: false
     }.take(setting.visibleCount)
 
     Box(
@@ -48,7 +48,7 @@ fun <T> CardStackView(
         val visibleSize = visibleContents.size
         visibleContents.forEachIndexed { index, item ->
             val zIndex = visibleSize - index - 1
-            val cardController = controller.currentCardController(item)
+            val cardController = requireNotNull(controller.currentCardController(item))
             key(contentKey(item)) {
                 val padding =
                     PaddingBetweenCards.get(setting.translationInterval, setting.stackFrom)
@@ -61,9 +61,10 @@ fun <T> CardStackView(
                         1 -> run {
                             val ratio = controller.currentCardController(
                                 visibleContents.first()
-                            ).ratio
+                            )?.ratio ?: 0f
                             setting.scaleInterval + abs(ratio) * (1f - setting.scaleInterval)
                         }
+
                         else -> 1f - index * (1f - setting.scaleInterval)
                     }
                 )

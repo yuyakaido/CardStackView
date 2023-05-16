@@ -28,7 +28,7 @@ fun <T> rememberCardStackViewController(
 
 interface CardStackViewControllerType<T> {
     fun setting(): CardStackSetting
-    fun currentCardController(item: T): CardControllerType
+    fun currentCardController(item: T): CardControllerType?
     fun swipeRight()
     fun swipeLeft()
     fun rewind()
@@ -46,10 +46,10 @@ class CardStackViewController<T>(
         return setting
     }
 
-    override fun currentCardController(item: T): CardControllerType {
-        return cardControllers.first { (k, _) ->
+    override fun currentCardController(item: T): CardControllerType? {
+        return cardControllers.firstOrNull() { (k, _) ->
             k == contentKey(item)
-        }.second
+        }?.second
     }
 
     override fun swipeRight() {
